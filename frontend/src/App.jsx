@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// import { useState } from 'react'
+import CardBody from './Components/CardBody/CardBody';
+import SignUpForm from './Components/SignupForm/SignupForm';
+import Button from './Components/Button/Button';
+import Container from './Components/Container/Container';
+import Card from './Components/Card/Card';
+import Logo from './Components/CardLogo/CardLogo';
+import CardForm from './Components/CardForm/CardForm';
+import Header from './Components/Header/Header';
+import CardFooter from './Components/CardFooter/CardFooter';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="h-100 bg-light">
+      <div className="h-100" id="chat">
+        <div className="d-flex flex-column h-100">
+          <Header />
+          <Container>
+            <Card>
+              <CardBody>
+                <Logo />
+                <CardForm>
+                  <SignUpForm>
+                    <Button
+                      text="Войти"
+                      className="w-100 mb-3 btn btn-outline-primary"
+                    />
+                  </SignUpForm>
+                </CardForm>
+              </CardBody>
+              <CardFooter />
+            </Card>
+          </Container>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
