@@ -1,8 +1,10 @@
 const Button = ({ text, className }) => {
   return (
-    <button type="submit" className={className}>
+    <button  className={className}>
       {text}
     </button>
   );
 };
 export default Button;
+
+// type="submit"
