@@ -92,7 +92,7 @@ import {
     setChannels,
 } from '../state/slices/channelsSlice';
 import Header from './Header/Header';
-import ChatLeftPanel from './ChatPanel/chatLeftPanel';
+import ChatLeftPanel from './ChatLeftPanel/ChatLeftPanel';
 
 const HomePage = () => {
     const dispatch = useDispatch();
@@ -144,7 +144,7 @@ const HomePage = () => {
                     <div className="container h-100 my-4 overflow-hidden rounded shadow">
                         <div className="row h-100 bg-white flex-md-row">
                             {/* 10. Передаем channels в ChatLeftPanel как пропс, если нужно */}
-                            <ChatLeftPanel/>
+                            <ChatLeftPanel />
                         </div>
                     </div>
                 </div>
