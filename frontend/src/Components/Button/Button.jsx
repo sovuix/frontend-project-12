@@ -1,7 +1,9 @@
-const Button = ({ text, className }) => {
+import { Children } from 'react';
+
+const Button = ({ text, children, className, type = 'button', onClick }) => {
   return (
-    <button  type="submit" className={className}>
-      {text}
+    <button  type={type} className={className} onClick={onClick}>
+      {text || children}
     </button>
   );
 };

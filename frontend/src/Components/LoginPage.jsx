@@ -23,6 +23,7 @@ const LoginPage = () => {
                     <Button
                       text="Войти"
                       className="w-100 mb-3 btn btn-outline-primary"
+                      type='submit'
                     />
                   </SignUpForm>
                 </CardForm>
