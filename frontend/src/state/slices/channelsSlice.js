@@ -1,9 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice} from '@reduxjs/toolkit';
 
 const channelsSlice = createSlice({
     name: 'chat',
     initialState: {
         channels:[],
+        currentChannelId: '1',
         loading: false,
         error: null,
     },
@@ -20,9 +21,12 @@ const channelsSlice = createSlice({
         setError: (state, action) => {
             state.loading = false;
             state.error = action.payload;
+        },
+        setCurrentChannel:(state, action) => {
+            state.currentChannelId = action.payload;
         }
     }
 })
 
-export const {setChannels, setLoading, setError} = channelsSlice.actions;
+export const {setChannels, setLoading, setError, setCurrentChannel} = channelsSlice.actions;
 export  default channelsSlice.reducer;
