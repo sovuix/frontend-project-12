@@ -9,7 +9,10 @@ const MessagesHeader = () => {
     const channels = useSelector((state) => state.chat.channels);
     const currentChannel = channels.find((ch) => ch.id === currentChannelId);
 
-    const countMessages = useSelector(selectMessagesCountByChannelId(currentChannelId))
+    // const countMessages = useSelector(selectMessagesCountByChannelId(currentChannelId))
+    const countMessages = useSelector((state) => 
+    selectMessagesCountByChannelId(state, currentChannelId)
+);
 
     return (
         channels.length && (
