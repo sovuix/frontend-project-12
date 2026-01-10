@@ -12,21 +12,21 @@ import ChatPanel from './ChatPanel/ChatPanel';
 
 import socket from '../services/socket';
 import { addMessage } from '../state/slices/messagesSlice';
-import MessagesList from './ChatPanel/MessagesList/MessagesList';
+import { setMessages } from '../state/slices/messagesSlice';
 
 const HomePage = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
         console.log('Начинаем слушать WebSocket...');
-        
+
         const handleNewMessage = (message) => {
             console.log('Получено через WebSocket:', message);
             dispatch(addMessage(message));
         };
-        
+
         socket.on('newMessage', handleNewMessage);
-        
+
         return () => {
             socket.off('newMessage', handleNewMessage);
         };
@@ -61,6 +61,30 @@ const HomePage = () => {
         };
         fetchChannels();
     }, [dispatch]);
+
+    useEffect(() => {
+        const fetchMessages = async () => {
+            try {
+                const token = localStorage.getItem('jwtToken');
+                const response = await fetch('/api/v1/messages', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    dispatch(setMessages(data)); // ← нужен импорт setMessages!
+                }
+            } catch (err) {
+                console.error('Ошибка загрузки сообщений:', err);
+            }
+        };
+
+        fetchMessages();
+    }, [dispatch]);
+
     if (loading) {
         return <div>Загрузка каналов...</div>;
     }
@@ -78,9 +102,8 @@ const HomePage = () => {
                     <Header />
                     <div className="container h-100 my-4 overflow-hidden rounded shadow">
                         <div className="row h-100 bg-white flex-md-row">
-                            <ChannelsPanel/>
-                            <ChatPanel/>
-                            <MessagesList/>
+                            <ChannelsPanel />
+                            <ChatPanel />
                         </div>
                     </div>
                 </div>
