@@ -2,9 +2,12 @@ import { useFormik } from 'formik';
 import './SignupForm.css';
 // import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../state/slices/authSlice';
 
 const SignUpForm = ({ children }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     // const [hasError, setHasError] = useState(false);
     const getToken = async (username, password) => {
         try {
@@ -21,7 +24,8 @@ const SignUpForm = ({ children }) => {
             }
 
             const data = await response.json();
-            return data.token;
+
+            return data;
         } catch (error) {
             console.error('Error getting token:', error);
             throw error;
@@ -36,9 +40,16 @@ const SignUpForm = ({ children }) => {
         },
         onSubmit: async (values, { setSubmitting, setValues }) => {
             try {
-                console.log(values);
-                const token = await getToken(values.userLogin, values.password);
-                localStorage.setItem('jwtToken', token);
+                // console.log(values);
+                const data = await getToken(values.userLogin, values.password);
+                localStorage.setItem('jwtToken', data.token);
+                dispatch(
+                    setUser({
+                        username: data.username,
+                        token: data.token,
+                    })
+                );
+                localStorage.setItem('username', data.username);
                 navigate('/');
             } catch (error) {
                 setValues({ hasError: true });
