@@ -1,5 +1,5 @@
 import CardBody from './CardBody/CardBody';
-import SignUpForm from './SignupForm/SignupForm';
+import LoginForm from './LoginForm/LoginForm';
 import Button from './Button/Button';
 import Container from './Container/Container';
 import Card from './Card/Card';
@@ -19,13 +19,13 @@ const LoginPage = () => {
               <CardBody>
                 <Logo />
                 <CardForm>
-                  <SignUpForm>
+                  <LoginForm>
                     <Button
                       text="Войти"
                       className="w-100 mb-3 btn btn-outline-primary"
                       type='submit'
                     />
-                  </SignUpForm>
+                  </LoginForm>
                 </CardForm>
               </CardBody>
               <CardFooter />
