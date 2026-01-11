@@ -7,6 +7,7 @@ const MessagesList = () => {
         (state) => state.chat.currentChannelId
     );
 
+    const authName = useSelector((state) => state.auth.username)
     const messages = useSelector((state) =>
         selectMessagesByChannelId(state, currentChannelId)
     );
@@ -17,7 +18,7 @@ const MessagesList = () => {
         <div id="messages-box" className="chat-messages overflow-auto px-5">
             {messages.map((msg) => (
                 <div key={msg.id} className="text-break mb-2">
-                    <b>{msg.username}:</b> {msg.text}
+                    <b>{authName}:</b> {msg.text}
                 </div>
             ))}
         </div>
