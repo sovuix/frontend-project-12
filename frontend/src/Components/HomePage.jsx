@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import {
     setLoading,
     setError,
@@ -13,6 +12,7 @@ import ChatPanel from './ChatPanel/ChatPanel';
 import socket from '../services/socket';
 import { addMessage } from '../state/slices/messagesSlice';
 import { setMessages } from '../state/slices/messagesSlice';
+import {setUser} from '../state/slices/authSlice'
 
 const HomePage = () => {
     const dispatch = useDispatch();
@@ -75,7 +75,7 @@ const HomePage = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    dispatch(setMessages(data)); // ← нужен импорт setMessages!
+                    dispatch(setMessages(data));
                 }
             } catch (err) {
                 console.error('Ошибка загрузки сообщений:', err);
@@ -84,6 +84,15 @@ const HomePage = () => {
 
         fetchMessages();
     }, [dispatch]);
+
+    useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+    const username = localStorage.getItem('username');
+    
+    if (token && username) {
+        dispatch(setUser({ username, token }));
+    }
+}, [dispatch]);
 
     if (loading) {
         return <div>Загрузка каналов...</div>;
