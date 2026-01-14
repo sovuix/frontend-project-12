@@ -16,7 +16,7 @@ const LoginPage = () => {
           <Header />
           <Container>
             <Card>
-              <CardBody>
+              <CardBody variant='login'>
                 <Logo />
                 <CardForm>
                   <LoginForm>
