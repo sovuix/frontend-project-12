@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../state/slices/authSlice';
+import { registrationSchema } from '../../validationSchemas/authSchemas';
 
 const RegistrationForm = ({ children }) => {
     const navigate = useNavigate();
@@ -27,29 +28,30 @@ const RegistrationForm = ({ children }) => {
             password: '',
             confirmPassword: '',
         },
-        validate: (values) => {
-            const errors = {};
+        // validate: (values) => {
+        //     const errors = {};
 
-            if (!values.username.trim()) {
-                errors.username = 'Обязательное поле';
-            } else if (values.username.length < 3) {
-                errors.username = 'Не менее 3 символов';
-            }
+        //     if (!values.username.trim()) {
+        //         errors.username = 'Обязательное поле';
+        //     } else if (values.username.length < 3) {
+        //         errors.username = 'Не менее 3 символов';
+        //     }
 
-            if (!values.password) {
-                errors.password = 'Обязательное поле';
-            } else if (values.password.length < 6) {
-                errors.password = 'Не менее 6 символов';
-            }
+        //     if (!values.password) {
+        //         errors.password = 'Обязательное поле';
+        //     } else if (values.password.length < 6) {
+        //         errors.password = 'Не менее 6 символов';
+        //     }
 
-            if (!values.confirmPassword) {
-                errors.confirmPassword = 'Подтвердите пароль';
-            } else if (values.password !== values.confirmPassword) {
-                errors.confirmPassword = 'Пароли должны совпадать';
-            }
+        //     if (!values.confirmPassword) {
+        //         errors.confirmPassword = 'Подтвердите пароль';
+        //     } else if (values.password !== values.confirmPassword) {
+        //         errors.confirmPassword = 'Пароли должны совпадать';
+        //     }
 
-            return errors;
-        },
+        //     return errors;
+        // },
+        validationSchema : registrationSchema,
         onSubmit: async (values, { setSubmitting, setStatus }) => {
             try {
                 const data = await registerUser(
