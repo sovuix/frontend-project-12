@@ -5,6 +5,7 @@ import Button from '../../Button/Button';
 const MessageForm = () => {
     const [text, setText] = useState('');
     const currentChannelId = useSelector((state) => state.chat.currentChannelId);
+    const username = useSelector((state) => state.auth.username);
     
     const isDisabled = !currentChannelId || !text.trim();
     
@@ -23,6 +24,7 @@ const MessageForm = () => {
                 body: JSON.stringify({
                     channelId: currentChannelId,
                     text: text.trim(),
+                    username:username,
                 }),
             });
             
