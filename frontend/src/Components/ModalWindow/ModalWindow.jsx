@@ -1,20 +1,38 @@
-import React, { useState } from "react";
+import React from "react";
+import { useFormik } from 'formik';
+import { useSelector } from 'react-redux';
+import { createModalSchema } from '../../validationSchemas/authSchemas';
 
 const ModalWindow = ({ onClose, onSubmit }) => {
-  const [channelName, setChannelName] = useState("");
+  const channels = useSelector((state) => state.chat.channels);
+  const existingNames = channels.map(channel => 
+    channel.name.toLowerCase().trim()
+  );
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (channelName.trim()) {
-      onSubmit(channelName.trim());
-    }
-    setChannelName("");
-  };
+  const modalSchema = createModalSchema(existingNames);
+
+  const formik = useFormik({
+    initialValues: {
+      channelname: ''
+    },
+    validationSchema: modalSchema,
+    validateOnChange: true,
+    validateOnBlur: true,
+    onSubmit: (values, { resetForm, setSubmitting }) => {
+      onSubmit(values.channelname.trim());
+      
+      resetForm();
+      setSubmitting(false);
+      onClose();
+    },
+  });
 
   const handleCancel = () => {
-    setChannelName("");
+    formik.resetForm();
     onClose();
   };
+
+  const isSubmitDisabled = !formik.isValid || formik.isSubmitting;
 
   return (
     <>
@@ -35,37 +53,49 @@ const ModalWindow = ({ onClose, onSubmit }) => {
                 aria-label="Close"
                 className="btn btn-close"
                 onClick={handleCancel}
+                disabled={formik.isSubmitting}
               ></button>
             </div>
             <div className="modal-body">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={formik.handleSubmit}>
                 <div>
                   <input
-                    name="name"
-                    id="name"
-                    className="mb-2 form-control"
-                    value={channelName}
-                    onChange={(e) => setChannelName(e.target.value)}
+                    name="channelname"
+                    id="channelname"
+                    className={`mb-2 form-control ${
+                      formik.errors.channelname && formik.touched.channelname 
+                        ? 'is-invalid' 
+                        : ''
+                    }`}
+                    value={formik.values.channelname}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     placeholder="Введите название канала"
                     autoFocus
+                    disabled={formik.isSubmitting}
                   />
-                  <label className="visually-hidden" htmlFor="name">
-                    Имя канала
-                  </label>
-                  <div className="d-flex justify-content-end">
+                  
+                  {formik.errors.channelname && formik.touched.channelname && (
+                    <div className="invalid-feedback d-block">
+                      {formik.errors.channelname}
+                    </div>
+                  )}
+                  
+                  <div className="d-flex justify-content-end mt-3">
                     <button
                       type="button"
                       className="me-2 btn btn-secondary"
                       onClick={handleCancel}
+                      disabled={formik.isSubmitting}
                     >
                       Отменить
                     </button>
                     <button
                       type="submit"
                       className="btn btn-primary"
-                      disabled={!channelName.trim()}
+                      disabled={isSubmitDisabled}
                     >
-                      Отправить
+                       Отправить
                     </button>
                   </div>
                 </div>

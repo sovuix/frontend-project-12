@@ -20,7 +20,7 @@ export const registrationSchema = yup.object({
 });
 
 export const createModalSchema = (existingNames = []) => {
-    yup.object({
+    return yup.object({
         channelname: yup
             .string()
             .trim()
