@@ -65,7 +65,7 @@ const HomePage = () => {
         const data = await response.json();
         dispatch(setChannels(data));
       } catch (error) {
-        dispatch(setError(error));
+        dispatch(setError(error.message));
         console.error("Error", error);
       }
     };
