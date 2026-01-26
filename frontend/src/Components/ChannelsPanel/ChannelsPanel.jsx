@@ -5,15 +5,16 @@ import ChannelItem from "../ChannelItem/ChannelItem";
 import { addChannel } from "../../state/slices/channelsSlice";
 import { createChannel } from "../../services/channelService";
 import { setCurrentChannel } from "../../state/slices/channelsSlice";
+import ModalWindow from '../ModalWindow/ModalWindow';
 
 const ChannelsPanel = () => {
   const channels = useSelector((state) => state.chat.channels);
-
   const dispatch = useDispatch();
-  const [isCreating, setIsCreating] = useState(false);
 
-  const handleAddChannel = async () => {
-    const channelName = prompt("Input channel name");
+  const [isCreating, setIsCreating] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleAddChannel = async (channelName) => {
     if (!channelName?.trim()) return;
 
     setIsCreating(true);
@@ -27,15 +28,27 @@ const ChannelsPanel = () => {
       alert(`Ошибка: ${error.message}`);
     } finally {
       setIsCreating(false);
+      setShowModal(false);
     }
   };
 
+    const handleOpenModal = () => {
+    setShowModal(true); 
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false); 
+  };
+
   return (
+    <>
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>Каналы</b>
         <Button
-          onClick={handleAddChannel}
+          // onClick={handleAddChannel}
+          onClick={handleOpenModal}
+          disabled={isCreating}
           className="p-0 text-primary btn btn-group-vertical"
         >
           <svg
@@ -64,6 +77,13 @@ const ChannelsPanel = () => {
         ))}
       </ul>
     </div>
+    {showModal && (
+        <ModalWindow
+          onClose={handleCloseModal}
+          onSubmit={handleAddChannel}
+        />
+      )}
+      </>
   );
 };
 
