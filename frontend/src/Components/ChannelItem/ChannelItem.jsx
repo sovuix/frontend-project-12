@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentChannel } from '../../state/slices/channelsSlice';
 import Button from '../Button/Button';
@@ -6,20 +6,100 @@ import Button from '../Button/Button';
 const ChannelItem = ({ channel }) => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.chat.currentChannelId);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
   
   const isActive = channel.id === currentChannelId;
+  const isEditable = channel.removable;
 
-  const handleClick = () => {
+  const handleChannelClick = () => {
     dispatch(setCurrentChannel(channel.id));
   };
 
+  const toggleDropdown = (e) => {
+    e.stopPropagation();
+    setShowDropdown(!showDropdown);
+  };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    console.log("Удалить канал:", channel.id);
+    setShowDropdown(false);
+  };
+
+  const handleRename = (e) => {
+    e.stopPropagation();
+    console.log("Переименовать канал:", channel.id);
+    setShowDropdown(false);
+  };
+
+  useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowDropdown(false);
+    }
+  };
+
+  document.addEventListener('mousedown', handleClickOutside);
+  return () => {
+    document.removeEventListener('mousedown', handleClickOutside);
+  };
+}, []);
+
   return (
-    <Button 
-      text={`# ${channel.name}`}
-      className={`w-100 rounded-0 text-start btn ${isActive ? 'btn-secondary' : ''}`}
-      onClick={handleClick}
-      type="button"
-    />
+    <div className="nav-item w-100">
+      <div className="d-flex dropdown btn-group">
+        <Button
+          text={`# ${channel.name}`}
+          className={`w-100 rounded-0 text-start text-truncate btn ${
+            isActive ? 'btn-secondary' : ''
+          }`}
+          onClick={handleChannelClick}
+          type="button"
+        />
+        
+        {isEditable && (
+          <button
+            type="button"
+            className={`dropdown-toggle dropdown-toggle-split btn rounded-0 ${
+              isActive ? 'btn-secondary' : ''
+            }`}
+            onClick={toggleDropdown}
+            aria-expanded={showDropdown}
+          >
+            <span className="visually-hidden">▼</span>
+          </button>
+        )}
+        
+        {showDropdown && isEditable && (
+          <div 
+            className="dropdown-menu show"
+            style={{ 
+              position: 'absolute',
+              inset: '0px auto auto 0px',
+              transform: 'translate(0px, 40px)',
+              zIndex: 1000
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              className="dropdown-item" 
+              onClick={handleDelete}
+              type="button"
+            >
+              Удалить
+            </button>
+            <button 
+              className="dropdown-item" 
+              onClick={handleRename}
+              type="button"
+            >
+              Переименовать
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
