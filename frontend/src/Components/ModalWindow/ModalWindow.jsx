@@ -3,7 +3,12 @@ import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { createModalSchema } from '../../validationSchemas/authSchemas';
 
-const ModalWindow = ({ onClose, onSubmit }) => {
+const ModalWindow = ({ 
+  onClose, 
+  onSubmit, 
+  type = 'add', 
+  currentName = '' 
+}) => {
   const channels = useSelector((state) => state.chat.channels);
   const existingNames = channels.map(channel => 
     channel.name.toLowerCase().trim()
@@ -13,14 +18,17 @@ const ModalWindow = ({ onClose, onSubmit }) => {
 
   const formik = useFormik({
     initialValues: {
-      channelname: ''
+      channelname: type === 'rename' ? currentName : ''
     },
-    validationSchema: modalSchema,
+    validationSchema: type !== 'remove' ? modalSchema : null,
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: (values, { resetForm, setSubmitting }) => {
-      onSubmit(values.channelname.trim());
-      
+      if (type === 'remove') {
+        onSubmit();
+      } else {
+        onSubmit(values.channelname.trim());
+      }
       resetForm();
       setSubmitting(false);
       onClose();
@@ -32,7 +40,25 @@ const ModalWindow = ({ onClose, onSubmit }) => {
     onClose();
   };
 
-  const isSubmitDisabled = !formik.isValid || formik.isSubmitting;
+  const isSubmitDisabled = type === 'remove' ? false : (!formik.isValid || formik.isSubmitting);
+
+  // Словари
+  const buttonType = {
+    'add': 'Добавить',
+    'remove': 'Удалить',
+    'rename': 'Отправить',
+  };
+
+  const modalTitle = {
+    'add': 'Добавить канал',
+    'remove': 'Удалить канал',
+    'rename': 'Переименовать канал',
+  };
+
+  const inputPlaceholder = {
+    'add': 'Введите название канала',
+    'rename': 'Введите новое название канала',
+  };
 
   return (
     <>
@@ -47,7 +73,9 @@ const ModalWindow = ({ onClose, onSubmit }) => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <div className="modal-title h4">Добавить канал</div>
+              <div className="modal-title h4">
+                {modalTitle[type]}
+              </div>
               <button
                 type="button"
                 aria-label="Close"
@@ -57,31 +85,12 @@ const ModalWindow = ({ onClose, onSubmit }) => {
               ></button>
             </div>
             <div className="modal-body">
-              <form onSubmit={formik.handleSubmit}>
-                <div>
-                  <input
-                    name="channelname"
-                    id="channelname"
-                    className={`mb-2 form-control ${
-                      formik.errors.channelname && formik.touched.channelname 
-                        ? 'is-invalid' 
-                        : ''
-                    }`}
-                    value={formik.values.channelname}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    placeholder="Введите название канала"
-                    autoFocus
-                    disabled={formik.isSubmitting}
-                  />
-                  
-                  {formik.errors.channelname && formik.touched.channelname && (
-                    <div className="invalid-feedback d-block">
-                      {formik.errors.channelname}
-                    </div>
-                  )}
-                  
-                  <div className="d-flex justify-content-end mt-3">
+              {type === 'remove' ? (
+                <>
+                  <p className="mb-4">
+                    Уверены?
+                  </p>
+                  <div className="d-flex justify-content-end">
                     <button
                       type="button"
                       className="me-2 btn btn-secondary"
@@ -91,15 +100,64 @@ const ModalWindow = ({ onClose, onSubmit }) => {
                       Отменить
                     </button>
                     <button
-                      type="submit"
-                      className="btn btn-primary"
-                      disabled={isSubmitDisabled}
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => {
+                        onSubmit();
+                        onClose();
+                      }}
+                      disabled={formik.isSubmitting}
                     >
-                       Отправить
+                      {buttonType[type]}
                     </button>
                   </div>
-                </div>
-              </form>
+                </>
+              ) : (
+                // Контент для добавления/переименования
+                <form onSubmit={formik.handleSubmit} key={`${type}-${currentName}`}>
+                  <div>
+                    <input
+                      name="channelname"
+                      id="channelname"
+                      className={`mb-2 form-control ${
+                        formik.errors.channelname && formik.touched.channelname 
+                          ? 'is-invalid' 
+                          : ''
+                      }`}
+                      value={formik.values.channelname}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeholder={inputPlaceholder[type]}
+                      autoFocus
+                      disabled={formik.isSubmitting}
+                    />
+                    
+                    {formik.errors.channelname && formik.touched.channelname && (
+                      <div className="invalid-feedback d-block">
+                        {formik.errors.channelname}
+                      </div>
+                    )}
+                    
+                    <div className="d-flex justify-content-end mt-3">
+                      <button
+                        type="button"
+                        className="me-2 btn btn-secondary"
+                        onClick={handleCancel}
+                        disabled={formik.isSubmitting}
+                      >
+                        Отменить
+                      </button>
+                      <button
+                        type="submit"
+                        className="btn btn-primary"
+                        disabled={isSubmitDisabled}
+                      >
+                        {buttonType[type]}
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         </div>
