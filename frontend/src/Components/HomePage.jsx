@@ -19,6 +19,7 @@ import {
     renameChannel,
     addChannel,
 } from '../state/slices/channelsSlice';
+import Button from './Button/Button';
 
 const HomePage = () => {
     const dispatch = useDispatch();
@@ -39,10 +40,10 @@ const HomePage = () => {
             dispatch(addMessage(message));
         };
 
-          const handleNewChannel = (channel) => {
-    console.log("Получен новый канал через WebSocket:", channel);
-    dispatch(addChannel(channel));
-  };
+        const handleNewChannel = (channel) => {
+            console.log('Получен новый канал через WebSocket:', channel);
+            dispatch(addChannel(channel));
+        };
 
         const handleRemoveChannel = ({ id }) => {
             dispatch(removeChannel(id));
@@ -53,13 +54,13 @@ const HomePage = () => {
         };
 
         socket.on('newMessage', handleNewMessage);
-        socket.on("newChannel", handleNewChannel);
+        socket.on('newChannel', handleNewChannel);
         socket.on('removeChannel', handleRemoveChannel);
         socket.on('renameChannel', handleRenameChannel);
 
         return () => {
             socket.off('newMessage', handleNewMessage);
-            socket.off("newChannel", handleNewChannel);
+            socket.off('newChannel', handleNewChannel);
             socket.off('removeChannel', handleRemoveChannel);
             socket.off('renameChannel', handleRenameChannel);
         };
@@ -137,11 +138,25 @@ const HomePage = () => {
 
     console.log(channels);
 
+    const clearToken = () => {
+        localStorage.clear();
+        navigate('/login');
+    };
+
     return (
         <div className="h-100 bg-light">
             <div className="h-100" id="chat">
                 <div className="d-flex flex-column h-100">
-                    <Header />
+                    <Header>
+                        {localStorage.getItem('jwtToken') && (
+                            <Button
+                                type="button"
+                                className={'btn btn-primary'}
+                                text={'Выйти'}
+                                onClick={clearToken}
+                            />
+                        )}
+                    </Header>
                     <div className="container h-100 my-4 overflow-hidden rounded shadow">
                         <div className="row h-100 bg-white flex-md-row">
                             <ChannelsPanel />
