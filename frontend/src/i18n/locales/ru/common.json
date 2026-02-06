@@ -1,0 +1,6 @@
+{
+  "channels": "каналы",
+  "msg_one": "{{count}} сообщение",
+  "msg_few": "{{count}} сообщения",
+  "msg_many": "{{count}} сообщений"
+}

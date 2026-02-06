@@ -1,3 +1,7 @@
 {
-    
+  "channels": "channels",
+
+  "msg_one": "{{count}} message",
+  "msg_other": "{{count}} messages",
+  "msg_zero": "No messages"
 }
