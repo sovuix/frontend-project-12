@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "../Button/Button";
 import ChannelItem from "../ChannelItem/ChannelItem";
@@ -16,6 +16,7 @@ import {
 import ModalWindow from "../ModalWindow/ModalWindow";
 import { useTranslation } from "react-i18next";
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 
 
 const ChannelsPanel = () => {
@@ -30,9 +31,15 @@ const ChannelsPanel = () => {
   const [modalType, setModalType] = useState("add"); // 'add', 'rename', 'remove'
   const [selectedChannel, setSelectedChannel] = useState(null);
 
+      useEffect(() => {
+        filter.loadDictionary('ru');
+    }, []);
+
   const handleAddChannel = async (channelName) => {
     try {
-      const newChannel = await createChannel(channelName);
+      const cleanedChannelName = filter.clean(channelName.trim());
+      // const newChannel = await createChannel(channelName);
+      const newChannel = await createChannel(cleanedChannelName);
       // dispatch(addChannel(newChannel));
       dispatch(setCurrentChannel(newChannel.id));
       setShowModal(false);
@@ -131,7 +138,6 @@ const ChannelsPanel = () => {
                 channel={channel}
                 onDelete={handleOpenDeleteModal}
                 onRename={handleOpenRenameModal}
-                onToastify={notify}
               />
             </li>
           ))}
