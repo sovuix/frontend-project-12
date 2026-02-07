@@ -20,6 +20,7 @@ import {
     addChannel,
 } from '../state/slices/channelsSlice';
 import Button from './Button/Button';
+import { ToastContainer} from 'react-toastify';
 
 const HomePage = () => {
     const dispatch = useDispatch();
@@ -157,6 +158,7 @@ const HomePage = () => {
                             />
                         )}
                     </Header>
+                    <ToastContainer/>
                     <div className="container h-100 my-4 overflow-hidden rounded shadow">
                         <div className="row h-100 bg-white flex-md-row">
                             <ChannelsPanel />

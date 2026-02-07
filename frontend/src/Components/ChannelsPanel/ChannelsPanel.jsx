@@ -15,8 +15,12 @@ import {
 } from "../../services/channelService";
 import ModalWindow from "../ModalWindow/ModalWindow";
 import { useTranslation } from "react-i18next";
+import { toast } from 'react-toastify';
+
 
 const ChannelsPanel = () => {
+  const notify = (text) => toast.success(text);
+
   const { t } = useTranslation();
   const channels = useSelector((state) => state.chat.channels);
   const currentChannelId = useSelector((state) => state.chat.currentChannelId);
@@ -32,9 +36,11 @@ const ChannelsPanel = () => {
       // dispatch(addChannel(newChannel));
       dispatch(setCurrentChannel(newChannel.id));
       setShowModal(false);
-    } catch (error) {
-      console.error("Ошибка создания канала:", error);
-      alert(`Ошибка: ${error.message}`);
+      notify('Канал создан')
+    } catch {
+      // console.error("Ошибка создания канала:", error);
+      // alert(`Ошибка: ${error.message}`);
+      notify('Ошибка создания канала')
     }
   };
 
@@ -125,6 +131,7 @@ const ChannelsPanel = () => {
                 channel={channel}
                 onDelete={handleOpenDeleteModal}
                 onRename={handleOpenRenameModal}
+                onToastify={notify}
               />
             </li>
           ))}
@@ -140,8 +147,14 @@ const ChannelsPanel = () => {
             modalType === "add"
               ? handleAddChannel
               : modalType === "rename"
-                ? (newName) => handleRenameChannel(selectedChannel.id, newName)
-                : () => handleDeleteChannel(selectedChannel.id)
+                ? (newName) => {
+                  handleRenameChannel(selectedChannel.id, newName)
+                  notify('Канал переименован');
+                }
+                : () => {
+                  handleDeleteChannel(selectedChannel.id)
+                  notify('Канал удален');
+                }
           }
         />
       )}
