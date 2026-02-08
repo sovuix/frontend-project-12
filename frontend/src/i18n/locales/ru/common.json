@@ -1,6 +1,33 @@
 {
-  "channels": "каналы",
-  "msg_one": "{{count}} сообщение",
-  "msg_few": "{{count}} сообщения",
-  "msg_many": "{{count}} сообщений"
+    "common": {
+        "channels": "каналы",
+        "save": "Сохранить",
+        "cancel": "Отмена",
+        "loading": "Загрузка...",
+        "chatname":"Sovuix Chat"
+    },
+    "chat": {
+        "send": "Отправить",
+        "typeMessage": "Введите сообщение..."
+    },
+    "auth": {
+        "nickname": "Ваш ник",
+        "pass": "Пароль",
+        "login": "Войти",
+        "logout": "Выйти",
+        "register": "Регистрация",
+        "noAccount": "Нет аккаунта?"
+    },
+    "reg": {
+      "username":"Имя пользователя",
+      "pass":"Пароль",
+      "confPass":"Подтвердите пароль",
+      "reqField":"Обязательное поле",
+      "failPass":"Пароли не совпадают"
+
+    },
+
+    "msg_one": "{{count}} сообщение",
+    "msg_few": "{{count}} сообщения",
+    "msg_many": "{{count}} сообщений"
 }
