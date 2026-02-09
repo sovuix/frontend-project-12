@@ -2,10 +2,12 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../state/slices/authSlice";
+import { useTranslation } from "react-i18next";
 
 const LoginForm = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   // const [hasError, setHasError] = useState(false);
   const getToken = async (username, password) => {
     try {
@@ -51,7 +53,7 @@ const LoginForm = ({ children }) => {
         setStatus(null);
         navigate("/");
       } catch (error) {
-        setStatus({ error: "Неверные имя пользователя или пароль" });
+        setStatus({ error: t("auth:error") });
         console.error("Login failed:", error);
       } finally {
         setSubmitting(false);

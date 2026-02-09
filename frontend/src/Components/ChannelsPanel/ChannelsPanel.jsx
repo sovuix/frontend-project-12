@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "../Button/Button";
 import ChannelItem from "../ChannelItem/ChannelItem";
@@ -15,9 +15,8 @@ import {
 } from "../../services/channelService";
 import ModalWindow from "../ModalWindow/ModalWindow";
 import { useTranslation } from "react-i18next";
-import { toast } from 'react-toastify';
-import filter from 'leo-profanity';
-
+import { toast } from "react-toastify";
+import filter from "leo-profanity";
 
 const ChannelsPanel = () => {
   const notify = (text) => toast.success(text);
@@ -28,12 +27,12 @@ const ChannelsPanel = () => {
   const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState("add"); // 'add', 'rename', 'remove'
+  const [modalType, setModalType] = useState("add");
   const [selectedChannel, setSelectedChannel] = useState(null);
 
-      useEffect(() => {
-        filter.loadDictionary('ru');
-    }, []);
+  useEffect(() => {
+    filter.loadDictionary("ru");
+  }, []);
 
   const handleAddChannel = async (channelName) => {
     try {
@@ -43,11 +42,10 @@ const ChannelsPanel = () => {
       // dispatch(addChannel(newChannel));
       dispatch(setCurrentChannel(newChannel.id));
       setShowModal(false);
-      notify('Канал создан')
-    } catch {
-      // console.error("Ошибка создания канала:", error);
-      // alert(`Ошибка: ${error.message}`);
-      notify('Ошибка создания канала')
+      notify(t("channel.channelCreated"));
+    } catch (error) {
+      console.error(t("channel.errorCreated"), error);
+      notify(t("channel.errorCreated"));
     }
   };
 
@@ -108,7 +106,6 @@ const ChannelsPanel = () => {
     <>
       <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
         <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-          {/* <b>{t("channels")}</b> */}
           <b>{t("common.channels")}</b>
 
           <Button
@@ -156,13 +153,13 @@ const ChannelsPanel = () => {
               ? handleAddChannel
               : modalType === "rename"
                 ? (newName) => {
-                  handleRenameChannel(selectedChannel.id, newName)
-                  notify('Канал переименован');
-                }
+                    handleRenameChannel(selectedChannel.id, newName);
+                    notify(t("channel.channelRenamed"));
+                  }
                 : () => {
-                  handleDeleteChannel(selectedChannel.id)
-                  notify('Канал удален');
-                }
+                    handleDeleteChannel(selectedChannel.id);
+                    notify(t("channel.channelDeleted"));
+                  }
           }
         />
       )}

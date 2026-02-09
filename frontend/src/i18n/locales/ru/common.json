@@ -1,33 +1,45 @@
 {
-    "common": {
-        "channels": "каналы",
-        "save": "Сохранить",
-        "cancel": "Отмена",
-        "loading": "Загрузка...",
-        "chatname":"Sovuix Chat"
-    },
-    "chat": {
-        "send": "Отправить",
-        "typeMessage": "Введите сообщение..."
-    },
-    "auth": {
-        "nickname": "Ваш ник",
-        "pass": "Пароль",
-        "login": "Войти",
-        "logout": "Выйти",
-        "register": "Регистрация",
-        "noAccount": "Нет аккаунта?"
-    },
-    "reg": {
-      "username":"Имя пользователя",
-      "pass":"Пароль",
-      "confPass":"Подтвердите пароль",
-      "reqField":"Обязательное поле",
-      "failPass":"Пароли не совпадают"
+  "common": {
+    "channels": "каналы",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "loading": "Загрузка...",
+    "chatname": "Hexlet Chat"
+  },
+  "chat": {
+    "send": "Отправить",
+    "typeMessage": "Введите сообщение..."
+  },
+  "auth": {
+    "nickname": "Ваш ник",
+    "pass": "Пароль",
+    "login": "Войти",
+    "logout": "Выйти",
+    "register": "Регистрация",
+    "noAccount": "Нет аккаунта?",
+    "error": "Неверные имя пользователя или пароль"
+  },
+  "channel": {
+    "addChannel": "Добавить канал",
+    "deleteChannel": "Удалить канал",
+    "renameChannel": "Переименовать канал",
+    "channelCreated": "Канал создан",
+    "channelDeleted": "Канал удален",
+    "channelRenamed": "Канал переименован",
+    "errorCreated": "Ошибка создания канала",
+    "errorDeleted": "Ошибка удаления канала",
+    "delete": "Удалить",
+    "rename": "Переименовать"
+  },
+  "reg": {
+    "username": "Имя пользователя",
+    "pass": "Пароль",
+    "confPass": "Подтвердите пароль",
+    "reqField": "Обязательное поле",
+    "passDontMatch": "Пароли не совпадают"
+  },
 
-    },
-
-    "msg_one": "{{count}} сообщение",
-    "msg_few": "{{count}} сообщения",
-    "msg_many": "{{count}} сообщений"
+  "msg_one": "{{count}} сообщение",
+  "msg_few": "{{count}} сообщения",
+  "msg_many": "{{count}} сообщений"
 }
