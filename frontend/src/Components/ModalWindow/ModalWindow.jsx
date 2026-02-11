@@ -2,6 +2,7 @@ import React from "react";
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { createModalSchema } from '../../validationSchemas/authSchemas';
+import { useTranslation } from "react-i18next";
 
 const ModalWindow = ({ 
   onClose, 
@@ -13,7 +14,7 @@ const ModalWindow = ({
   const existingNames = channels.map(channel => 
     channel.name.toLowerCase().trim()
   );
-
+  const { t } = useTranslation();
   const modalSchema = createModalSchema(existingNames);
 
   const formik = useFormik({
@@ -44,20 +45,20 @@ const ModalWindow = ({
 
   // Словари
   const buttonType = {
-    'add': 'Добавить',
-    'remove': 'Удалить',
-    'rename': 'Отправить',
+    'add': t("channel.add"),
+    'remove': t("channel.delete"),
+    'rename': t("channel.send"),
   };
 
   const modalTitle = {
-    'add': 'Добавить канал',
-    'remove': 'Удалить канал',
-    'rename': 'Переименовать канал',
+    'add': t("channel.addChannel"),
+    'remove': t("channel.deleteChannel"),
+    'rename': t("channel.renameChannel"),
   };
 
   const inputPlaceholder = {
-    'add': 'Введите название канала',
-    'rename': 'Введите новое название канала',
+    'add': t("channel.inputChannelName"),
+    'rename': t("channel.inputNewChannelName"),
   };
 
   return (
@@ -88,7 +89,7 @@ const ModalWindow = ({
               {type === 'remove' ? (
                 <>
                   <p className="mb-4">
-                    Уверены?
+                    {t("channel.confirm")}
                   </p>
                   <div className="d-flex justify-content-end">
                     <button
@@ -97,7 +98,7 @@ const ModalWindow = ({
                       onClick={handleCancel}
                       disabled={formik.isSubmitting}
                     >
-                      Отменить
+                      {t("channel.cancel")}
                     </button>
                     <button
                       type="button"
@@ -145,7 +146,7 @@ const ModalWindow = ({
                         onClick={handleCancel}
                         disabled={formik.isSubmitting}
                       >
-                        Отменить
+                        {t("channel.cancel")}
                       </button>
                       <button
                         type="submit"

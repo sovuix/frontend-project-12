@@ -8,7 +8,6 @@ const LoginForm = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  // const [hasError, setHasError] = useState(false);
   const getToken = async (username, password) => {
     try {
       const response = await fetch("/api/v1/login", {
@@ -36,11 +35,9 @@ const LoginForm = ({ children }) => {
     initialValues: {
       userLogin: "",
       password: "",
-      //   hasError: false,
     },
     onSubmit: async (values, { setSubmitting, setStatus }) => {
       try {
-        // console.log(values);
         const data = await getToken(values.userLogin, values.password);
         localStorage.setItem("jwtToken", data.token);
         dispatch(
@@ -53,7 +50,7 @@ const LoginForm = ({ children }) => {
         setStatus(null);
         navigate("/");
       } catch (error) {
-        setStatus({ error: t("auth:error") });
+        setStatus({ error: t("auth.error") });
         console.error("Login failed:", error);
       } finally {
         setSubmitting(false);
@@ -77,9 +74,9 @@ const LoginForm = ({ children }) => {
           onChange={formik.handleChange}
           value={formik.values.userLogin}
           required
-          placeholder="Ваш ник"
+          placeholder={t("auth.nickname")}
         />
-        <label htmlFor="userLogin">Ваш ник</label>
+        <label htmlFor="userLogin">{t("auth.nickname")}</label>
       </div>
 
       <div className="form-floating mb-4">
@@ -91,14 +88,14 @@ const LoginForm = ({ children }) => {
           onChange={formik.handleChange}
           value={formik.values.password}
           required
-          placeholder="Пароль"
+          placeholder={t("auth.pass")}
         />
         {formik.status?.error && (
           <div className="invalid-tooltip">
-            Неверные имя пользователя или пароль
+            {t("auth.error")}
           </div>
         )}
-        <label htmlFor="password">Пароль</label>
+        <label htmlFor="password">{t("auth.pass")}</label>
       </div>
       {children}
     </form>
