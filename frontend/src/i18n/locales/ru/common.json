@@ -43,7 +43,10 @@
     "pass": "Пароль",
     "confPass": "Подтвердите пароль",
     "reqField": "Обязательное поле",
-    "passDontMatch": "Пароли не совпадают"
+    "passDontMatch": "Пароли не совпадают",
+    "userExists":"Такой пользователь уже существует",
+    "usernameCondition":"От 3 до 20 символов",
+    "passCondition":"Не менее 6 символов"
   },
 
   "msg_one": "{{count}} сообщение",

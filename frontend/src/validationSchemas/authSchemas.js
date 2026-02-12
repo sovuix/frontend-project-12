@@ -1,23 +1,45 @@
 import * as yup from 'yup';
 
-export const registrationSchema = yup.object({
+// export const registrationSchema = yup.object({
+//     username: yup
+//         .string()
+//         .trim()
+//         .required('Обязательное поле')
+//         .min(3, 'Не менее 3 символов')
+//         .max(50, 'Не более 20 символов'),
+
+//     password: yup
+//         .string()
+//         .required('Обязательное поле')
+//         .min(6, 'Не менее 6 символов'),
+
+//     confirmPassword: yup
+//         .string()
+//         .required('Подтвердите пароль')
+//         .oneOf([yup.ref('password'), null], 'Пароли не совпадают'), // сравниваем с password
+// });
+
+export const createRegistrationSchema = (t) =>
+  yup.object({
     username: yup
-        .string()
-        .trim()
-        .required('Обязательное поле')
-        .min(3, 'Не менее 3 символов')
-        .max(50, 'Не более 20 символов'),
+      .string()
+      .trim()
+      .required(t("reg.reqField"))
+      .min(3, t("reg.usernameCondition"))
+      .max(20, t("reg.usernameCondition")),
 
     password: yup
-        .string()
-        .required('Обязательное поле')
-        .min(6, 'Не менее 6 символов'),
+      .string()
+      .required(t("reg.reqField"))
+      .min(6, t("reg.passCondition")),
 
     confirmPassword: yup
-        .string()
-        .required('Подтвердите пароль')
-        .oneOf([yup.ref('password'), null], 'Пароли не совпадают'), // сравниваем с password
-});
+      .string()
+      .required(t("reg.reqField"))
+      .oneOf([yup.ref("password"), null], t("reg.passDontMatch")),
+  });
+
+
 
 export const createModalSchema = (existingNames = []) => {
     return yup.object({
