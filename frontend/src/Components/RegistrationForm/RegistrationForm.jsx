@@ -2,10 +2,13 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../state/slices/authSlice";
-import { registrationSchema } from "../../validationSchemas/authSchemas";
+// import { registrationSchema } from "../../validationSchemas/authSchemas";
+import {createRegistrationSchema} from "../../validationSchemas/authSchemas"
 import { useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const RegistrationForm = ({ children }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const usernameRef = useRef(null);
@@ -34,7 +37,7 @@ const RegistrationForm = ({ children }) => {
       password: "",
       confirmPassword: "",
     },
-    validationSchema: registrationSchema,
+    validationSchema: createRegistrationSchema(t),
     onSubmit: async (values, { setSubmitting, setStatus }) => {
       try {
         const data = await registerUser(values.username, values.password);
@@ -51,7 +54,8 @@ const RegistrationForm = ({ children }) => {
         navigate("/");
       } catch (error) {
         setStatus({
-          error: "Такой пользователь уже существует.",
+          error: t("reg.userExists"),
+          
         });
         console.error("Registration failed:", error);
       } finally {
@@ -69,7 +73,7 @@ const RegistrationForm = ({ children }) => {
 
   return (
     <form className="w-50" onSubmit={formik.handleSubmit} noValidate>
-      <h1 className="text-center mb-4">Регистрация</h1>
+      <h1 className="text-center mb-4">{t("auth.register")}</h1>
       <div className="form-floating mb-3">
         <input
           ref={usernameRef}
@@ -86,7 +90,7 @@ const RegistrationForm = ({ children }) => {
           onBlur={formik.handleBlur}
           value={formik.values.username}
           required
-          placeholder="От 3 до 20 символов"
+          placeholder= {t("req.usernameCondition")}
         />
         <label htmlFor="username">Имя пользователя</label>
         {formik.touched.username && formik.errors.username && (
