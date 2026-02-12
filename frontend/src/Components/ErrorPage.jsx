@@ -1,6 +1,8 @@
 import Header from './Header/Header';
+import { useTranslation } from "react-i18next";
 
 const ErrorPage = () => {
+  const { t } = useTranslation();
   return (
     <div className="h-100 bg-light">
       <div className="h-100" id="chat">
@@ -8,13 +10,13 @@ const ErrorPage = () => {
           <Header />
           <div className="text-center">
             <img
-              alt="Страница не найдена"
+              alt={t("common.pageNoFind")}
               className="img-fluid h-25"
               src="./public/404.svg"
             />
-            <h1 className="h4 text-muted">Страница не найдена</h1>
+            <h1 className="h4 text-muted">{t("common.pageNoFind")}</h1>
             <p className="text-muted">
-              Но вы можете перейти <a href="/">на главную страницу сайта </a>
+              {t("common.canMove")} <a href="/">{t("common.mainPage")}</a>
             </p>
           </div>
         </div>

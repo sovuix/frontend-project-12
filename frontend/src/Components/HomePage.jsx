@@ -21,28 +21,28 @@ import {
 } from '../state/slices/channelsSlice';
 import Button from './Button/Button';
 import { ToastContainer} from 'react-toastify';
+import { useTranslation } from "react-i18next";
 
 const HomePage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const token = localStorage.getItem('jwtToken');
+    const { t } = useTranslation();
 
     useEffect(() => {
-        const token = localStorage.getItem('jwtToken');
         if (!token) {
             navigate('/login');
+            return;
         }
-    }, [navigate]);
+    }, [navigate, token]);
 
     useEffect(() => {
-        console.log('Начинаем слушать WebSocket...');
-
         const handleNewMessage = (message) => {
             console.log('Получено через WebSocket:', message);
             dispatch(addMessage(message));
         };
 
         const handleNewChannel = (channel) => {
-            console.log('Получен новый канал через WebSocket:', channel);
             dispatch(addChannel(channel));
         };
 
@@ -68,12 +68,17 @@ const HomePage = () => {
     }, [dispatch]);
 
     const { channels, loading, error } = useSelector((state) => state.chat);
+    const { messages } = useSelector((state) => state.messages);
 
     useEffect(() => {
         const fetchChannels = async () => {
             try {
                 dispatch(setLoading());
                 const token = localStorage.getItem('jwtToken');
+                
+                if (!token) {
+                    return;
+                }
 
                 const response = await fetch('/api/v1/channels', {
                     method: 'GET',
@@ -84,7 +89,12 @@ const HomePage = () => {
                 });
 
                 if (!response.ok) {
-                    throw new Error('Ошибка при загрузке каналов');
+                    if (response.status === 401) {
+                        localStorage.clear();
+                        navigate('/login');
+                        return;
+                    }
+                    throw new Error(t("channel.errorDownloadCHannels"));
                 }
 
                 const data = await response.json();
@@ -94,13 +104,21 @@ const HomePage = () => {
                 console.error('Error', error);
             }
         };
-        fetchChannels();
-    }, [dispatch]);
+
+        if (token && channels.length === 0) {
+            fetchChannels();
+        }
+    }, [dispatch, token, channels.length, navigate, t]);
 
     useEffect(() => {
         const fetchMessages = async () => {
             try {
                 const token = localStorage.getItem('jwtToken');
+                
+                if (!token) {
+                    return;
+                }
+
                 const response = await fetch('/api/v1/messages', {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -108,17 +126,26 @@ const HomePage = () => {
                     },
                 });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    dispatch(setMessages(data));
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        localStorage.clear();
+                        navigate('/login');
+                        return;
+                    }
+                    throw new Error(t("channel.errorDownloadMessages"));
                 }
+
+                const data = await response.json();
+                dispatch(setMessages(data));
             } catch (err) {
-                console.error('Ошибка загрузки сообщений:', err);
+                console.error(t("channel.errorDownloadMessages"), err);
             }
         };
 
-        fetchMessages();
-    }, [dispatch]);
+        if (token && messages?.length === 0) {
+            fetchMessages();
+        }
+    }, [dispatch, token, messages?.length, navigate, t]);
 
     useEffect(() => {
         const token = localStorage.getItem('jwtToken');
@@ -129,15 +156,17 @@ const HomePage = () => {
         }
     }, [dispatch]);
 
-    if (loading) {
+    if (!token) {
+        return null; 
+    }
+
+    if (loading && channels.length === 0) {
         return <div>Загрузка каналов...</div>;
     }
 
-    if (error) {
+    if (error && channels.length === 0) {
         return <div>Ошибка: {error}</div>;
     }
-
-    console.log(channels);
 
     const clearToken = () => {
         localStorage.clear();
@@ -153,7 +182,7 @@ const HomePage = () => {
                             <Button
                                 type="button"
                                 className={'btn btn-primary'}
-                                text={'Выйти'}
+                                text={t("auth.logout")}
                                 onClick={clearToken}
                             />
                         )}

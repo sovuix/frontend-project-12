@@ -4,7 +4,10 @@
     "save": "Сохранить",
     "cancel": "Отмена",
     "loading": "Загрузка...",
-    "chatname": "Hexlet Chat"
+    "chatname": "Hexlet Chat",
+    "pageNoFind": "Страница не найдена",
+    "canMove":"Но вы можете перейти",
+    "mainPage":"на главную страницу сайта"
   },
   "chat": {
     "send": "Отправить",
@@ -28,6 +31,8 @@
     "channelRenamed": "Канал переименован",
     "errorCreated": "Ошибка создания канала",
     "errorDeleted": "Ошибка удаления канала",
+    "errorDownloadCHannels": "Ошибка при загрузке каналов",
+    "errorDownloadMessages": "Ошибка при загрузке сообщений",
     "add":"Добавить",
     "send":"Отправить",
     "delete": "Удалить",
@@ -46,7 +51,8 @@
     "passDontMatch": "Пароли не совпадают",
     "userExists":"Такой пользователь уже существует",
     "usernameCondition":"От 3 до 20 символов",
-    "passCondition":"Не менее 6 символов"
+    "passCondition":"Не менее 6 символов",
+    "registration": "Зарегистрироваться"
   },
 
   "msg_one": "{{count}} сообщение",

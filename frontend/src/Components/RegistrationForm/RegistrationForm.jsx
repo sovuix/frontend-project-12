@@ -2,7 +2,6 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../state/slices/authSlice";
-// import { registrationSchema } from "../../validationSchemas/authSchemas";
 import {createRegistrationSchema} from "../../validationSchemas/authSchemas"
 import { useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -90,9 +89,9 @@ const RegistrationForm = ({ children }) => {
           onBlur={formik.handleBlur}
           value={formik.values.username}
           required
-          placeholder= {t("req.usernameCondition")}
+          placeholder= {t("reg.usernameCondition")}
         />
-        <label htmlFor="username">Имя пользователя</label>
+        <label htmlFor="username">{t("reg.username")}</label>
         {formik.touched.username && formik.errors.username && (
           <div className="invalid-tooltip">{formik.errors.username}</div>
         )}
@@ -113,9 +112,9 @@ const RegistrationForm = ({ children }) => {
           onBlur={formik.handleBlur}
           value={formik.values.password}
           required
-          placeholder="Не менее 6 символов"
+          placeholder={t("reg.passCondition")}
         />
-        <label htmlFor="password">Пароль</label>
+        <label htmlFor="password">{t("reg.pass")}</label>
         <div placement="right" className="invalid-feedback"></div>
         {formik.touched.password && formik.errors.password && (
           <div className="invalid-tooltip">{formik.errors.password}</div>
@@ -137,9 +136,9 @@ const RegistrationForm = ({ children }) => {
           onBlur={formik.handleBlur}
           value={formik.values.confirmPassword}
           required
-          placeholder="Подтвердите пароль"
+          placeholder={t("reg.confPass")}
         />
-        <label htmlFor="confirmPassword">Подтвердите пароль</label>
+        <label htmlFor="confirmPassword">{t("reg.confPass")}</label>
         {formik.touched.confirmPassword && formik.errors.confirmPassword && (
           <div className="invalid-tooltip">{formik.errors.confirmPassword}</div>
         )}

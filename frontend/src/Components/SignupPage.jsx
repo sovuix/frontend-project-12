@@ -8,8 +8,10 @@ import CardForm from './CardForm/CardForm';
 import Header from './Header/Header';
 import CardFooter from './CardFooter/CardFooter';
 import RegistrationForm from './RegistrationForm/RegistrationForm';
+import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
+    const {t} = useTranslation();
     return (
         <div className="h-100 bg-light">
             <div className="h-100" id="chat">
@@ -21,7 +23,7 @@ const LoginPage = () => {
                                 <Logo variant="signUp" />
                                 <RegistrationForm>
                                     <Button
-                                        text="Зарегистрироваться"
+                                        text={t("reg.registration")}
                                         className="w-100 btn btn-outline-primary"
                                         type="submit"
                                     />
