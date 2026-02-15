@@ -68,7 +68,8 @@ const HomePage = () => {
     }, [dispatch]);
 
     const { channels, error, loading} = useSelector((state) => state.chat);
-    const { messages } = useSelector((state) => state.messages);
+    const messagesIds = useSelector((state) => state.messages.ids)
+
 
     useEffect(() => {
         const fetchChannels = async () => {
@@ -142,10 +143,10 @@ const HomePage = () => {
             }
         };
 
-        if (token && messages?.length === 0) {
+        if (token && messagesIds.length === 0) {
             fetchMessages();
         }
-    }, [dispatch, token, messages?.length, navigate, t]);
+    }, [dispatch, token, messagesIds.length, navigate, t]);
 
     useEffect(() => {
         const token = localStorage.getItem('jwtToken');
