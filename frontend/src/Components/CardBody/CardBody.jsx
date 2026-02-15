@@ -1,4 +1,3 @@
-import './CardBody.css';
 import cn from 'classnames'
 
 const CardBody = ({ children, className, variant = 'login' }) => {

@@ -25,7 +25,6 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
 
   const handleDelete = (e) => {
     e.stopPropagation();
-    // console.log("Удалить канал:", channel.id);
     if (onDelete) {
       onDelete(channel.id);
     }
@@ -34,7 +33,6 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
 
   const handleRename = (e) => {
     e.stopPropagation();
-    // console.log("Переименовать канал:", channel.id);
 
     if (onRename) {
       onRename(channel.id);

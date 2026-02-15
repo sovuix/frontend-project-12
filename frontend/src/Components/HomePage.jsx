@@ -67,7 +67,7 @@ const HomePage = () => {
         };
     }, [dispatch]);
 
-    const { channels, loading, error } = useSelector((state) => state.chat);
+    const { channels, error, loading} = useSelector((state) => state.chat);
     const { messages } = useSelector((state) => state.messages);
 
     useEffect(() => {

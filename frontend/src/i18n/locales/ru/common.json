@@ -7,11 +7,14 @@
     "chatname": "Hexlet Chat",
     "pageNoFind": "Страница не найдена",
     "canMove":"Но вы можете перейти",
-    "mainPage":"на главную страницу сайта"
+    "mainPage":"на главную страницу сайта",
+    "connectionError": "Ошибка интернет-соединения",
+    "serverError": "Ошибка сервера"
   },
   "chat": {
     "send": "Отправить",
-    "typeMessage": "Введите сообщение..."
+    "typeMessage": "Введите сообщение...",
+    "errorSendingMessage": "Ошибка при отправке сообщения. Сервер не отвечает"
   },
   "auth": {
     "nickname": "Ваш ник",
@@ -29,8 +32,9 @@
     "channelCreated": "Канал создан",
     "channelDeleted": "Канал удален",
     "channelRenamed": "Канал переименован",
-    "errorCreated": "Ошибка создания канала",
-    "errorDeleted": "Ошибка удаления канала",
+    "errorCreated": "Ошибка создания канала. Сервер не отвечает",
+    "errorDeleted": "Ошибка удаления канала. Сервер не отвечает",
+    "errorRenamed": "Ошибка переименования канала. Сервер не отвечает",
     "errorDownloadCHannels": "Ошибка при загрузке каналов",
     "errorDownloadMessages": "Ошибка при загрузке сообщений",
     "add":"Добавить",

@@ -1,12 +1,9 @@
 import CardBody from './CardBody/CardBody';
-import LoginForm from './LoginForm/LoginForm';
 import Button from './Button/Button';
 import Container from './Container/Container';
 import Card from './Card/Card';
 import Logo from './CardLogo/CardLogo';
-import CardForm from './CardForm/CardForm';
 import Header from './Header/Header';
-import CardFooter from './CardFooter/CardFooter';
 import RegistrationForm from './RegistrationForm/RegistrationForm';
 import { useTranslation } from "react-i18next";
 

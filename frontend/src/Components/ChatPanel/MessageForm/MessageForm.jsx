@@ -3,12 +3,15 @@ import { useSelector } from "react-redux";
 import Button from "../../Button/Button";
 import filter from "leo-profanity";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const MessageForm = () => {
   const [text, setText] = useState("");
   const currentChannelId = useSelector((state) => state.chat.currentChannelId);
   const username = useSelector((state) => state.auth.username);
   const { t } = useTranslation();
+  const notifyError = (text) => toast.error(text);
+  
   useEffect(() => {
     filter.loadDictionary("ru");
   }, []);
@@ -30,7 +33,6 @@ const MessageForm = () => {
         },
         body: JSON.stringify({
           channelId: currentChannelId,
-          // text: text.trim(),
           text: cleanedText,
           username: username,
         }),
@@ -38,19 +40,18 @@ const MessageForm = () => {
 
       if (response.ok) {
         setText("");
-        console.log("Сообщение отправлено");
       } else {
-        console.error("Ошибка отправки сообщения");
+        notifyError(t("chat.errorSendingMessage"));
       }
-    } catch (error) {
-      console.error("Ошибка сети:", error);
+    } catch {
+      notifyError(t("common.connectionError"));
     }
   };
 
   return (
     <div className="mt-auto px-5 py-3">
-      <form onSubmit={handleSubmit} className="border-top p-3">
-        <div className="input-group">
+      <form onSubmit={handleSubmit} className="py-1 border rounded-2">
+        <div className="input-group has-validation">
           <input
             type="text"
             className="form-border-0 p-0 ps-2 form-control"

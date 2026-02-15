@@ -6,5 +6,3 @@ const Button = ({ text, children, className, type = 'button', onClick }) => {
   );
 };
 export default Button;
-
-// type="submit"
