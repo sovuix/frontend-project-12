@@ -21,8 +21,8 @@ const ModalWindow = ({
       channelname: type === 'rename' ? currentName : ''
     },
     validationSchema: type !== 'remove' ? createModalSchema(t,existingNames) : null,
-    validateOnChange: true,
-    validateOnBlur: true,
+    validateOnChange: false,
+    validateOnBlur: false,
     onSubmit: (values, { resetForm, setSubmitting }) => {
       if (type === 'remove') {
         onSubmit();
@@ -40,7 +40,7 @@ const ModalWindow = ({
     onClose();
   };
 
-  const isSubmitDisabled = type === 'remove' ? false : (!formik.isValid || formik.isSubmitting);
+  const isSubmitDisabled = type === 'remove' ? false : formik.isSubmitting;
 
   const buttonType = {
     'add': t("channel.add"),
