@@ -15,13 +15,12 @@ const ModalWindow = ({
     channel.name.toLowerCase().trim()
   );
   const { t } = useTranslation();
-  const modalSchema = createModalSchema(existingNames);
 
   const formik = useFormik({
     initialValues: {
       channelname: type === 'rename' ? currentName : ''
     },
-    validationSchema: type !== 'remove' ? modalSchema : null,
+    validationSchema: type !== 'remove' ? createModalSchema(t,existingNames) : null,
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: (values, { resetForm, setSubmitting }) => {
@@ -43,7 +42,6 @@ const ModalWindow = ({
 
   const isSubmitDisabled = type === 'remove' ? false : (!formik.isValid || formik.isSubmitting);
 
-  // Словари
   const buttonType = {
     'add': t("channel.add"),
     'remove': t("channel.delete"),
@@ -114,7 +112,6 @@ const ModalWindow = ({
                   </div>
                 </>
               ) : (
-                // Контент для добавления/переименования
                 <form onSubmit={formik.handleSubmit} key={`${type}-${currentName}`}>
                   <div>
                     <input
