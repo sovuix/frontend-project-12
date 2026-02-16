@@ -59,6 +59,7 @@ const MessageForm = () => {
             value={text}
             onChange={(e) => setText(e.target.value)}
             disabled={!currentChannelId}
+            aria-label='Новое сообщение'
           />
           <Button
             type="submit"
