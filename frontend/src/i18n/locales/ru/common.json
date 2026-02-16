@@ -44,8 +44,10 @@
     "inputChannelName": "Введите название канала",
     "inputNewChannelName": "Введите новое название канала",
     "confirm": "Уверены?",
-    "cancel": "Отменить"
-
+    "cancel": "Отменить",
+    "reqField": "Обязательное поле",
+    "channelNameCondition":"От 3 до 20 символов",
+    "uniqueChannelName":"Название должно быть уникальным"
   },
   "reg": {
     "username": "Имя пользователя",
