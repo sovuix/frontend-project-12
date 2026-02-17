@@ -127,7 +127,7 @@ const ModalWindow = ({
                       onBlur={formik.handleBlur}
                       // placeholder={inputPlaceholder[type]}
                       // placeholder="Имя канала"
-                      // aria-label="Имя канала" 
+                      aria-label={t("channel.channelname")}
                       autoFocus
                       disabled={formik.isSubmitting}
                     />
