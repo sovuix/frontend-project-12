@@ -54,10 +54,10 @@ const ModalWindow = ({
     'rename': t("channel.renameChannel"),
   };
 
-  const inputPlaceholder = {
-    'add': t("channel.inputChannelName"),
-    'rename': t("channel.inputNewChannelName"),
-  };
+  // const inputPlaceholder = {
+  //   'add': t("channel.inputChannelName"),
+  //   'rename': t("channel.inputNewChannelName"),
+  // };
 
   return (
     <>
@@ -125,10 +125,16 @@ const ModalWindow = ({
                       value={formik.values.channelname}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      placeholder={inputPlaceholder[type]}
+                      // placeholder={inputPlaceholder[type]}
                       autoFocus
                       disabled={formik.isSubmitting}
                     />
+                         <label 
+                      htmlFor="channelname" 
+                      className="visually-hidden"
+                    >
+                      Имя канала
+                    </label>
                     
                     {formik.errors.channelname && formik.touched.channelname && (
                       <div className="invalid-feedback d-block">
