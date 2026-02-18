@@ -58,13 +58,15 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
     <div className="nav-item w-100">
       <div className="d-flex dropdown btn-group">
         <Button
-          text={`# ${channel.name}`}
           className={`w-100 rounded-0 text-start text-truncate btn ${
             isActive ? "btn-secondary" : ""
           }`}
           onClick={handleChannelClick}
           type="button"
-        />
+        >
+          <span className='me-1'>#</span>
+          {channel.name}
+        </Button>
 
         {isEditable && (
           <button
