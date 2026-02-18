@@ -144,7 +144,7 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
                         {formik.errors.channelname}
                       </div>
                     )} */}
-                                        <div className="invalid-feedback d-block">
+                                        <div className="invalid-feedback">
                                             {formik.errors.channelname &&
                                             formik.touched.channelname
                                                 ? formik.errors.channelname
