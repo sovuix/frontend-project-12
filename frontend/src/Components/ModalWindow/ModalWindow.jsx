@@ -43,7 +43,7 @@ const ModalWindow = ({
   const isSubmitDisabled = type === 'remove' ? false : formik.isSubmitting;
 
   const buttonType = {
-    'add': t("channel.add"),
+    'add': t("channel.send"),
     'remove': t("channel.delete"),
     'rename': t("channel.send"),
   };
