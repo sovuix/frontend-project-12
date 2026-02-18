@@ -63,6 +63,8 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
           }`}
           onClick={handleChannelClick}
           type="button"
+            role="button"  
+  aria-label={channel.name}
         >
           <span className='me-1'>#</span>
           {channel.name}
