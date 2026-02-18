@@ -48,7 +48,8 @@
     "reqField": "Обязательное поле",
     "channelNameCondition":"От 3 до 20 символов",
     "uniqueChannelName":"Название должно быть уникальным",
-    "channelname": "Имя канала"
+    "channelname": "Имя канала",
+    "controlPanel":"Управление каналом"
   },
   "reg": {
     "username": "Имя пользователя",
