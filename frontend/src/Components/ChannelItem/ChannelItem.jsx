@@ -66,7 +66,7 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
             role="button"  
   aria-label={channel.name}
         >
-          <span className='me-1'>#</span>
+          <span className='me-1' aria-hidden="true">#</span>
           {channel.name}
         </Button>
 
