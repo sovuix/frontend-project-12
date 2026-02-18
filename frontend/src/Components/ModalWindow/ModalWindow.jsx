@@ -127,10 +127,11 @@ const ModalWindow = ({
                       onBlur={formik.handleBlur}
                       // placeholder={inputPlaceholder[type]}
                       // placeholder="Имя канала"
-                      aria-label={t("channel.channelname")}
+                      // aria-label={t("channel.channelname")}
                       autoFocus
                       disabled={formik.isSubmitting}
                     />
+
                          <label 
                       htmlFor="channelname" 
                       className="visually-hidden"
@@ -144,7 +145,7 @@ const ModalWindow = ({
                       </div>
                     )}
                     
-                    <div className="d-flex justify-content-end mt-3">
+                    <div className="d-flex justify-content-end">
                       <button
                         type="button"
                         className="me-2 btn btn-secondary"
