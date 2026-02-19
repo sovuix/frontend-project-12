@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { useSelector } from "react-redux";
 import Button from "../../Button/Button";
-import filter from "leo-profanity";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import filter from '../../../services/profanity';
 
 const MessageForm = () => {
   const [text, setText] = useState("");
@@ -12,10 +12,6 @@ const MessageForm = () => {
   const { t } = useTranslation();
   const notifyError = (text) => toast.error(text);
   
-  useEffect(() => {
-    filter.loadDictionary("ru");
-  }, []);
-
   const isDisabled = !currentChannelId || !text.trim();
 
   const handleSubmit = async (e) => {

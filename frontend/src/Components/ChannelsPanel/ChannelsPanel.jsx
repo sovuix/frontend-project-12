@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "../Button/Button";
 import ChannelItem from "../ChannelItem/ChannelItem";
@@ -15,7 +15,7 @@ import {
 import ModalWindow from "../ModalWindow/ModalWindow";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import filter from "leo-profanity";
+import filter from '../../services/profanity';
 
 const ChannelsPanel = () => {
   const notify = (text) => toast.success(text);
@@ -30,9 +30,6 @@ const ChannelsPanel = () => {
   const [modalType, setModalType] = useState("add");
   const [selectedChannel, setSelectedChannel] = useState(null);
 
-  useEffect(() => {
-    filter.loadDictionary("ru");
-  }, []);
 
   const handleAddChannel = async (channelName) => {
   try {
@@ -50,6 +47,7 @@ const ChannelsPanel = () => {
     notifyError(t("channel.errorCreated"));
   }
 };
+
 
   const handleDeleteChannel = async (channelId) => {
   try {
