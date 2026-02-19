@@ -110,7 +110,7 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
                             ) : (
                                 <form
                                     onSubmit={formik.handleSubmit}
-                                    key={`${type}-${currentName}`}
+                                    // key={`${type}-${currentName}`}
                                 >
                                     <div>
                                         <input
@@ -129,6 +129,7 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
                                             // placeholder="Имя канала"
                                             // aria-label={t("channel.channelname")}
                                             autoFocus
+                                            onFocus={(e) => e.target.select()}
                                             disabled={formik.isSubmitting}
                                         />
 

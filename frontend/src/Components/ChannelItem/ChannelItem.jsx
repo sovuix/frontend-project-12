@@ -35,7 +35,7 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
     e.stopPropagation();
 
     if (onRename) {
-      onRename(channel.id);
+      onRename(channel.id,channel.name);
     }
 
     setShowDropdown(false);
