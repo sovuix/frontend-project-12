@@ -87,7 +87,7 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
                         aria-expanded={showDropdown}
                     >
                         <span className="visually-hidden">
-                            {t(channel.controlPanel)}
+                            {t("channel.controlPanel")}
                         </span>
                     </button>
                 )}
