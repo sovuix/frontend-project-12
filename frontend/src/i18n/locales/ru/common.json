@@ -30,7 +30,7 @@
     "deleteChannel": "Удалить канал",
     "renameChannel": "Переименовать канал",
     "channelCreated": "Канал создан",
-    "channelDeleted": "Канал удален",
+    "channelDeleted": "Канал удалён",
     "channelRenamed": "Канал переименован",
     "errorCreated": "Ошибка создания канала. Сервер не отвечает",
     "errorDeleted": "Ошибка удаления канала. Сервер не отвечает",
