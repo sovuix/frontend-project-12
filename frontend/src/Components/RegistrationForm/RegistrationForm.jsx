@@ -1,34 +1,34 @@
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../state/slices/authSlice';
-import { createRegistrationSchema } from '../../validationSchemas/authSchemas';
-import { useRef, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../../state/slices/authSlice'
+import { createRegistrationSchema } from '../../validationSchemas/authSchemas'
+import { useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const RegistrationForm = ({ children }) => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const usernameRef = useRef(null);
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const usernameRef = useRef(null)
 
   useEffect(() => {
-    usernameRef.current?.focus();
-  }, []);
+    usernameRef.current?.focus()
+  }, [])
 
   const registerUser = async (username, password) => {
     const response = await fetch('/api/v1/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
-    });
+    })
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
 
-    return await response.json();
-  };
+    return await response.json()
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -39,36 +39,36 @@ const RegistrationForm = ({ children }) => {
     validationSchema: createRegistrationSchema(t),
     onSubmit: async (values, { setSubmitting, setStatus }) => {
       try {
-        const data = await registerUser(values.username, values.password);
+        const data = await registerUser(values.username, values.password)
 
-        localStorage.setItem('jwtToken', data.token);
+        localStorage.setItem('jwtToken', data.token)
         dispatch(
           setUser({
             username: data.username,
             token: data.token,
           }),
-        );
-        localStorage.setItem('username', data.username);
+        )
+        localStorage.setItem('username', data.username)
 
-        navigate('/');
+        navigate('/')
       } catch (error) {
         setStatus({
           error: t('reg.userExists'),
           
-        });
-        console.error('Registration failed:', error);
+        })
+        console.error('Registration failed:', error)
       } finally {
-        setSubmitting(false);
+        setSubmitting(false)
       }
     },
-  });
+  })
 
   const handleUsernameChange = (e) => {
-    formik.handleChange(e);
+    formik.handleChange(e)
     if (formik.status?.error) {
-      formik.setStatus(null);
+      formik.setStatus(null)
     }
-  };
+  }
 
   return (
     <form className="w-50" onSubmit={formik.handleSubmit} noValidate>
@@ -149,7 +149,7 @@ const RegistrationForm = ({ children }) => {
 
       {children}
     </form>
-  );
-};
+  )
+}
 
-export default RegistrationForm;
+export default RegistrationForm

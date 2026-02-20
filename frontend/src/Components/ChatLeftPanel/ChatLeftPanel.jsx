@@ -1,4 +1,4 @@
-import Button from '../Button/Button';
+import Button from '../Button/Button'
 
 
 const ChatLeftPanel = () => {
@@ -11,7 +11,7 @@ const ChatLeftPanel = () => {
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChatLeftPanel;
+export default ChatLeftPanel

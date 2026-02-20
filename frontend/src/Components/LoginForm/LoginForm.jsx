@@ -1,24 +1,24 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { setUser } from '../../state/slices/authSlice';
-import { setLoading } from '../../state/slices/channelsSlice';
-import { useTranslation } from 'react-i18next';
-import { ToastContainer } from 'react-toastify';
-import { toast } from 'react-toastify';
-import { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
+import { setUser } from '../../state/slices/authSlice'
+import { setLoading } from '../../state/slices/channelsSlice'
+import { useTranslation } from 'react-i18next'
+import { ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
+import { useRef, useEffect } from 'react'
 
 const LoginForm = ({ children }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
-  const userloginRef = useRef(null);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
+  const userloginRef = useRef(null)
 
   useEffect(() => {
-    userloginRef.current?.focus();
-  }, []);
+    userloginRef.current?.focus()
+  }, [])
 
-  const { loading } = useSelector((state) => state.chat);
+  const { loading } = useSelector((state) => state.chat)
 
   const getToken = async (username, password) => {
     try {
@@ -28,19 +28,19 @@ const LoginForm = ({ children }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
-      });
+      })
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      const data = await response.json();
-      return data;
+      const data = await response.json()
+      return data
     } catch (error) {
-      console.error('Error getting token:', error);
-      throw error;
+      console.error('Error getting token:', error)
+      throw error
     }
-  };
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -49,32 +49,32 @@ const LoginForm = ({ children }) => {
     },
     onSubmit: async (values, { setSubmitting, setStatus }) => {
       try {
-        dispatch(setLoading());
-        const data = await getToken(values.userLogin, values.password);
-        localStorage.setItem('jwtToken', data.token);
+        dispatch(setLoading())
+        const data = await getToken(values.userLogin, values.password)
+        localStorage.setItem('jwtToken', data.token)
         dispatch(
           setUser({
             username: data.username,
             token: data.token,
           }),
-        );
-        localStorage.setItem('username', data.username);
-        setStatus(null);
-        navigate('/');
+        )
+        localStorage.setItem('username', data.username)
+        setStatus(null)
+        navigate('/')
       } catch (error) {
         if (!navigator.onLine) {
-          toast.error(t('common.connectionError'));
+          toast.error(t('common.connectionError'))
         } else if (error.message === 'Failed to fetch') {
-          toast.error(t('common.loading'));
+          toast.error(t('common.loading'))
         } else {
-          setStatus({ error: t('auth.error') });
-          toast.error(t('common.serverError'));
+          setStatus({ error: t('auth.error') })
+          toast.error(t('common.serverError'))
         }
       } finally {
-        setSubmitting(false);
+        setSubmitting(false)
       }
     },
-  });
+  })
 
   return (
     <>
@@ -119,7 +119,7 @@ const LoginForm = ({ children }) => {
         {children}
       </form>
     </>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

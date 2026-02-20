@@ -5,6 +5,6 @@ const Container = ({ children }) => {
         <div className="col-12 col-md-8 col-xxl-6">{children}</div>
       </div>
     </div>
-  );
-};
-export default Container;
+  )
+}
+export default Container

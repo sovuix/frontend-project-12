@@ -1,116 +1,116 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Button from '../Button/Button';
-import ChannelItem from '../ChannelItem/ChannelItem';
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import Button from '../Button/Button'
+import ChannelItem from '../ChannelItem/ChannelItem'
 import {
   removeChannel,
   renameChannel,
   setCurrentChannel,
-} from '../../state/slices/channelsSlice';
+} from '../../state/slices/channelsSlice'
 import {
   createChannel,
   deleteChannel,
   renameChannel as renameChannelAPI,
-} from '../../services/channelService';
-import ModalWindow from '../ModalWindow/ModalWindow';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import filter from '../../services/profanity';
+} from '../../services/channelService'
+import ModalWindow from '../ModalWindow/ModalWindow'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import filter from '../../services/profanity'
 
 const ChannelsPanel = () => {
-  const notify = (text) => toast.success(text);
-  const notifyError = (text) => toast.error(text);
+  const notify = (text) => toast.success(text)
+  const notifyError = (text) => toast.error(text)
 
-  const { t } = useTranslation();
-  const channels = useSelector((state) => state.chat.channels);
-  const currentChannelId = useSelector((state) => state.chat.currentChannelId);
-  const dispatch = useDispatch();
+  const { t } = useTranslation()
+  const channels = useSelector((state) => state.chat.channels)
+  const currentChannelId = useSelector((state) => state.chat.currentChannelId)
+  const dispatch = useDispatch()
 
-  const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState('add');
-  const [selectedChannel, setSelectedChannel] = useState(null);
+  const [showModal, setShowModal] = useState(false)
+  const [modalType, setModalType] = useState('add')
+  const [selectedChannel, setSelectedChannel] = useState(null)
 
 
   const handleAddChannel = async (channelName) => {
     try {
       if (!navigator.onLine) {
-        notifyError(t('common.connectionError'));
-        return;
+        notifyError(t('common.connectionError'))
+        return
       }
 
-      const cleanedChannelName = filter.clean(channelName.trim());
-      const newChannel = await createChannel(cleanedChannelName);
-      dispatch(setCurrentChannel(newChannel.id));
-      setShowModal(false);
-      notify(t('channel.channelCreated'));
+      const cleanedChannelName = filter.clean(channelName.trim())
+      const newChannel = await createChannel(cleanedChannelName)
+      dispatch(setCurrentChannel(newChannel.id))
+      setShowModal(false)
+      notify(t('channel.channelCreated'))
     } catch {
-      notifyError(t('channel.errorCreated'));
+      notifyError(t('channel.errorCreated'))
     }
-  };
+  }
 
 
   const handleDeleteChannel = async (channelId) => {
     try {
       if (!navigator.onLine) {
-        notifyError(t('common.connectionError'));
-        return;
+        notifyError(t('common.connectionError'))
+        return
       }
 
-      await deleteChannel(channelId);
-      dispatch(removeChannel(channelId));
+      await deleteChannel(channelId)
+      dispatch(removeChannel(channelId))
 
       if (currentChannelId === channelId) {
-        const remainingChannels = channels.filter((ch) => ch.id !== channelId);
+        const remainingChannels = channels.filter((ch) => ch.id !== channelId)
         if (remainingChannels.length > 0) {
-          dispatch(setCurrentChannel(remainingChannels[0].id));
+          dispatch(setCurrentChannel(remainingChannels[0].id))
         }
       }
 
-      setShowModal(false);
-      notify(t('channel.channelDeleted'));
+      setShowModal(false)
+      notify(t('channel.channelDeleted'))
     } catch {
-      notifyError(t('channel.errorDeleted'));
+      notifyError(t('channel.errorDeleted'))
     }
-  };
+  }
 
   const handleRenameChannel = async (channelId, newName) => {
     try {
       if (!navigator.onLine) {
-        notifyError(t('common.connectionError'));
-        return;
+        notifyError(t('common.connectionError'))
+        return
       }
 
-      await renameChannelAPI(channelId, newName);
-      dispatch(renameChannel({ id: channelId, name: newName }));
-      setShowModal(false);
-      notify(t('channel.channelRenamed'));
+      await renameChannelAPI(channelId, newName)
+      dispatch(renameChannel({ id: channelId, name: newName }))
+      setShowModal(false)
+      notify(t('channel.channelRenamed'))
     } catch {
-      notifyError(t('channel.errorRenamed'));
+      notifyError(t('channel.errorRenamed'))
     }
-  };
+  }
 
   const handleOpenAddModal = () => {
-    setModalType('add');
-    setSelectedChannel(null);
-    setShowModal(true);
-  };
+    setModalType('add')
+    setSelectedChannel(null)
+    setShowModal(true)
+  }
 
   const handleOpenRenameModal = (channelId, channelName) => {
-    setModalType('rename');
-    setSelectedChannel({ id: channelId, name: channelName });
-    setShowModal(true);
-  };
+    setModalType('rename')
+    setSelectedChannel({ id: channelId, name: channelName })
+    setShowModal(true)
+  }
 
   const handleOpenDeleteModal = (channelId, channelName) => {
-    setModalType('remove');
-    setSelectedChannel({ id: channelId, name: channelName });
-    setShowModal(true);
-  };
+    setModalType('remove')
+    setSelectedChannel({ id: channelId, name: channelName })
+    setShowModal(true)
+  }
 
   const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedChannel(null);
-  };
+    setShowModal(false)
+    setSelectedChannel(null)
+  }
 
   return (
     <>
@@ -170,7 +170,7 @@ const ChannelsPanel = () => {
         />
       )}
     </>
-  );
-};
+  )
+}
 
-export default ChannelsPanel;
+export default ChannelsPanel

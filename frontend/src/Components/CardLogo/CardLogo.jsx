@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import cn from 'classnames'
 const Logo = ({ className, variant = 'login' }) => {
   const variants = {
     login: {
@@ -9,9 +9,9 @@ const Logo = ({ className, variant = 'login' }) => {
       src: '/signup-logo.jpg',
       classes: ''
     }
-  };
+  }
 
-  const { src, classes } = variants[variant];
+  const { src, classes } = variants[variant]
 
   return (
     <div className={cn(classes, className)}>
@@ -21,7 +21,7 @@ const Logo = ({ className, variant = 'login' }) => {
         alt="App logo"
       />
     </div>
-  );
-};
+  )
+}
 
-export default Logo;
+export default Logo

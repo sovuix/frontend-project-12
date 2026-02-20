@@ -1,14 +1,14 @@
-import CardBody from './CardBody/CardBody';
-import Button from './Button/Button';
-import Container from './Container/Container';
-import Card from './Card/Card';
-import Logo from './CardLogo/CardLogo';
-import Header from './Header/Header';
-import RegistrationForm from './RegistrationForm/RegistrationForm';
-import { useTranslation } from 'react-i18next';
+import CardBody from './CardBody/CardBody'
+import Button from './Button/Button'
+import Container from './Container/Container'
+import Card from './Card/Card'
+import Logo from './CardLogo/CardLogo'
+import Header from './Header/Header'
+import RegistrationForm from './RegistrationForm/RegistrationForm'
+import { useTranslation } from 'react-i18next'
 
 const LoginPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <div className="h-100 bg-light">
       <div className="h-100" id="chat">
@@ -31,7 +31,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

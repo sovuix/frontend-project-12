@@ -1,14 +1,14 @@
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const Header = ({ children }) => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
+  const { t } = useTranslation()
+  const navigate = useNavigate()
   
   const handleLogoClick = (e) => {
-    e.preventDefault();
-    navigate('/');
-  };
+    e.preventDefault()
+    navigate('/')
+  }
   
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-lg navbar-light bg-white">
@@ -19,7 +19,7 @@ const Header = ({ children }) => {
         {children}
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

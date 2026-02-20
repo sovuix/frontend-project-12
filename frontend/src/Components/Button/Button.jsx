@@ -3,6 +3,6 @@ const Button = ({ text, children, className, type = 'button', onClick }) => {
     <button  type={type} className={className} onClick={onClick}>
       {text || children}
     </button>
-  );
-};
-export default Button;
+  )
+}
+export default Button

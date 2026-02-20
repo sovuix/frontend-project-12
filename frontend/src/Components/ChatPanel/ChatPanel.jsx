@@ -1,6 +1,6 @@
-import MessagesHeader from './MessagesHeader/MessagesHeader';
-import MessagesList from './MessagesList/MessagesList';
-import MessageForm from './MessageForm/MessageForm';
+import MessagesHeader from './MessagesHeader/MessagesHeader'
+import MessagesList from './MessagesList/MessagesList'
+import MessageForm from './MessageForm/MessageForm'
 
 const ChatPanel = () => {
   return (
@@ -11,7 +11,7 @@ const ChatPanel = () => {
         <MessageForm/>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChatPanel;
+export default ChatPanel

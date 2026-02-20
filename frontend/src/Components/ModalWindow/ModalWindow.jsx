@@ -1,15 +1,15 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import { useSelector } from 'react-redux';
-import { createModalSchema } from '../../validationSchemas/authSchemas';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { useFormik } from 'formik'
+import { useSelector } from 'react-redux'
+import { createModalSchema } from '../../validationSchemas/authSchemas'
+import { useTranslation } from 'react-i18next'
 
 const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
-  const channels = useSelector((state) => state.chat.channels);
+  const channels = useSelector((state) => state.chat.channels)
   const existingNames = channels.map((channel) =>
     channel.name.toLowerCase().trim(),
-  );
-  const { t } = useTranslation();
+  )
+  const { t } = useTranslation()
 
   const formik = useFormik({
     initialValues: {
@@ -21,34 +21,34 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
     validateOnBlur: false,
     onSubmit: (values, { resetForm, setSubmitting }) => {
       if (type === 'remove') {
-        onSubmit();
+        onSubmit()
       } else {
-        onSubmit(values.channelname.trim());
+        onSubmit(values.channelname.trim())
       }
-      resetForm();
-      setSubmitting(false);
-      onClose();
+      resetForm()
+      setSubmitting(false)
+      onClose()
     },
-  });
+  })
 
   const handleCancel = () => {
-    formik.resetForm();
-    onClose();
-  };
+    formik.resetForm()
+    onClose()
+  }
 
-  const isSubmitDisabled = type === 'remove' ? false : formik.isSubmitting;
+  const isSubmitDisabled = type === 'remove' ? false : formik.isSubmitting
 
   const buttonType = {
     add: t('channel.send'),
     remove: t('channel.delete'),
     rename: t('channel.send'),
-  };
+  }
 
   const modalTitle = {
     add: t('channel.addChannel'),
     remove: t('channel.deleteChannel'),
     rename: t('channel.renameChannel'),
-  };
+  }
 
   // const inputPlaceholder = {
   //   'add': t("channel.inputChannelName"),
@@ -98,8 +98,8 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
                       type="button"
                       className="btn btn-danger"
                       onClick={() => {
-                        onSubmit();
-                        onClose();
+                        onSubmit()
+                        onClose()
                       }}
                       disabled={formik.isSubmitting}
                     >
@@ -177,7 +177,7 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ModalWindow;
+export default ModalWindow

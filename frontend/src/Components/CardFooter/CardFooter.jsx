@@ -1,7 +1,7 @@
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next'
 
 const CardFooter = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <div className="card-footer p-4">
       <div className="text-center">
@@ -9,7 +9,7 @@ const CardFooter = () => {
         <a href="/signup"> {t('auth.register')} </a>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CardFooter;
+export default CardFooter

@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import * as yup from 'yup'
 
 export const createRegistrationSchema = (t) =>
   yup.object({
@@ -18,7 +18,7 @@ export const createRegistrationSchema = (t) =>
       .string()
       .required(t('reg.reqField'))
       .oneOf([yup.ref('password'), null], t('reg.passDontMatch')),
-  });
+  })
 
 
 export const createModalSchema = (t, existingNames) => 
@@ -30,5 +30,5 @@ export const createModalSchema = (t, existingNames) =>
       .min(3, t('channel.channelNameCondition'))
       .max(20, t('channel.channelNameCondition'))
       .notOneOf(existingNames, t('channel.uniqueChannelName'))
-  });
+  })
 

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 const authSlice = createSlice({
   name: 'auth',
@@ -9,17 +9,17 @@ const authSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
-      state.id = action.payload.id;
-      state.username = action.payload.username;
-      state.token = action.payload.token;
+      state.id = action.payload.id
+      state.username = action.payload.username
+      state.token = action.payload.token
     },
     clearUser:(state) => {
-      state.id = null;
-      state.username = '';
-      state.token = null;
+      state.id = null
+      state.username = ''
+      state.token = null
     }
   }
-});
+})
 
-export const { setUser, clearUser } = authSlice.actions;
-export default authSlice.reducer;
+export const { setUser, clearUser } = authSlice.actions
+export default authSlice.reducer

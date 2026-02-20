@@ -1,8 +1,8 @@
-import Header from './Header/Header';
-import { useTranslation } from 'react-i18next';
+import Header from './Header/Header'
+import { useTranslation } from 'react-i18next'
 
 const ErrorPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <div className="h-100 bg-light">
       <div className="h-100" id="chat">
@@ -22,7 +22,7 @@ const ErrorPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ErrorPage;
+export default ErrorPage

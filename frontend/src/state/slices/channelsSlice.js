@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 const channelsSlice = createSlice({
   name: 'chat',
@@ -10,42 +10,42 @@ const channelsSlice = createSlice({
   },
   reducers: {
     setChannels: (state, action) => {
-      state.channels = action.payload;
-      state.loading = false;
-      state.error = null;
+      state.channels = action.payload
+      state.loading = false
+      state.error = null
     },
     setLoading: (state) => {
-      state.loading = true;
-      state.error = null;
+      state.loading = true
+      state.error = null
     },
     setError: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
+      state.loading = false
+      state.error = action.payload
     },
     setCurrentChannel: (state, action) => {
-      state.currentChannelId = action.payload;
+      state.currentChannelId = action.payload
     },
     addChannel: (state, action) => {
-      state.channels.push(action.payload);
+      state.channels.push(action.payload)
     },
     removeChannel: (state, action) => {
-      const channelId = action.payload;
+      const channelId = action.payload
       state.channels = state.channels.filter(
         (channel) => channel.id !== channelId
-      );
+      )
       if (state.currentChannelId === channelId) {
-        state.currentChannelId = state.channels[0]?.id || null;
+        state.currentChannelId = state.channels[0]?.id || null
       }
     },
     renameChannel: (state, action) => {
-      const { id, name } = action.payload;
-      const channel = state.channels.find((ch) => ch.id === id);
+      const { id, name } = action.payload
+      const channel = state.channels.find((ch) => ch.id === id)
       if (channel) {
-        channel.name = name;
+        channel.name = name
       }
     },
   },
-});
+})
 
 export const {
   setChannels,
@@ -55,5 +55,5 @@ export const {
   addChannel,
   removeChannel,
   renameChannel,
-} = channelsSlice.actions;
-export default channelsSlice.reducer;
+} = channelsSlice.actions
+export default channelsSlice.reducer

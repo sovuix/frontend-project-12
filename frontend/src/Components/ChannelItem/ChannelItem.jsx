@@ -1,47 +1,47 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentChannel } from '../../state/slices/channelsSlice';
-import Button from '../Button/Button';
-import { useTranslation } from 'react-i18next';
+import React, { useState, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCurrentChannel } from '../../state/slices/channelsSlice'
+import Button from '../Button/Button'
+import { useTranslation } from 'react-i18next'
 
 const ChannelItem = ({ channel, onDelete, onRename }) => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
   const currentChannelId = useSelector(
     (state) => state.chat.currentChannelId,
-  );
-  const [showDropdown, setShowDropdown] = useState(false);
-  const dropdownRef = useRef(null);
+  )
+  const [showDropdown, setShowDropdown] = useState(false)
+  const dropdownRef = useRef(null)
 
-  const isActive = channel.id === currentChannelId;
-  const isEditable = channel.removable;
+  const isActive = channel.id === currentChannelId
+  const isEditable = channel.removable
 
   const handleChannelClick = () => {
-    dispatch(setCurrentChannel(channel.id));
-  };
+    dispatch(setCurrentChannel(channel.id))
+  }
 
   const toggleDropdown = (e) => {
-    e.stopPropagation();
-    setShowDropdown(!showDropdown);
-  };
+    e.stopPropagation()
+    setShowDropdown(!showDropdown)
+  }
 
   const handleDelete = (e) => {
-    e.stopPropagation();
+    e.stopPropagation()
     if (onDelete) {
-      onDelete(channel.id);
+      onDelete(channel.id)
     }
-    setShowDropdown(false);
-  };
+    setShowDropdown(false)
+  }
 
   const handleRename = (e) => {
-    e.stopPropagation();
+    e.stopPropagation()
 
     if (onRename) {
-      onRename(channel.id, channel.name);
+      onRename(channel.id, channel.name)
     }
 
-    setShowDropdown(false);
-  };
+    setShowDropdown(false)
+  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -49,15 +49,15 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
         dropdownRef.current &&
                 !dropdownRef.current.contains(event.target)
       ) {
-        setShowDropdown(false);
+        setShowDropdown(false)
       }
-    };
+    }
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   return (
     <div className="nav-item w-100">
@@ -72,7 +72,7 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
           aria-label={channel.name}
         >
           <span className="me-1" aria-hidden="true">
-                        #
+            #
           </span>
           {channel.name}
         </Button>
@@ -137,7 +137,7 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChannelItem;
+export default ChannelItem
