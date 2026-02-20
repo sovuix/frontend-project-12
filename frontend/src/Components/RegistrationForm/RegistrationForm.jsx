@@ -1,10 +1,10 @@
-import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../state/slices/authSlice";
-import {createRegistrationSchema} from "../../validationSchemas/authSchemas"
-import { useRef, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../state/slices/authSlice';
+import { createRegistrationSchema } from '../../validationSchemas/authSchemas';
+import { useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const RegistrationForm = ({ children }) => {
   const { t } = useTranslation();
@@ -17,9 +17,9 @@ const RegistrationForm = ({ children }) => {
   }, []);
 
   const registerUser = async (username, password) => {
-    const response = await fetch("/api/v1/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch('/api/v1/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
     });
 
@@ -32,31 +32,31 @@ const RegistrationForm = ({ children }) => {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      password: "",
-      confirmPassword: "",
+      username: '',
+      password: '',
+      confirmPassword: '',
     },
     validationSchema: createRegistrationSchema(t),
     onSubmit: async (values, { setSubmitting, setStatus }) => {
       try {
         const data = await registerUser(values.username, values.password);
 
-        localStorage.setItem("jwtToken", data.token);
+        localStorage.setItem('jwtToken', data.token);
         dispatch(
           setUser({
             username: data.username,
             token: data.token,
           }),
         );
-        localStorage.setItem("username", data.username);
+        localStorage.setItem('username', data.username);
 
-        navigate("/");
+        navigate('/');
       } catch (error) {
         setStatus({
-          error: t("reg.userExists"),
+          error: t('reg.userExists'),
           
         });
-        console.error("Registration failed:", error);
+        console.error('Registration failed:', error);
       } finally {
         setSubmitting(false);
       }
@@ -72,15 +72,15 @@ const RegistrationForm = ({ children }) => {
 
   return (
     <form className="w-50" onSubmit={formik.handleSubmit} noValidate>
-      <h1 className="text-center mb-4">{t("auth.register")}</h1>
+      <h1 className="text-center mb-4">{t('auth.register')}</h1>
       <div className="form-floating mb-3">
         <input
           ref={usernameRef}
           className={`form-control ${
             (formik.touched.username && formik.errors.username) ||
             formik.status?.error
-              ? "is-invalid"
-              : ""
+              ? 'is-invalid'
+              : ''
           }`}
           id="username"
           name="username"
@@ -89,9 +89,9 @@ const RegistrationForm = ({ children }) => {
           onBlur={formik.handleBlur}
           value={formik.values.username}
           required
-          placeholder= {t("reg.usernameCondition")}
+          placeholder= {t('reg.usernameCondition')}
         />
-        <label htmlFor="username">{t("reg.username")}</label>
+        <label htmlFor="username">{t('reg.username')}</label>
         {formik.touched.username && formik.errors.username && (
           <div className="invalid-tooltip">{formik.errors.username}</div>
         )}
@@ -102,8 +102,8 @@ const RegistrationForm = ({ children }) => {
           className={`form-control ${
             (formik.touched.password && formik.errors.password) ||
             formik.status?.error
-              ? "is-invalid"
-              : ""
+              ? 'is-invalid'
+              : ''
           }`}
           id="password"
           name="password"
@@ -112,9 +112,9 @@ const RegistrationForm = ({ children }) => {
           onBlur={formik.handleBlur}
           value={formik.values.password}
           required
-          placeholder={t("reg.passCondition")}
+          placeholder={t('reg.passCondition')}
         />
-        <label htmlFor="password">{t("reg.pass")}</label>
+        <label htmlFor="password">{t('reg.pass')}</label>
         <div placement="right" className="invalid-feedback"></div>
         {formik.touched.password && formik.errors.password && (
           <div className="invalid-tooltip">{formik.errors.password}</div>
@@ -126,8 +126,8 @@ const RegistrationForm = ({ children }) => {
           className={`form-control ${
             (formik.touched.confirmPassword && formik.errors.confirmPassword) ||
             formik.status?.error
-              ? "is-invalid"
-              : ""
+              ? 'is-invalid'
+              : ''
           }`}
           id="confirmPassword"
           name="confirmPassword"
@@ -136,9 +136,9 @@ const RegistrationForm = ({ children }) => {
           onBlur={formik.handleBlur}
           value={formik.values.confirmPassword}
           required
-          placeholder={t("reg.confPass")}
+          placeholder={t('reg.confPass')}
         />
-        <label htmlFor="confirmPassword">{t("reg.confPass")}</label>
+        <label htmlFor="confirmPassword">{t('reg.confPass')}</label>
         {formik.touched.confirmPassword && formik.errors.confirmPassword && (
           <div className="invalid-tooltip">{formik.errors.confirmPassword}</div>
         )}

@@ -1,12 +1,12 @@
-import React, { useState} from "react";
-import { useSelector } from "react-redux";
-import Button from "../../Button/Button";
-import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import Button from '../../Button/Button';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import filter from '../../../services/profanity';
 
 const MessageForm = () => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const currentChannelId = useSelector((state) => state.chat.currentChannelId);
   const username = useSelector((state) => state.auth.username);
   const { t } = useTranslation();
@@ -19,13 +19,13 @@ const MessageForm = () => {
     if (isDisabled) return;
 
     try {
-      const token = localStorage.getItem("jwtToken");
+      const token = localStorage.getItem('jwtToken');
       const cleanedText = filter.clean(text.trim());
-      const response = await fetch("/api/v1/messages", {
-        method: "POST",
+      const response = await fetch('/api/v1/messages', {
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           channelId: currentChannelId,
@@ -35,12 +35,12 @@ const MessageForm = () => {
       });
 
       if (response.ok) {
-        setText("");
+        setText('');
       } else {
-        notifyError(t("chat.errorSendingMessage"));
+        notifyError(t('chat.errorSendingMessage'));
       }
     } catch {
-      notifyError(t("common.connectionError"));
+      notifyError(t('common.connectionError'));
     }
   };
 
@@ -51,7 +51,7 @@ const MessageForm = () => {
           <input
             type="text"
             className="form-border-0 p-0 ps-2 form-control"
-            placeholder={t("chat.typeMessage")}
+            placeholder={t('chat.typeMessage')}
             value={text}
             onChange={(e) => setText(e.target.value)}
             disabled={!currentChannelId}
@@ -61,7 +61,7 @@ const MessageForm = () => {
             type="submit"
             className="btn btn-group-vertical-primary"
             disabled={isDisabled}
-            text={t("chat.send")}
+            text={t('chat.send')}
           />
         </div>
       </form>

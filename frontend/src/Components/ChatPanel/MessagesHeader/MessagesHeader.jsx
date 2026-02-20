@@ -1,7 +1,7 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { selectMessagesCountByChannelId } from "../../../state/slices/messagesSlice";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectMessagesCountByChannelId } from '../../../state/slices/messagesSlice';
+import { useTranslation } from 'react-i18next';
 
 const MessagesHeader = () => {
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ const MessagesHeader = () => {
         <p className="m-0">
           <b># {currentChannel.name}</b>
         </p>
-        <span className="text-muted">{t("msg", { count: countMessages })}</span>
+        <span className="text-muted">{t('msg', { count: countMessages })}</span>
       </div>
     )
   );

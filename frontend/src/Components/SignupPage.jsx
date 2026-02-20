@@ -5,33 +5,33 @@ import Card from './Card/Card';
 import Logo from './CardLogo/CardLogo';
 import Header from './Header/Header';
 import RegistrationForm from './RegistrationForm/RegistrationForm';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const LoginPage = () => {
-    const {t} = useTranslation();
-    return (
-        <div className="h-100 bg-light">
-            <div className="h-100" id="chat">
-                <div className="d-flex flex-column h-100">
-                    <Header />
-                    <Container>
-                        <Card>
-                            <CardBody variant="signUp">
-                                <Logo variant="signUp" />
-                                <RegistrationForm>
-                                    <Button
-                                        text={t("reg.registration")}
-                                        className="w-100 btn btn-outline-primary"
-                                        type="submit"
-                                    />
-                                </RegistrationForm>
-                            </CardBody>
-                        </Card>
-                    </Container>
-                </div>
-            </div>
+  const { t } = useTranslation();
+  return (
+    <div className="h-100 bg-light">
+      <div className="h-100" id="chat">
+        <div className="d-flex flex-column h-100">
+          <Header />
+          <Container>
+            <Card>
+              <CardBody variant="signUp">
+                <Logo variant="signUp" />
+                <RegistrationForm>
+                  <Button
+                    text={t('reg.registration')}
+                    className="w-100 btn btn-outline-primary"
+                    type="submit"
+                  />
+                </RegistrationForm>
+              </CardBody>
+            </Card>
+          </Container>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default LoginPage;

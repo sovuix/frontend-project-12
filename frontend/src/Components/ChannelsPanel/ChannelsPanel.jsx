@@ -1,20 +1,20 @@
-import React, { useState} from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Button from "../Button/Button";
-import ChannelItem from "../ChannelItem/ChannelItem";
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Button from '../Button/Button';
+import ChannelItem from '../ChannelItem/ChannelItem';
 import {
   removeChannel,
   renameChannel,
   setCurrentChannel,
-} from "../../state/slices/channelsSlice";
+} from '../../state/slices/channelsSlice';
 import {
   createChannel,
   deleteChannel,
   renameChannel as renameChannelAPI,
-} from "../../services/channelService";
-import ModalWindow from "../ModalWindow/ModalWindow";
-import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
+} from '../../services/channelService';
+import ModalWindow from '../ModalWindow/ModalWindow';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import filter from '../../services/profanity';
 
 const ChannelsPanel = () => {
@@ -27,82 +27,82 @@ const ChannelsPanel = () => {
   const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState("add");
+  const [modalType, setModalType] = useState('add');
   const [selectedChannel, setSelectedChannel] = useState(null);
 
 
   const handleAddChannel = async (channelName) => {
-  try {
-    if (!navigator.onLine) {
-      notifyError(t("common.connectionError"));
-      return;
-    }
+    try {
+      if (!navigator.onLine) {
+        notifyError(t('common.connectionError'));
+        return;
+      }
 
-    const cleanedChannelName = filter.clean(channelName.trim());
-    const newChannel = await createChannel(cleanedChannelName);
-    dispatch(setCurrentChannel(newChannel.id));
-    setShowModal(false);
-    notify(t("channel.channelCreated"));
-  } catch {
-    notifyError(t("channel.errorCreated"));
-  }
-};
+      const cleanedChannelName = filter.clean(channelName.trim());
+      const newChannel = await createChannel(cleanedChannelName);
+      dispatch(setCurrentChannel(newChannel.id));
+      setShowModal(false);
+      notify(t('channel.channelCreated'));
+    } catch {
+      notifyError(t('channel.errorCreated'));
+    }
+  };
 
 
   const handleDeleteChannel = async (channelId) => {
-  try {
-    if (!navigator.onLine) {
-      notifyError(t("common.connectionError"));
-      return;
-    }
-
-    await deleteChannel(channelId);
-    dispatch(removeChannel(channelId));
-
-    if (currentChannelId === channelId) {
-      const remainingChannels = channels.filter((ch) => ch.id !== channelId);
-      if (remainingChannels.length > 0) {
-        dispatch(setCurrentChannel(remainingChannels[0].id));
+    try {
+      if (!navigator.onLine) {
+        notifyError(t('common.connectionError'));
+        return;
       }
+
+      await deleteChannel(channelId);
+      dispatch(removeChannel(channelId));
+
+      if (currentChannelId === channelId) {
+        const remainingChannels = channels.filter((ch) => ch.id !== channelId);
+        if (remainingChannels.length > 0) {
+          dispatch(setCurrentChannel(remainingChannels[0].id));
+        }
+      }
+
+      setShowModal(false);
+      notify(t('channel.channelDeleted'));
+    } catch {
+      notifyError(t('channel.errorDeleted'));
     }
+  };
 
-    setShowModal(false);
-    notify(t("channel.channelDeleted"));
-  } catch {
-    notifyError(t("channel.errorDeleted"));
-  }
-};
+  const handleRenameChannel = async (channelId, newName) => {
+    try {
+      if (!navigator.onLine) {
+        notifyError(t('common.connectionError'));
+        return;
+      }
 
-const handleRenameChannel = async (channelId, newName) => {
-  try {
-    if (!navigator.onLine) {
-      notifyError(t("common.connectionError"));
-      return;
+      await renameChannelAPI(channelId, newName);
+      dispatch(renameChannel({ id: channelId, name: newName }));
+      setShowModal(false);
+      notify(t('channel.channelRenamed'));
+    } catch {
+      notifyError(t('channel.errorRenamed'));
     }
-
-    await renameChannelAPI(channelId, newName);
-    dispatch(renameChannel({ id: channelId, name: newName }));
-    setShowModal(false);
-    notify(t("channel.channelRenamed"));
-  } catch {
-    notifyError(t("channel.errorRenamed"));
-  }
-};
+  };
 
   const handleOpenAddModal = () => {
-    setModalType("add");
+    setModalType('add');
     setSelectedChannel(null);
     setShowModal(true);
   };
 
   const handleOpenRenameModal = (channelId, channelName) => {
-    setModalType("rename");
+    setModalType('rename');
     setSelectedChannel({ id: channelId, name: channelName });
     setShowModal(true);
   };
 
   const handleOpenDeleteModal = (channelId, channelName) => {
-    setModalType("remove");
+    setModalType('remove');
     setSelectedChannel({ id: channelId, name: channelName });
     setShowModal(true);
   };
@@ -116,7 +116,7 @@ const handleRenameChannel = async (channelId, newName) => {
     <>
       <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
         <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-          <b>{t("common.channels")}</b>
+          <b>{t('common.channels')}</b>
 
           <Button
             onClick={handleOpenAddModal}
@@ -134,7 +134,7 @@ const handleRenameChannel = async (channelId, newName) => {
               <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
               {/* <span>+</span> */}
             </svg>
-              <span className='visually-hidden'>+</span>
+            <span className='visually-hidden'>+</span>
           </Button>
         </div>
 
@@ -157,14 +157,14 @@ const handleRenameChannel = async (channelId, newName) => {
       {showModal && (
         <ModalWindow
           type={modalType}
-          currentName={selectedChannel?.name || ""}
+          currentName={selectedChannel?.name || ''}
           onClose={handleCloseModal}
           onSubmit={
-            modalType === "add"
+            modalType === 'add'
               ? handleAddChannel
-              : modalType === "rename"
+              : modalType === 'rename'
                 ? 
-                  (newName) => handleRenameChannel(selectedChannel.id, newName)
+                (newName) => handleRenameChannel(selectedChannel.id, newName)
                 : () => handleDeleteChannel(selectedChannel.id)
           }
         />

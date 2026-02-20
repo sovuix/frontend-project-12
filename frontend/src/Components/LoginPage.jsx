@@ -7,10 +7,10 @@ import Logo from './CardLogo/CardLogo';
 import CardForm from './CardForm/CardForm';
 import Header from './Header/Header';
 import CardFooter from './CardFooter/CardFooter';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const LoginPage = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <div className="h-100 bg-light">
       <div className="h-100" id="chat">
@@ -23,7 +23,7 @@ const LoginPage = () => {
                 <CardForm>
                   <LoginForm>
                     <Button
-                      text={t("auth.login")}
+                      text={t('auth.login')}
                       className="w-100 mb-3 btn btn-outline-primary"
                       type='submit'
                     />
@@ -37,6 +37,6 @@ const LoginPage = () => {
       </div>
     </div>
   );
-}
+};
 
 export default LoginPage;

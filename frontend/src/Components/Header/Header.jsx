@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const Header = ({ children }) => {
   const { t } = useTranslation();
@@ -14,7 +14,7 @@ const Header = ({ children }) => {
     <nav className="shadow-sm navbar navbar-expand-lg navbar-lg navbar-light bg-white">
       <div className="container">
         <a className="navbar-brand" href="/" onClick={handleLogoClick}>
-          {t("common.chatname")}
+          {t('common.chatname')}
         </a>
         {children}
       </div>

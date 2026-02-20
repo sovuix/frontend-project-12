@@ -1,6 +1,6 @@
-import filter from "leo-profanity";
+import filter from 'leo-profanity';
 
-filter.loadDictionary("ru");
+filter.loadDictionary('ru');
 
 const englishProfanity = ['boobs', 'fuck', 'shit', 'ass', 'damn', 'cunt', 'dick', 'porn'];
 

@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import cn from 'classnames';
 const Logo = ({ className, variant = 'login' }) => {
   const variants = {
     login: {
