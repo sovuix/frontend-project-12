@@ -7,9 +7,10 @@
     "chatname": "Hexlet Chat",
     "pageNoFind": "Страница не найдена",
     "canMove":"Но вы можете перейти",
-    "mainPage":"на главную страницу сайта",
+    "mainPage":" на главную страницу сайта",
     "connectionError": "Ошибка интернет-соединения",
-    "serverError": "Ошибка сервера"
+    "serverError": "Ошибка сервера",
+    "notResponding": "Сервер не отвечает"
   },
   "chat": {
     "send": "Отправить",
