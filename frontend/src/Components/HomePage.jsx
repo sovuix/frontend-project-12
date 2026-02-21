@@ -67,8 +67,8 @@ const HomePage = () => {
     }
   }, [dispatch])
 
-  const { channels, error, loading } = useSelector((state) => state.chat)
-  const messagesIds = useSelector((state) => state.messages.ids)
+  const { channels, error, loading } = useSelector(state => state.chat)
+  const messagesIds = useSelector(state => state.messages.ids)
 
   useEffect(() => {
     const fetchChannels = async () => {

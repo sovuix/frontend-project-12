@@ -8,7 +8,7 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const currentChannelId = useSelector(
-    (state) => state.chat.currentChannelId,
+    state => state.chat.currentChannelId,
   )
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef(null)
@@ -102,7 +102,7 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
               transform: 'translate(0px, 40px)',
               zIndex: 1000,
             }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
             {/* <button
               className="dropdown-item"

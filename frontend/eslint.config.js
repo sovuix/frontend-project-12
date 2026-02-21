@@ -36,7 +36,7 @@ export default defineConfig([
       '@stylistic/comma-dangle': ['error', 'always-multiline'],
       '@stylistic/no-trailing-spaces': 'error',
       '@stylistic/no-multi-spaces': 'error',
-      '@stylistic/arrow-parens': ['error', 'always'],
+      '@stylistic/arrow-parens': ['error', 'as-needed', { requireForBlockBody: true }],
       '@stylistic/operator-linebreak': ['error', 'before'],
       '@stylistic/brace-style': ['error', '1tbs'],
       '@stylistic/jsx-quotes': ['error', 'prefer-double'],
