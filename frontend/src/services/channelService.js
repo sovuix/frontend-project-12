@@ -1,4 +1,4 @@
-export const createChannel = async (name) => {
+export const createChannel = async name => {
   const token = localStorage.getItem('jwtToken')
 
   const response = await fetch('/api/v1/channels', {
@@ -20,7 +20,7 @@ export const createChannel = async (name) => {
   return JSON.parse(text)
 }
 
-export const deleteChannel = async (id) => {
+export const deleteChannel = async id => {
   const token = localStorage.getItem('jwtToken')
   const response = await fetch(`/api/v1/channels/${id}`, {
     method: 'DELETE',
@@ -30,11 +30,11 @@ export const deleteChannel = async (id) => {
     },
     body: JSON.stringify({}),
   })
-  
+
   if (!response.ok) {
     throw new Error('Ошибка при удалении канала')
   }
-  
+
   return response.json()
 }
 
@@ -48,10 +48,10 @@ export const renameChannel = async (id, name) => {
     },
     body: JSON.stringify({ name }),
   })
-  
+
   if (!response.ok) {
     throw new Error('Ошибка при переименовании канала')
   }
-  
+
   return response.json()
 }

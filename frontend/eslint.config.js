@@ -3,7 +3,7 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
-import stylistic from '@stylistic/eslint-plugin' 
+import stylistic from '@stylistic/eslint-plugin'
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -28,8 +28,8 @@ export default defineConfig([
       '@stylistic': stylistic,
     },
     rules: {
-'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-      
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+
       '@stylistic/semi': ['error', 'never'],
       '@stylistic/quotes': ['error', 'single'],
       '@stylistic/indent': ['error', 2],
@@ -40,11 +40,11 @@ export default defineConfig([
       '@stylistic/operator-linebreak': ['error', 'before'],
       '@stylistic/brace-style': ['error', '1tbs'],
       '@stylistic/jsx-quotes': ['error', 'prefer-double'],
-      '@stylistic/jsx-tag-spacing': ['error', { 
+      '@stylistic/jsx-tag-spacing': ['error', {
         closingSlash: 'never',
         beforeSelfClosing: 'always',
         afterOpening: 'never',
-        beforeClosing: 'never'
+        beforeClosing: 'never',
       }],
       '@stylistic/jsx-one-expression-per-line': ['error', { allow: 'single-line' }],
       '@stylistic/jsx-curly-brace-presence': ['error', { props: 'never', children: 'never' }],
@@ -56,10 +56,10 @@ export default defineConfig([
       '@stylistic/eol-last': ['error', 'always'],
       '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
       '@stylistic/indent-binary-ops': ['error', 2],
-      
-      'semi': 'off',
-      'quotes': 'off',
-      'indent': 'off',
+
+      semi: 'off',
+      quotes: 'off',
+      indent: 'off',
       'comma-dangle': 'off',
       'arrow-parens': 'off',
       'operator-linebreak': 'off',
@@ -70,6 +70,6 @@ export default defineConfig([
       'no-trailing-spaces': 'off',
       'no-multi-spaces': 'off',
       'quote-props': 'off',
-    }
+    },
   },
 ])

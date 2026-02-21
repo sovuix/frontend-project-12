@@ -8,7 +8,7 @@ const store = configureStore({
     chat: channelsReducer,
     messages: messagesReducer,
     auth: authReducer,
-  }
+  },
 })
 
 export default store

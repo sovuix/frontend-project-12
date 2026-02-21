@@ -5,8 +5,8 @@ import { createModalSchema } from '../../validationSchemas/authSchemas'
 import { useTranslation } from 'react-i18next'
 
 const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
-  const channels = useSelector((state) => state.chat.channels)
-  const existingNames = channels.map((channel) =>
+  const channels = useSelector(state => state.chat.channels)
+  const existingNames = channels.map(channel =>
     channel.name.toLowerCase().trim(),
   )
   const { t } = useTranslation()
@@ -77,7 +77,8 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
                 className="btn btn-close"
                 onClick={handleCancel}
                 disabled={formik.isSubmitting}
-              ></button>
+              >
+              </button>
             </div>
             <div className="modal-body">
               {type === 'remove' ? (
@@ -117,8 +118,8 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
                       name="channelname"
                       id="channelname"
                       className={`mb-2 form-control ${
-                        formik.errors.channelname &&
-                                                formik.touched.channelname
+                        formik.errors.channelname
+                        && formik.touched.channelname
                           ? 'is-invalid'
                           : ''
                       }`}
@@ -129,7 +130,7 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
                       // placeholder="Имя канала"
                       // aria-label={t("channel.channelname")}
                       autoFocus
-                      onFocus={(e) => e.target.select()}
+                      onFocus={e => e.target.select()}
                       disabled={formik.isSubmitting}
                     />
 
@@ -146,8 +147,8 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
                       </div>
                     )} */}
                     <div className="invalid-feedback">
-                      {formik.errors.channelname &&
-                                            formik.touched.channelname
+                      {formik.errors.channelname
+                        && formik.touched.channelname
                         ? formik.errors.channelname
                         : ''}
                     </div>

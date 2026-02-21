@@ -14,7 +14,7 @@ const channelsSlice = createSlice({
       state.loading = false
       state.error = null
     },
-    setLoading: (state) => {
+    setLoading: state => {
       state.loading = true
       state.error = null
     },
@@ -31,7 +31,7 @@ const channelsSlice = createSlice({
     removeChannel: (state, action) => {
       const channelId = action.payload
       state.channels = state.channels.filter(
-        (channel) => channel.id !== channelId
+        channel => channel.id !== channelId,
       )
       if (state.currentChannelId === channelId) {
         state.currentChannelId = state.channels[0]?.id || null
@@ -39,7 +39,7 @@ const channelsSlice = createSlice({
     },
     renameChannel: (state, action) => {
       const { id, name } = action.payload
-      const channel = state.channels.find((ch) => ch.id === id)
+      const channel = state.channels.find(ch => ch.id === id)
       if (channel) {
         channel.name = name
       }

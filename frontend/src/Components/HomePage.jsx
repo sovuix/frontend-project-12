@@ -37,12 +37,12 @@ const HomePage = () => {
   }, [navigate, token])
 
   useEffect(() => {
-    const handleNewMessage = (message) => {
+    const handleNewMessage = message => {
       console.log('Получено через WebSocket:', message)
       dispatch(addMessage(message))
     }
 
-    const handleNewChannel = (channel) => {
+    const handleNewChannel = channel => {
       dispatch(addChannel(channel))
     }
 
@@ -67,16 +67,15 @@ const HomePage = () => {
     }
   }, [dispatch])
 
-  const { channels, error, loading } = useSelector((state) => state.chat)
-  const messagesIds = useSelector((state) => state.messages.ids)
-
+  const { channels, error, loading } = useSelector(state => state.chat)
+  const messagesIds = useSelector(state => state.messages.ids)
 
   useEffect(() => {
     const fetchChannels = async () => {
       try {
         dispatch(setLoading())
         const token = localStorage.getItem('jwtToken')
-                
+
         if (!token) {
           return
         }
@@ -115,7 +114,7 @@ const HomePage = () => {
     const fetchMessages = async () => {
       try {
         const token = localStorage.getItem('jwtToken')
-                
+
         if (!token) {
           return
         }
@@ -158,7 +157,7 @@ const HomePage = () => {
   }, [dispatch])
 
   if (!token) {
-    return null 
+    return null
   }
 
   if (loading && channels.length === 0) {
@@ -182,13 +181,13 @@ const HomePage = () => {
             {localStorage.getItem('jwtToken') && (
               <Button
                 type="button"
-                className={'btn btn-primary'}
+                className="btn btn-primary"
                 text={t('auth.logout')}
                 onClick={clearToken}
               />
             )}
           </Header>
-          <ToastContainer/>
+          <ToastContainer />
           <div className="container h-100 my-4 overflow-hidden rounded shadow">
             <div className="row h-100 bg-white flex-md-row">
               <ChannelsPanel />

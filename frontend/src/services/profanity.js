@@ -6,5 +6,4 @@ const englishProfanity = ['boobs', 'fuck', 'shit', 'ass', 'damn', 'cunt', 'dick'
 
 filter.add(englishProfanity)
 
-
 export default filter

@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next'
 
 const MessagesHeader = () => {
   const { t } = useTranslation()
-  const currentChannelId = useSelector((state) => state.chat.currentChannelId)
-  const channels = useSelector((state) => state.chat.channels)
-  const currentChannel = channels.find((ch) => ch.id === currentChannelId)
+  const currentChannelId = useSelector(state => state.chat.currentChannelId)
+  const channels = useSelector(state => state.chat.channels)
+  const currentChannel = channels.find(ch => ch.id === currentChannelId)
 
-  const countMessages = useSelector((state) =>
+  const countMessages = useSelector(state =>
     selectMessagesCountByChannelId(state, currentChannelId),
   )
 

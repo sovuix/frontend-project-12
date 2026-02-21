@@ -54,7 +54,7 @@ const RegistrationForm = ({ children }) => {
       } catch (error) {
         setStatus({
           error: t('reg.userExists'),
-          
+
         })
         console.error('Registration failed:', error)
       } finally {
@@ -63,7 +63,7 @@ const RegistrationForm = ({ children }) => {
     },
   })
 
-  const handleUsernameChange = (e) => {
+  const handleUsernameChange = e => {
     formik.handleChange(e)
     if (formik.status?.error) {
       formik.setStatus(null)
@@ -77,8 +77,8 @@ const RegistrationForm = ({ children }) => {
         <input
           ref={usernameRef}
           className={`form-control ${
-            (formik.touched.username && formik.errors.username) ||
-            formik.status?.error
+            (formik.touched.username && formik.errors.username)
+            || formik.status?.error
               ? 'is-invalid'
               : ''
           }`}
@@ -89,7 +89,7 @@ const RegistrationForm = ({ children }) => {
           onBlur={formik.handleBlur}
           value={formik.values.username}
           required
-          placeholder= {t('reg.usernameCondition')}
+          placeholder={t('reg.usernameCondition')}
         />
         <label htmlFor="username">{t('reg.username')}</label>
         {formik.touched.username && formik.errors.username && (
@@ -100,8 +100,8 @@ const RegistrationForm = ({ children }) => {
       <div className="form-floating mb-3">
         <input
           className={`form-control ${
-            (formik.touched.password && formik.errors.password) ||
-            formik.status?.error
+            (formik.touched.password && formik.errors.password)
+            || formik.status?.error
               ? 'is-invalid'
               : ''
           }`}
@@ -124,8 +124,8 @@ const RegistrationForm = ({ children }) => {
       <div className="form-floating mb-4">
         <input
           className={`form-control ${
-            (formik.touched.confirmPassword && formik.errors.confirmPassword) ||
-            formik.status?.error
+            (formik.touched.confirmPassword && formik.errors.confirmPassword)
+            || formik.status?.error
               ? 'is-invalid'
               : ''
           }`}

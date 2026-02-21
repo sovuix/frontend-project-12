@@ -18,14 +18,14 @@ const LoginPage = () => {
           <Header />
           <Container>
             <Card>
-              <CardBody variant='login'>
+              <CardBody variant="login">
                 <Logo />
                 <CardForm>
                   <LoginForm>
                     <Button
                       text={t('auth.login')}
                       className="w-100 mb-3 btn btn-outline-primary"
-                      type='submit'
+                      type="submit"
                     />
                   </LoginForm>
                 </CardForm>

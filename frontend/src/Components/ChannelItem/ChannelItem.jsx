@@ -8,7 +8,7 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const currentChannelId = useSelector(
-    (state) => state.chat.currentChannelId,
+    state => state.chat.currentChannelId,
   )
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef(null)
@@ -20,12 +20,12 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
     dispatch(setCurrentChannel(channel.id))
   }
 
-  const toggleDropdown = (e) => {
+  const toggleDropdown = e => {
     e.stopPropagation()
     setShowDropdown(!showDropdown)
   }
 
-  const handleDelete = (e) => {
+  const handleDelete = e => {
     e.stopPropagation()
     if (onDelete) {
       onDelete(channel.id)
@@ -33,7 +33,7 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
     setShowDropdown(false)
   }
 
-  const handleRename = (e) => {
+  const handleRename = e => {
     e.stopPropagation()
 
     if (onRename) {
@@ -44,10 +44,10 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
   }
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (
-        dropdownRef.current &&
-                !dropdownRef.current.contains(event.target)
+        dropdownRef.current
+        && !dropdownRef.current.contains(event.target)
       ) {
         setShowDropdown(false)
       }
@@ -102,7 +102,7 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
               transform: 'translate(0px, 40px)',
               zIndex: 1000,
             }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
             {/* <button
               className="dropdown-item"
