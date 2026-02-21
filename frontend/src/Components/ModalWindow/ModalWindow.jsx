@@ -185,6 +185,171 @@
 
 // export default ModalWindow
 
+// import { useFormik } from 'formik'
+// import { useSelector } from 'react-redux'
+// import { createModalSchema } from '../../validationSchemas/authSchemas'
+// import { useTranslation } from 'react-i18next'
+
+// const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
+//   const channels = useSelector(state => state.chat.channels)
+//   const existingNames = channels.map(channel =>
+//     channel.name.toLowerCase().trim(),
+//   )
+//   const { t } = useTranslation()
+
+//   const formik = useFormik({
+//     initialValues: {
+//       channelname: type === 'rename' ? currentName : '',
+//     },
+//     validationSchema:
+//       type !== 'remove' ? createModalSchema(t, existingNames) : null,
+//     validateOnChange: false,
+//     validateOnBlur: false,
+//     onSubmit: (values, { resetForm, setSubmitting }) => {
+//       if (type === 'remove') {
+//         onSubmit()
+//       }
+//       else {
+//         onSubmit(values.channelname.trim())
+//       }
+//       resetForm()
+//       setSubmitting(false)
+//       onClose()
+//     },
+//   })
+
+//   const handleCancel = () => {
+//     formik.resetForm()
+//     onClose()
+//   }
+
+//   const isSubmitDisabled = type === 'remove' ? false : formik.isSubmitting
+
+//   const buttonType = {
+//     add: t('channel.send'),
+//     remove: t('channel.delete'),
+//     rename: t('channel.send'),
+//   }
+
+//   const modalTitle = {
+//     add: t('channel.addChannel'),
+//     remove: t('channel.deleteChannel'),
+//     rename: t('channel.renameChannel'),
+//   }
+
+//   return (
+//     <>
+//       <div className="fade modal-backdrop show"></div>
+//       <div
+//         role="dialog"
+//         aria-modal="true"
+//         className="fade modal show"
+//         tabIndex="-1"
+//         style={{ display: 'block' }}
+//       >
+//         <div className="modal-dialog modal-dialog-centered">
+//           <div className="modal-content">
+//             <div className="modal-header">
+//               <div className="modal-title h4">
+//                 {modalTitle[type]}
+//               </div>
+//               <button
+//                 type="button"
+//                 aria-label="Close"
+//                 className="btn btn-close"
+//                 onClick={handleCancel}
+//                 disabled={formik.isSubmitting}
+//               />
+//             </div>
+//             <div className="modal-body">
+//               {type === 'remove'
+//                 ? (
+//                   <>
+//                     <p className="mb-4">
+//                       {t('channel.confirm')}
+//                     </p>
+//                     <div className="d-flex justify-content-end">
+//                       <button
+//                         type="button"
+//                         className="me-2 btn btn-secondary"
+//                         onClick={handleCancel}
+//                         disabled={formik.isSubmitting}
+//                       >
+//                         {t('channel.cancel')}
+//                       </button>
+//                       <button
+//                         type="button"
+//                         className="btn btn-danger"
+//                         onClick={() => {
+//                           onSubmit()
+//                           onClose()
+//                         }}
+//                         disabled={formik.isSubmitting}
+//                       >
+//                         {buttonType[type]}
+//                       </button>
+//                     </div>
+//                   </>
+//                 )
+//                 : (
+//                   <form onSubmit={formik.handleSubmit}>
+//                     <div>
+//                       <input
+//                         name="channelname"
+//                         id="channelname"
+//                         className={`mb-2 form-control ${
+//                           formik.errors.channelname && formik.touched.channelname
+//                             ? 'is-invalid'
+//                             : ''
+//                         }`}
+//                         value={formik.values.channelname}
+//                         onChange={formik.handleChange}
+//                         onBlur={formik.handleBlur}
+//                         autoFocus
+//                         onFocus={e => e.target.select()}
+//                         disabled={formik.isSubmitting}
+//                       />
+//                       <label
+//                         htmlFor="channelname"
+//                         className="visually-hidden"
+//                       >
+//                         {t('channel.channelname')}
+//                       </label>
+//                       <div className="invalid-feedback">
+//                         {formik.errors.channelname && formik.touched.channelname
+//                           ? formik.errors.channelname
+//                           : ''}
+//                       </div>
+//                       <div className="d-flex justify-content-end">
+//                         <button
+//                           type="button"
+//                           className="me-2 btn btn-secondary"
+//                           onClick={handleCancel}
+//                           disabled={formik.isSubmitting}
+//                         >
+//                           {t('channel.cancel')}
+//                         </button>
+//                         <button
+//                           type="submit"
+//                           className="btn btn-primary"
+//                           disabled={isSubmitDisabled}
+//                         >
+//                           {buttonType[type]}
+//                         </button>
+//                       </div>
+//                     </div>
+//                   </form>
+//                 )}
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   )
+// }
+
+// export default ModalWindow
+
 import { useFormik } from 'formik'
 import { useSelector } from 'react-redux'
 import { createModalSchema } from '../../validationSchemas/authSchemas'
@@ -223,7 +388,7 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
     onClose()
   }
 
-  const isSubmitDisabled = type === 'remove' ? false : formik.isSubmitting
+  const isSubmitDisabled = type !== 'remove' && formik.isSubmitting
 
   const buttonType = {
     add: t('channel.send'),
@@ -235,6 +400,81 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
     add: t('channel.addChannel'),
     remove: t('channel.deleteChannel'),
     rename: t('channel.renameChannel'),
+  }
+
+  const renderModalBody = () => {
+    if (type === 'remove') {
+      return (
+        <>
+          <p className="mb-4">{t('channel.confirm')}</p>
+          <div className="d-flex justify-content-end">
+            <button
+              type="button"
+              className="me-2 btn btn-secondary"
+              onClick={handleCancel}
+              disabled={formik.isSubmitting}
+            >
+              {t('channel.cancel')}
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={() => {
+                onSubmit()
+                onClose()
+              }}
+              disabled={formik.isSubmitting}
+            >
+              {buttonType[type]}
+            </button>
+          </div>
+        </>
+      )
+    }
+
+    // Для add и rename
+    return (
+      <form onSubmit={formik.handleSubmit}>
+        <div>
+          <input
+            name="channelname"
+            id="channelname"
+            className={`mb-2 form-control ${
+              formik.errors.channelname && formik.touched.channelname
+                ? 'is-invalid'
+                : ''
+            }`}
+            value={formik.values.channelname}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            autoFocus
+            onFocus={e => e.target.select()}
+            disabled={formik.isSubmitting}
+          />
+          <label htmlFor="channelname" className="visually-hidden">
+            {t('channel.channelname')}
+          </label>
+          <div className="invalid-feedback">
+            {formik.errors.channelname && formik.touched.channelname
+              ? formik.errors.channelname
+              : ''}
+          </div>
+          <div className="d-flex justify-content-end">
+            <button
+              type="button"
+              className="me-2 btn btn-secondary"
+              onClick={handleCancel}
+              disabled={formik.isSubmitting}
+            >
+              {t('channel.cancel')}
+            </button>
+            <button type="submit" className="btn btn-primary" disabled={isSubmitDisabled}>
+              {buttonType[type]}
+            </button>
+          </div>
+        </div>
+      </form>
+    )
   }
 
   return (
@@ -250,9 +490,7 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <div className="modal-title h4">
-                {modalTitle[type]}
-              </div>
+              <div className="modal-title h4">{modalTitle[type]}</div>
               <button
                 type="button"
                 aria-label="Close"
@@ -261,86 +499,7 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
                 disabled={formik.isSubmitting}
               />
             </div>
-            <div className="modal-body">
-              {type === 'remove'
-                ? (
-                  <>
-                    <p className="mb-4">
-                      {t('channel.confirm')}
-                    </p>
-                    <div className="d-flex justify-content-end">
-                      <button
-                        type="button"
-                        className="me-2 btn btn-secondary"
-                        onClick={handleCancel}
-                        disabled={formik.isSubmitting}
-                      >
-                        {t('channel.cancel')}
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={() => {
-                          onSubmit()
-                          onClose()
-                        }}
-                        disabled={formik.isSubmitting}
-                      >
-                        {buttonType[type]}
-                      </button>
-                    </div>
-                  </>
-                )
-                : (
-                  <form onSubmit={formik.handleSubmit}>
-                    <div>
-                      <input
-                        name="channelname"
-                        id="channelname"
-                        className={`mb-2 form-control ${
-                          formik.errors.channelname && formik.touched.channelname
-                            ? 'is-invalid'
-                            : ''
-                        }`}
-                        value={formik.values.channelname}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        autoFocus
-                        onFocus={e => e.target.select()}
-                        disabled={formik.isSubmitting}
-                      />
-                      <label
-                        htmlFor="channelname"
-                        className="visually-hidden"
-                      >
-                        {t('channel.channelname')}
-                      </label>
-                      <div className="invalid-feedback">
-                        {formik.errors.channelname && formik.touched.channelname
-                          ? formik.errors.channelname
-                          : ''}
-                      </div>
-                      <div className="d-flex justify-content-end">
-                        <button
-                          type="button"
-                          className="me-2 btn btn-secondary"
-                          onClick={handleCancel}
-                          disabled={formik.isSubmitting}
-                        >
-                          {t('channel.cancel')}
-                        </button>
-                        <button
-                          type="submit"
-                          className="btn btn-primary"
-                          disabled={isSubmitDisabled}
-                        >
-                          {buttonType[type]}
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                )}
-            </div>
+            <div className="modal-body">{renderModalBody()}</div>
           </div>
         </div>
       </div>
