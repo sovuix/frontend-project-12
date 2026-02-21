@@ -104,20 +104,6 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
             }}
             onClick={e => e.stopPropagation()}
           >
-            {/* <button
-              className="dropdown-item"
-              onClick={handleDelete}
-              type="button"
-            >
-              {t("channel.delete")}
-            </button>
-            <button
-              className="dropdown-item"
-              onClick={handleRename}
-              type="button"
-            >
-              {t("channel.rename")}
-            </button> */}
 
             <a
               className="dropdown-item"
