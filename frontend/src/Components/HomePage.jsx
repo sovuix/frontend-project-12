@@ -99,7 +99,8 @@ const HomePage = () => {
 
         const data = await response.json()
         dispatch(setChannels(data))
-      } catch (error) {
+      }
+      catch (error) {
         dispatch(setError(error.message))
         console.error('Error', error)
       }
@@ -137,7 +138,8 @@ const HomePage = () => {
 
         const data = await response.json()
         dispatch(setMessages(data))
-      } catch (err) {
+      }
+      catch (err) {
         console.error(t('channel.errorDownloadMessages'), err)
       }
     }

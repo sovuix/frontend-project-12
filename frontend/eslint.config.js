@@ -38,7 +38,7 @@ export default defineConfig([
       '@stylistic/no-multi-spaces': 'error',
       '@stylistic/arrow-parens': ['error', 'as-needed', { requireForBlockBody: true }],
       '@stylistic/operator-linebreak': ['error', 'before'],
-      '@stylistic/brace-style': ['error', '1tbs'],
+      '@stylistic/brace-style': ['error', 'stroustrup'],
       '@stylistic/jsx-quotes': ['error', 'prefer-double'],
       '@stylistic/jsx-tag-spacing': ['error', {
         closingSlash: 'never',

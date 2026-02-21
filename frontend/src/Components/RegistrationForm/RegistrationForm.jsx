@@ -51,13 +51,15 @@ const RegistrationForm = ({ children }) => {
         localStorage.setItem('username', data.username)
 
         navigate('/')
-      } catch (error) {
+      }
+      catch (error) {
         setStatus({
           error: t('reg.userExists'),
 
         })
         console.error('Registration failed:', error)
-      } finally {
+      }
+      finally {
         setSubmitting(false)
       }
     },

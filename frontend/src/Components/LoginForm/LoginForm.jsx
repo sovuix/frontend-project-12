@@ -36,7 +36,8 @@ const LoginForm = ({ children }) => {
 
       const data = await response.json()
       return data
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Error getting token:', error)
       throw error
     }
@@ -61,16 +62,20 @@ const LoginForm = ({ children }) => {
         localStorage.setItem('username', data.username)
         setStatus(null)
         navigate('/')
-      } catch (error) {
+      }
+      catch (error) {
         if (!navigator.onLine) {
           toast.error(t('common.connectionError'))
-        } else if (error.message === 'Failed to fetch') {
+        }
+        else if (error.message === 'Failed to fetch') {
           toast.error(t('common.loading'))
-        } else {
+        }
+        else {
           setStatus({ error: t('auth.error') })
           toast.error(t('common.serverError'))
         }
-      } finally {
+      }
+      finally {
         setSubmitting(false)
       }
     },

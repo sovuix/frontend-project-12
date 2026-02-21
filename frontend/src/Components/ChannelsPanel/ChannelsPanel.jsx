@@ -42,7 +42,8 @@ const ChannelsPanel = () => {
       dispatch(setCurrentChannel(newChannel.id))
       setShowModal(false)
       notify(t('channel.channelCreated'))
-    } catch {
+    }
+    catch {
       notifyError(t('channel.errorCreated'))
     }
   }
@@ -66,7 +67,8 @@ const ChannelsPanel = () => {
 
       setShowModal(false)
       notify(t('channel.channelDeleted'))
-    } catch {
+    }
+    catch {
       notifyError(t('channel.errorDeleted'))
     }
   }
@@ -82,7 +84,8 @@ const ChannelsPanel = () => {
       dispatch(renameChannel({ id: channelId, name: newName }))
       setShowModal(false)
       notify(t('channel.channelRenamed'))
-    } catch {
+    }
+    catch {
       notifyError(t('channel.errorRenamed'))
     }
   }

@@ -22,7 +22,8 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
     onSubmit: (values, { resetForm, setSubmitting }) => {
       if (type === 'remove') {
         onSubmit()
-      } else {
+      }
+      else {
         onSubmit(values.channelname.trim())
       }
       resetForm()

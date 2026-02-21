@@ -36,10 +36,12 @@ const MessageForm = () => {
 
       if (response.ok) {
         setText('')
-      } else {
+      }
+      else {
         notifyError(t('chat.errorSendingMessage'))
       }
-    } catch {
+    }
+    catch {
       notifyError(t('common.connectionError'))
     }
   }
