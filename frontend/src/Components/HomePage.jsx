@@ -22,6 +22,7 @@ import {
 import Button from './Button/Button'
 import { ToastContainer } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import ErrorPage from './ErrorPage'
 
 const HomePage = () => {
   const dispatch = useDispatch()
@@ -167,7 +168,13 @@ const HomePage = () => {
   }
 
   if (error && channels.length === 0) {
-    return <div>{error}</div>
+    // return <div>{error}</div>
+    return (
+      <ErrorPage
+        title="common.notResponding"
+        showLink={false}
+      />
+    )
   }
 
   const clearToken = () => {
