@@ -117,7 +117,7 @@ const RegistrationForm = ({ children }) => {
           placeholder={t('reg.passCondition')}
         />
         <label htmlFor="password">{t('reg.pass')}</label>
-        <div placement="right" className="invalid-feedback"></div>
+        <div className="invalid-feedback"></div>
         {formik.touched.password && formik.errors.password && (
           <div className="invalid-tooltip">{formik.errors.password}</div>
         )}

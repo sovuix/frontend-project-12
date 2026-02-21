@@ -167,7 +167,7 @@ const HomePage = () => {
   }
 
   if (error && channels.length === 0) {
-    return <div>Ошибка: {error}</div>
+    return <div>{error}</div>
   }
 
   const clearToken = () => {

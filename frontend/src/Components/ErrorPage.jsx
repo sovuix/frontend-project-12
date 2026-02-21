@@ -16,7 +16,8 @@ const ErrorPage = () => {
             />
             <h1 className="h4 text-muted">{t('common.pageNoFind')}</h1>
             <p className="text-muted">
-              {t('common.canMove')} <a href="/">{t('common.mainPage')}</a>
+              {t('common.canMove')}
+              <a href="/">{t('common.mainPage')}</a>
             </p>
           </div>
         </div>
