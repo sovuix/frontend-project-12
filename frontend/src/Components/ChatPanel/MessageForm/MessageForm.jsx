@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Button from '../../Button/Button'
 import { useTranslation } from 'react-i18next'
@@ -24,7 +24,7 @@ const MessageForm = () => {
       const response = await fetch('/api/v1/messages', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Button from '../Button/Button'
 import ChannelItem from '../ChannelItem/ChannelItem'

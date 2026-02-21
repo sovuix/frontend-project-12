@@ -1,4 +1,3 @@
-import React from 'react'
 import { useFormik } from 'formik'
 import { useSelector } from 'react-redux'
 import { createModalSchema } from '../../validationSchemas/authSchemas'

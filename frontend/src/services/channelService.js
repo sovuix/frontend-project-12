@@ -4,7 +4,7 @@ export const createChannel = async (name) => {
   const response = await fetch('/api/v1/channels', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ name: name }),
@@ -25,7 +25,7 @@ export const deleteChannel = async (id) => {
   const response = await fetch(`/api/v1/channels/${id}`, {
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({}),
@@ -43,7 +43,7 @@ export const renameChannel = async (id, name) => {
   const response = await fetch(`/api/v1/channels/${id}`, {
     method: 'PATCH',
     headers: {
-      Authorization: `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ name }),

@@ -83,7 +83,7 @@ const HomePage = () => {
         const response = await fetch('/api/v1/channels', {
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         })
@@ -122,7 +122,7 @@ const HomePage = () => {
 
         const response = await fetch('/api/v1/messages', {
           headers: {
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         })

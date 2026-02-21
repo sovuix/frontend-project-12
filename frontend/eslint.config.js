@@ -51,7 +51,7 @@ export default defineConfig([
       '@stylistic/jsx-equals-spacing': ['error', 'never'],
       '@stylistic/jsx-closing-tag-location': 'error',
       '@stylistic/key-spacing': ['error', { beforeColon: false, afterColon: true }],
-      '@stylistic/quote-props': ['error', 'as-needed'],
+      '@stylistic/quote-props': ['error', 'consistent-as-needed'],
       '@stylistic/multiline-ternary': 'off',
       '@stylistic/eol-last': ['error', 'always'],
       '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
