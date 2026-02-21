@@ -5,8 +5,8 @@ import { createModalSchema } from '../../validationSchemas/authSchemas'
 import { useTranslation } from 'react-i18next'
 
 const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
-  const channels = useSelector(state => state.chat.channels)
-  const existingNames = channels.map(channel =>
+  const channels = useSelector((state) => state.chat.channels)
+  const existingNames = channels.map((channel) =>
     channel.name.toLowerCase().trim(),
   )
   const { t } = useTranslation()
@@ -130,7 +130,7 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
                       // placeholder="Имя канала"
                       // aria-label={t("channel.channelname")}
                       autoFocus
-                      onFocus={e => e.target.select()}
+                      onFocus={(e) => e.target.select()}
                       disabled={formik.isSubmitting}
                     />
 

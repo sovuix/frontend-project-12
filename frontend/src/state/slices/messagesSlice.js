@@ -17,7 +17,7 @@ const messagesSlice = createSlice({
       state.ids = []
       state.byChannelId = {}
 
-      messages.forEach(message => {
+      messages.forEach((message) => {
         const { id, channelId } = message
         state.entities[id] = message
         state.ids.push(id)
@@ -45,14 +45,14 @@ const messagesSlice = createSlice({
 export const { setMessages, addMessage } = messagesSlice.actions
 export default messagesSlice.reducer
 
-const selectMessagesState = state => state.messages
+const selectMessagesState = (state) => state.messages
 const selectChannelIdParam = (_, channelId) => channelId
 
 export const selectMessagesByChannelId = createSelector(
   [selectMessagesState, selectChannelIdParam],
   (messagesState, channelId) => {
     const messageIds = messagesState.byChannelId[channelId] || []
-    return messageIds.map(id => messagesState.entities[id])
+    return messageIds.map((id) => messagesState.entities[id])
   },
 )
 

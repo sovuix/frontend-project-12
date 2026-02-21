@@ -18,19 +18,19 @@ import { toast } from 'react-toastify'
 import filter from '../../services/profanity'
 
 const ChannelsPanel = () => {
-  const notify = text => toast.success(text)
-  const notifyError = text => toast.error(text)
+  const notify = (text) => toast.success(text)
+  const notifyError = (text) => toast.error(text)
 
   const { t } = useTranslation()
-  const channels = useSelector(state => state.chat.channels)
-  const currentChannelId = useSelector(state => state.chat.currentChannelId)
+  const channels = useSelector((state) => state.chat.channels)
+  const currentChannelId = useSelector((state) => state.chat.currentChannelId)
   const dispatch = useDispatch()
 
   const [showModal, setShowModal] = useState(false)
   const [modalType, setModalType] = useState('add')
   const [selectedChannel, setSelectedChannel] = useState(null)
 
-  const handleAddChannel = async channelName => {
+  const handleAddChannel = async (channelName) => {
     try {
       if (!navigator.onLine) {
         notifyError(t('common.connectionError'))
@@ -47,7 +47,7 @@ const ChannelsPanel = () => {
     }
   }
 
-  const handleDeleteChannel = async channelId => {
+  const handleDeleteChannel = async (channelId) => {
     try {
       if (!navigator.onLine) {
         notifyError(t('common.connectionError'))
@@ -58,7 +58,7 @@ const ChannelsPanel = () => {
       dispatch(removeChannel(channelId))
 
       if (currentChannelId === channelId) {
-        const remainingChannels = channels.filter(ch => ch.id !== channelId)
+        const remainingChannels = channels.filter((ch) => ch.id !== channelId)
         if (remainingChannels.length > 0) {
           dispatch(setCurrentChannel(remainingChannels[0].id))
         }
@@ -140,7 +140,7 @@ const ChannelsPanel = () => {
           id="channels-box"
           className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
         >
-          {channels.map(channel => (
+          {channels.map((channel) => (
             <li key={channel.id} className="nav-item w-100">
               <ChannelItem
                 channel={channel}
@@ -161,7 +161,7 @@ const ChannelsPanel = () => {
             modalType === 'add'
               ? handleAddChannel
               : modalType === 'rename'
-                ? newName => handleRenameChannel(selectedChannel.id, newName)
+                ? (newName) => handleRenameChannel(selectedChannel.id, newName)
                 : () => handleDeleteChannel(selectedChannel.id)
           }
         />
