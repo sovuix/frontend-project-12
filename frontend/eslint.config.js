@@ -24,10 +24,17 @@ export default defineConfig([
         sourceType: 'module',
       },
     },
+  },
+
+  {
+    files: ['**/*.{js,jsx}'],
     plugins: {
       '@stylistic': stylistic,
     },
     rules: {
+      '@stylistic/jsx-one-expression-per-line': 'off',
+      '@stylistic/multiline-ternary': 'off',
+
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
 
       '@stylistic/semi': ['error', 'never'],
@@ -46,27 +53,14 @@ export default defineConfig([
         afterOpening: 'never',
         beforeClosing: 'never',
       }],
-      '@stylistic/jsx-one-expression-per-line': ['error', { allow: 'single-line' }],
       '@stylistic/jsx-curly-brace-presence': ['error', { props: 'never', children: 'never' }],
       '@stylistic/jsx-equals-spacing': ['error', 'never'],
       '@stylistic/jsx-closing-tag-location': 'error',
       '@stylistic/key-spacing': ['error', { beforeColon: false, afterColon: true }],
       '@stylistic/quote-props': ['error', 'consistent-as-needed'],
-      '@stylistic/multiline-ternary': 'off',
       '@stylistic/eol-last': ['error', 'always'],
       '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
       '@stylistic/indent-binary-ops': ['error', 2],
-
-      'comma-dangle': 'off',
-      'arrow-parens': 'off',
-      'operator-linebreak': 'off',
-      'brace-style': 'off',
-      'key-spacing': 'off',
-      'eol-last': 'off',
-      'no-multiple-empty-lines': 'off',
-      'no-trailing-spaces': 'off',
-      'no-multi-spaces': 'off',
-      'quote-props': 'off',
     },
   },
 ])
