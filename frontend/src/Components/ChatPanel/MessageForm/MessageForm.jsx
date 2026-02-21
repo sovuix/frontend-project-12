@@ -7,14 +7,14 @@ import filter from '../../../services/profanity'
 
 const MessageForm = () => {
   const [text, setText] = useState('')
-  const currentChannelId = useSelector((state) => state.chat.currentChannelId)
-  const username = useSelector((state) => state.auth.username)
+  const currentChannelId = useSelector(state => state.chat.currentChannelId)
+  const username = useSelector(state => state.auth.username)
   const { t } = useTranslation()
-  const notifyError = (text) => toast.error(text)
+  const notifyError = text => toast.error(text)
 
   const isDisabled = !currentChannelId || !text.trim()
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
     if (isDisabled) return
 
@@ -53,7 +53,7 @@ const MessageForm = () => {
             className="form-border-0 p-0 ps-2 form-control"
             placeholder={t('chat.typeMessage')}
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={e => setText(e.target.value)}
             disabled={!currentChannelId}
             aria-label="Новое сообщение"
           />

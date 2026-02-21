@@ -37,12 +37,12 @@ const HomePage = () => {
   }, [navigate, token])
 
   useEffect(() => {
-    const handleNewMessage = (message) => {
+    const handleNewMessage = message => {
       console.log('Получено через WebSocket:', message)
       dispatch(addMessage(message))
     }
 
-    const handleNewChannel = (channel) => {
+    const handleNewChannel = channel => {
       dispatch(addChannel(channel))
     }
 
@@ -67,8 +67,8 @@ const HomePage = () => {
     }
   }, [dispatch])
 
-  const { channels, error, loading } = useSelector((state) => state.chat)
-  const messagesIds = useSelector((state) => state.messages.ids)
+  const { channels, error, loading } = useSelector(state => state.chat)
+  const messagesIds = useSelector(state => state.messages.ids)
 
   useEffect(() => {
     const fetchChannels = async () => {

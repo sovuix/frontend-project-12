@@ -5,7 +5,7 @@ const Header = ({ children }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
-  const handleLogoClick = (e) => {
+  const handleLogoClick = e => {
     e.preventDefault()
     navigate('/')
   }
