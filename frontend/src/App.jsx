@@ -10,8 +10,17 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="login" element={<LoginPage />} />
-        <Route path="*" element={<ErrorPage />} />
+        {/* <Route path="*" element={<ErrorPage />} /> */}
         <Route path="signup" element={<SignupPage />} />
+        <Route
+          path="*"
+          element={
+            <ErrorPage
+              titleKey="common.pageNoFind"
+              showLink={true}
+            />
+          }
+        />
       </Routes>
     </BrowserRouter>
   )
