@@ -168,7 +168,6 @@ const HomePage = () => {
   }
 
   if (error && channels.length === 0) {
-    // return <div>{error}</div>
     return (
       <ErrorPage
         title="common.notResponding"
