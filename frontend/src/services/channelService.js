@@ -1,4 +1,4 @@
-export const createChannel = async name => {
+export const createChannel = async (name) => {
   const token = localStorage.getItem('jwtToken')
 
   const response = await fetch('/api/v1/channels', {
@@ -20,7 +20,7 @@ export const createChannel = async name => {
   return JSON.parse(text)
 }
 
-export const deleteChannel = async id => {
+export const deleteChannel = async (id) => {
   const token = localStorage.getItem('jwtToken')
   const response = await fetch(`/api/v1/channels/${id}`, {
     method: 'DELETE',

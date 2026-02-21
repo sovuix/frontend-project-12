@@ -6,7 +6,9 @@ const CardFooter = () => {
     <div className="card-footer p-4">
       <div className="text-center">
         <span>{t('auth.noAccount')}</span>
-        <a href="/signup"> {t('auth.register')} </a>
+        <a href="/signup">
+          {t('auth.register')}
+        </a>
       </div>
     </div>
   )

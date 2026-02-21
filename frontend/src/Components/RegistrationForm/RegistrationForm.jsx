@@ -63,7 +63,7 @@ const RegistrationForm = ({ children }) => {
     },
   })
 
-  const handleUsernameChange = e => {
+  const handleUsernameChange = (e) => {
     formik.handleChange(e)
     if (formik.status?.error) {
       formik.setStatus(null)
