@@ -8,17 +8,9 @@ import {
 import Header from './Header/Header'
 import ChannelsPanel from './ChannelsPanel/ChannelsPanel'
 import ChatPanel from './ChatPanel/ChatPanel'
-
-import socket from '../services/socket'
-import { addMessage } from '../state/slices/messagesSlice'
 import { setMessages } from '../state/slices/messagesSlice'
 import { setUser } from '../state/slices/authSlice'
 import { useNavigate } from 'react-router-dom'
-import {
-  removeChannel,
-  renameChannel,
-  addChannel,
-} from '../state/slices/channelsSlice'
 import Button from './Button/Button'
 import { ToastContainer } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
@@ -36,37 +28,6 @@ const HomePage = () => {
       return
     }
   }, [navigate, token])
-
-  useEffect(() => {
-    const handleNewMessage = (message) => {
-      console.log('Получено через WebSocket:', message)
-      dispatch(addMessage(message))
-    }
-
-    const handleNewChannel = (channel) => {
-      dispatch(addChannel(channel))
-    }
-
-    const handleRemoveChannel = ({ id }) => {
-      dispatch(removeChannel(id))
-    }
-
-    const handleRenameChannel = ({ id, name }) => {
-      dispatch(renameChannel({ id, name }))
-    }
-
-    socket.on('newMessage', handleNewMessage)
-    socket.on('newChannel', handleNewChannel)
-    socket.on('removeChannel', handleRemoveChannel)
-    socket.on('renameChannel', handleRenameChannel)
-
-    return () => {
-      socket.off('newMessage', handleNewMessage)
-      socket.off('newChannel', handleNewChannel)
-      socket.off('removeChannel', handleRemoveChannel)
-      socket.off('renameChannel', handleRenameChannel)
-    }
-  }, [dispatch])
 
   const { channels, error, loading } = useSelector(state => state.chat)
   const messagesIds = useSelector(state => state.messages.ids)
