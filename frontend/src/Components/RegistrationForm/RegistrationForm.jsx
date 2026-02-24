@@ -5,6 +5,7 @@ import { setUser } from '../../state/slices/authSlice'
 import { createRegistrationSchema } from '../../validationSchemas/authSchemas'
 import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { authStorage } from '../../services/authStorage'
 
 const RegistrationForm = ({ children }) => {
   const { t } = useTranslation()
@@ -41,14 +42,14 @@ const RegistrationForm = ({ children }) => {
       try {
         const data = await registerUser(values.username, values.password)
 
-        localStorage.setItem('jwtToken', data.token)
+        authStorage.setToken(data.token)
         dispatch(
           setUser({
             username: data.username,
             token: data.token,
           }),
         )
-        localStorage.setItem('username', data.username)
+        authStorage.setUsername(data.username)
 
         navigate('/')
       }

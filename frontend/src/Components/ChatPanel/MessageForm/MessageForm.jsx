@@ -4,6 +4,7 @@ import Button from '../../Button/Button'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import filter from '../../../services/profanity'
+import { authStorage } from '../../../services/authStorage'
 
 const MessageForm = () => {
   const [text, setText] = useState('')
@@ -19,7 +20,7 @@ const MessageForm = () => {
     if (isDisabled) return
 
     try {
-      const token = localStorage.getItem('jwtToken')
+      const token = authStorage.getToken()
       const cleanedText = filter.clean(text.trim())
       const response = await fetch('/api/v1/messages', {
         method: 'POST',

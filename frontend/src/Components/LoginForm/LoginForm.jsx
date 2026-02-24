@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { ToastContainer } from 'react-toastify'
 import { toast } from 'react-toastify'
 import { useRef, useEffect } from 'react'
+import { authStorage } from '../../services/authStorage'
 
 const LoginForm = ({ children }) => {
   const navigate = useNavigate()
@@ -50,14 +51,14 @@ const LoginForm = ({ children }) => {
       try {
         dispatch(setLoading())
         const data = await getToken(values.userLogin, values.password)
-        localStorage.setItem('jwtToken', data.token)
+        authStorage.setToken(data.token)
         dispatch(
           setUser({
             username: data.username,
             token: data.token,
           }),
         )
-        localStorage.setItem('username', data.username)
+        authStorage.setUsername(data.username)
         setStatus(null)
         navigate('/')
       }

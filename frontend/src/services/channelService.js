@@ -1,6 +1,7 @@
-export const createChannel = async (name) => {
-  const token = localStorage.getItem('jwtToken')
+import { authStorage } from './authStorage'
 
+export const createChannel = async (name) => {
+  const token = authStorage.getToken()
   const response = await fetch('/api/v1/channels', {
     method: 'POST',
     headers: {
@@ -21,7 +22,7 @@ export const createChannel = async (name) => {
 }
 
 export const deleteChannel = async (id) => {
-  const token = localStorage.getItem('jwtToken')
+  const token = authStorage.getToken()
   const response = await fetch(`/api/v1/channels/${id}`, {
     method: 'DELETE',
     headers: {
@@ -39,7 +40,7 @@ export const deleteChannel = async (id) => {
 }
 
 export const renameChannel = async (id, name) => {
-  const token = localStorage.getItem('jwtToken')
+  const token = authStorage.getToken()
   const response = await fetch(`/api/v1/channels/${id}`, {
     method: 'PATCH',
     headers: {

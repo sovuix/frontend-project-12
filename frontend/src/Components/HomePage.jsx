@@ -15,19 +15,20 @@ import Button from './Button/Button'
 import { ToastContainer } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 import ErrorPage from './ErrorPage'
+import { authStorage } from '../services/authStorage'
 
 const HomePage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const token = localStorage.getItem('jwtToken')
   const { t } = useTranslation()
 
   useEffect(() => {
+    const token = authStorage.getToken()
     if (!token) {
       navigate('/login')
       return
     }
-  }, [navigate, token])
+  }, [navigate])
 
   const { channels, error, loading } = useSelector(state => state.chat)
   const messagesIds = useSelector(state => state.messages.ids)
@@ -36,8 +37,7 @@ const HomePage = () => {
     const fetchChannels = async () => {
       try {
         dispatch(setLoading())
-        const token = localStorage.getItem('jwtToken')
-
+        const token = authStorage.getToken()
         if (!token) {
           return
         }
@@ -52,7 +52,7 @@ const HomePage = () => {
 
         if (!response.ok) {
           if (response.status === 401) {
-            localStorage.clear()
+            authStorage.clear()
             navigate('/login')
             return
           }
@@ -68,15 +68,16 @@ const HomePage = () => {
       }
     }
 
+    const token = authStorage.getToken()
     if (token && channels.length === 0) {
       fetchChannels()
     }
-  }, [dispatch, token, channels.length, navigate, t])
+  }, [dispatch,channels.length, navigate, t])
 
   useEffect(() => {
+    const token = authStorage.getToken()
     const fetchMessages = async () => {
       try {
-        const token = localStorage.getItem('jwtToken')
 
         if (!token) {
           return
@@ -91,7 +92,7 @@ const HomePage = () => {
 
         if (!response.ok) {
           if (response.status === 401) {
-            localStorage.clear()
+            authStorage.clear()
             navigate('/login')
             return
           }
@@ -109,17 +110,17 @@ const HomePage = () => {
     if (token && messagesIds.length === 0) {
       fetchMessages()
     }
-  }, [dispatch, token, messagesIds.length, navigate, t])
+  }, [dispatch, messagesIds.length, navigate, t])
 
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken')
-    const username = localStorage.getItem('username')
-
+    const token = authStorage.getToken()
+    const username = authStorage.getUsername()
     if (token && username) {
       dispatch(setUser({ username, token }))
     }
   }, [dispatch])
 
+  const token = authStorage.getToken()
   if (!token) {
     return null
   }
@@ -138,7 +139,7 @@ const HomePage = () => {
   }
 
   const clearToken = () => {
-    localStorage.clear()
+    authStorage.clear()
     navigate('/login')
   }
 
@@ -147,7 +148,7 @@ const HomePage = () => {
       <div className="h-100" id="chat">
         <div className="d-flex flex-column h-100">
           <Header>
-            {localStorage.getItem('jwtToken') && (
+            {token && (
               <Button
                 type="button"
                 className="btn btn-primary"
