@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { setUser } from '../../state/slices/authSlice'
@@ -17,8 +17,6 @@ const LoginForm = ({ children }) => {
   useEffect(() => {
     userloginRef.current?.focus()
   }, [])
-
-  const { loading } = useSelector(state => state.chat)
 
   const getToken = async (username, password) => {
     try {
@@ -72,7 +70,6 @@ const LoginForm = ({ children }) => {
         }
         else {
           setStatus({ error: t('auth.error') })
-          toast.error(t('common.serverError'))
         }
       }
       finally {
@@ -99,7 +96,6 @@ const LoginForm = ({ children }) => {
             value={formik.values.userLogin}
             required
             placeholder={t('auth.nickname')}
-            disabled={loading}
           />
           <label htmlFor="userLogin">{t('auth.nickname')}</label>
         </div>
@@ -114,7 +110,6 @@ const LoginForm = ({ children }) => {
             value={formik.values.password}
             required
             placeholder={t('auth.pass')}
-            disabled={loading}
           />
           {formik.status?.error && (
             <div className="invalid-tooltip">{t('auth.error')}</div>
