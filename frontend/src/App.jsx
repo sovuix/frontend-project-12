@@ -3,7 +3,7 @@ import LoginPage from './Components/LoginPage'
 import ErrorPage from './Components/ErrorPage'
 import HomePage from './Components/HomePage'
 import SignupPage from './Components/SignupPage'
-import {ROUTES} from './services/routes'
+import { ROUTES } from './services/routes'
 
 function App() {
   return (

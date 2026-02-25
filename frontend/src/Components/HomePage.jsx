@@ -73,13 +73,12 @@ const HomePage = () => {
     if (token && channels.length === 0) {
       fetchChannels()
     }
-  }, [dispatch,channels.length, navigate, t])
+  }, [dispatch, channels.length, navigate, t])
 
   useEffect(() => {
     const token = authStorage.getToken()
     const fetchMessages = async () => {
       try {
-
         if (!token) {
           return
         }
