@@ -70,6 +70,9 @@ const LoginForm = ({ children }) => {
         else if (error.message === 'Failed to fetch') {
           toast.error(t('common.loading'))
         }
+        else if (error.message.includes('status: 5')) {
+          toast.error(t('common.notResponding'))
+        }
         else {
           setStatus({ error: t('auth.error') })
         }

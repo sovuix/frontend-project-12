@@ -13,7 +13,7 @@ const ErrorPage = ({ title, showLink = true }) => {
             <img
               alt={t(title)}
               className="img-fluid h-25"
-              src="./public/404.svg"
+              src="../public/404.svg"
             />
             <h1 className="h4 text-muted">{t(title)}</h1>
             {showLink && (

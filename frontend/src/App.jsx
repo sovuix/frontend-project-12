@@ -16,7 +16,7 @@ function App() {
           path={ROUTES.ANY}
           element={(
             <ErrorPage
-              titleKey="common.pageNoFind"
+              title="common.pageNoFind"
               showLink={true}
             />
           )}
