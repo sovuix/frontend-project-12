@@ -8,7 +8,7 @@ import { authStorage } from '../../../services/authStorage'
 
 const MessageForm = () => {
   const [text, setText] = useState('')
-  const currentChannelId = useSelector(state => state.chat.currentChannelId)
+  const currentChannelId = useSelector(state => state.channels.currentChannelId)
   const username = useSelector(state => state.auth.username)
   const { t } = useTranslation()
   const notifyError = text => toast.error(text)

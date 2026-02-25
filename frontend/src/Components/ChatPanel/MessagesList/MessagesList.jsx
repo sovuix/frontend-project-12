@@ -3,7 +3,7 @@ import { selectMessagesByChannelId } from '../../../state/slices/messagesSlice'
 
 const MessagesList = () => {
   const currentChannelId = useSelector(
-    state => state.chat.currentChannelId,
+    state => state.channels.currentChannelId,
   )
   const messages = useSelector(state =>
     selectMessagesByChannelId(state, currentChannelId),

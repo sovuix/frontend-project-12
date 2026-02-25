@@ -4,7 +4,7 @@ import { createModalSchema } from '../../validationSchemas/authSchemas'
 import { useTranslation } from 'react-i18next'
 
 const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
-  const channels = useSelector(state => state.chat.channels)
+  const channels = useSelector(state => state.channels.channels)
   const existingNames = channels.map(channel =>
     channel.name.toLowerCase().trim(),
   )

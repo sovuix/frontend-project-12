@@ -31,7 +31,7 @@ const HomePage = () => {
     }
   }, [navigate])
 
-  const { channels, error, loading } = useSelector(state => state.chat)
+  const { channels, error, loading } = useSelector(state => state.channels)
   const messagesIds = useSelector(state => state.messages.ids)
 
   useEffect(() => {

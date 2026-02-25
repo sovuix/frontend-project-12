@@ -8,7 +8,7 @@ const ChannelItem = ({ channel, onDelete, onRename }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const currentChannelId = useSelector(
-    state => state.chat.currentChannelId,
+    state => state.channels.currentChannelId,
   )
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef(null)

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const channelsSlice = createSlice({
-  name: 'chat',
+  name: 'channels',
   initialState: {
     channels: [],
     currentChannelId: '1',

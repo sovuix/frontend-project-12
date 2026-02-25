@@ -22,8 +22,8 @@ const ChannelsPanel = () => {
   const notifyError = text => toast.error(text)
 
   const { t } = useTranslation()
-  const channels = useSelector(state => state.chat.channels)
-  const currentChannelId = useSelector(state => state.chat.currentChannelId)
+  const channels = useSelector(state => state.channels.channels)
+  const currentChannelId = useSelector(state => state.channels.currentChannelId)
   const dispatch = useDispatch()
 
   const [showModal, setShowModal] = useState(false)
