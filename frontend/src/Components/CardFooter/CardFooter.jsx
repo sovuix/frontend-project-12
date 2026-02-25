@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { ROUTES } from '../../services/routes'
 
 const CardFooter = () => {
   const { t } = useTranslation()
@@ -6,7 +7,7 @@ const CardFooter = () => {
     <div className="card-footer p-4">
       <div className="text-center">
         <span>{t('auth.noAccount')}</span>
-        <a href="/signup">
+        <a href={ROUTES.SIGNUP}>
           {t('auth.register')}
         </a>
       </div>

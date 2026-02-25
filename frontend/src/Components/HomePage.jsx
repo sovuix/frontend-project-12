@@ -16,6 +16,7 @@ import { ToastContainer } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 import ErrorPage from './ErrorPage'
 import { authStorage } from '../services/authStorage'
+import { ROUTES } from '../services/routes'
 
 const HomePage = () => {
   const dispatch = useDispatch()
@@ -25,7 +26,7 @@ const HomePage = () => {
   useEffect(() => {
     const token = authStorage.getToken()
     if (!token) {
-      navigate('/login')
+      navigate(ROUTES.LOGIN)
       return
     }
   }, [navigate])
@@ -53,7 +54,7 @@ const HomePage = () => {
         if (!response.ok) {
           if (response.status === 401) {
             authStorage.clear()
-            navigate('/login')
+            navigate(ROUTES.LOGIN)
             return
           }
           throw new Error(t('channel.errorDownloadCHannels'))
@@ -93,7 +94,7 @@ const HomePage = () => {
         if (!response.ok) {
           if (response.status === 401) {
             authStorage.clear()
-            navigate('/login')
+            navigate(ROUTES.LOGIN)
             return
           }
           throw new Error(t('channel.errorDownloadMessages'))
@@ -140,7 +141,7 @@ const HomePage = () => {
 
   const clearToken = () => {
     authStorage.clear()
-    navigate('/login')
+    navigate(ROUTES.LOGIN)
   }
 
   return (

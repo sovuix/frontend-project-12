@@ -3,16 +3,17 @@ import LoginPage from './Components/LoginPage'
 import ErrorPage from './Components/ErrorPage'
 import HomePage from './Components/HomePage'
 import SignupPage from './Components/SignupPage'
+import {ROUTES} from './services/routes'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<SignupPage />} />
+        <Route path={ROUTES.HOME} element={<HomePage />} />
+        <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+        <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
         <Route
-          path="*"
+          path={ROUTES.ANY}
           element={(
             <ErrorPage
               titleKey="common.pageNoFind"

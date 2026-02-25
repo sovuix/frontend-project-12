@@ -6,6 +6,7 @@ import { createRegistrationSchema } from '../../validationSchemas/authSchemas'
 import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { authStorage } from '../../services/authStorage'
+import { ROUTES } from '../../services/routes'
 
 const RegistrationForm = ({ children }) => {
   const { t } = useTranslation()
@@ -51,7 +52,7 @@ const RegistrationForm = ({ children }) => {
         )
         authStorage.setUsername(data.username)
 
-        navigate('/')
+        navigate(ROUTES.HOME)
       }
       catch (error) {
         setStatus({

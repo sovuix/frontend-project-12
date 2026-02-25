@@ -1,5 +1,6 @@
 import Header from './Header/Header'
 import { useTranslation } from 'react-i18next'
+import { ROUTES } from '../services/routes'
 
 const ErrorPage = ({ title, showLink = true }) => {
   const { t } = useTranslation()
@@ -18,7 +19,7 @@ const ErrorPage = ({ title, showLink = true }) => {
             {showLink && (
               <p className="text-muted">
                 {t('common.canMove')}
-                <a href="/">{t('common.mainPage')}</a>
+                <a href={ROUTES.HOME}>{t('common.mainPage')}</a>
               </p>
             )}
           </div>

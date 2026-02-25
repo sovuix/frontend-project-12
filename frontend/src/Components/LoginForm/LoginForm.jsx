@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify'
 import { toast } from 'react-toastify'
 import { useRef, useEffect } from 'react'
 import { authStorage } from '../../services/authStorage'
+import { ROUTES } from '../../services/routes'
 
 const LoginForm = ({ children }) => {
   const navigate = useNavigate()
@@ -60,7 +61,7 @@ const LoginForm = ({ children }) => {
         )
         authStorage.setUsername(data.username)
         setStatus(null)
-        navigate('/')
+        navigate(ROUTES.HOME)
       }
       catch (error) {
         if (!navigator.onLine) {
