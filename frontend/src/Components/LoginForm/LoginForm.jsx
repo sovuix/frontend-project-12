@@ -1,14 +1,13 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { setUser } from '../../state/slices/authSlice'
-import { setLoading } from '../../state/slices/channelsSlice'
 import { useTranslation } from 'react-i18next'
-import { ToastContainer } from 'react-toastify'
-import { toast } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import { useRef, useEffect } from 'react'
 import { authStorage } from '../../services/authStorage'
 import { ROUTES } from '../../services/routes'
+import { useLoginMutation } from '../../state/chatApi'
 
 const LoginForm = ({ children }) => {
   const navigate = useNavigate()
@@ -20,28 +19,7 @@ const LoginForm = ({ children }) => {
     userloginRef.current?.focus()
   }, [])
 
-  const getToken = async (username, password) => {
-    try {
-      const response = await fetch('/api/v1/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const data = await response.json()
-      return data
-    }
-    catch (error) {
-      console.error('Error getting token:', error)
-      throw error
-    }
-  }
+  const [login, { isLoading }] = useLoginMutation()
 
   const formik = useFormik({
     initialValues: {
@@ -50,16 +28,26 @@ const LoginForm = ({ children }) => {
     },
     onSubmit: async (values, { setSubmitting, setStatus }) => {
       try {
-        dispatch(setLoading())
-        const data = await getToken(values.userLogin, values.password)
+        if (!navigator.onLine) {
+          toast.error(t('common.connectionError'))
+          return
+        }
+
+        const data = await login({
+          username: values.userLogin,
+          password: values.password,
+        }).unwrap()
+
         authStorage.setToken(data.token)
+        authStorage.setUsername(data.username)
+
         dispatch(
           setUser({
             username: data.username,
             token: data.token,
           }),
         )
-        authStorage.setUsername(data.username)
+
         setStatus(null)
         navigate(ROUTES.HOME)
       }
@@ -67,10 +55,7 @@ const LoginForm = ({ children }) => {
         if (!navigator.onLine) {
           toast.error(t('common.connectionError'))
         }
-        else if (error.message === 'Failed to fetch') {
-          toast.error(t('common.loading'))
-        }
-        else if (error.message.includes('status: 5')) {
+        else if (error?.status >= 500) {
           toast.error(t('common.notResponding'))
         }
         else {
@@ -101,6 +86,7 @@ const LoginForm = ({ children }) => {
             value={formik.values.userLogin}
             required
             placeholder={t('auth.nickname')}
+            disabled={isLoading}
           />
           <label htmlFor="userLogin">{t('auth.nickname')}</label>
         </div>
@@ -115,12 +101,14 @@ const LoginForm = ({ children }) => {
             value={formik.values.password}
             required
             placeholder={t('auth.pass')}
+            disabled={isLoading}
           />
           {formik.status?.error && (
             <div className="invalid-tooltip">{t('auth.error')}</div>
           )}
           <label htmlFor="password">{t('auth.pass')}</label>
         </div>
+
         {children}
       </form>
     </>

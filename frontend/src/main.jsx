@@ -9,8 +9,10 @@ import App from './App.jsx'
 import { rollbarConfig } from './services/rollbar.js'
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'
 import initSocketListeners from './services/socketListeners'
+import initAuth from './state/slices/initSlice.js'
 
 initSocketListeners()
+initAuth()
 
 const initApp = async () => {
   const i18nInstance = await createI18nInstance()

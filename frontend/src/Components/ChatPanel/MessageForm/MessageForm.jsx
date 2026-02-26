@@ -4,14 +4,18 @@ import Button from '../../Button/Button'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import filter from '../../../services/profanity'
-import { authStorage } from '../../../services/authStorage'
+
+import { useSendMessageMutation } from '../../../state/chatApi'
 
 const MessageForm = () => {
   const [text, setText] = useState('')
   const currentChannelId = useSelector(state => state.channels.currentChannelId)
   const username = useSelector(state => state.auth.username)
+
   const { t } = useTranslation()
   const notifyError = text => toast.error(text)
+
+  const [sendMessage] = useSendMessageMutation()
 
   const isDisabled = !currentChannelId || !text.trim()
 
@@ -20,30 +24,23 @@ const MessageForm = () => {
     if (isDisabled) return
 
     try {
-      const token = authStorage.getToken()
-      const cleanedText = filter.clean(text.trim())
-      const response = await fetch('/api/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          channelId: currentChannelId,
-          text: cleanedText,
-          username: username,
-        }),
-      })
+      if (!navigator.onLine) {
+        notifyError(t('common.connectionError'))
+        return
+      }
 
-      if (response.ok) {
-        setText('')
-      }
-      else {
-        notifyError(t('chat.errorSendingMessage'))
-      }
+      const cleanedText = filter.clean(text.trim())
+
+      await sendMessage({
+        channelId: currentChannelId,
+        text: cleanedText,
+        username,
+      }).unwrap()
+
+      setText('')
     }
     catch {
-      notifyError(t('common.connectionError'))
+      notifyError(t('chat.errorSendingMessage'))
     }
   }
 
@@ -71,5 +68,4 @@ const MessageForm = () => {
     </div>
   )
 }
-
 export default MessageForm

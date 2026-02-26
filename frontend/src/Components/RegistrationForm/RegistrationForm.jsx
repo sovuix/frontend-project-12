@@ -7,6 +7,7 @@ import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { authStorage } from '../../services/authStorage'
 import { ROUTES } from '../../services/routes'
+import { useSignupMutation } from '../../state/chatApi'
 
 const RegistrationForm = ({ children }) => {
   const { t } = useTranslation()
@@ -18,19 +19,7 @@ const RegistrationForm = ({ children }) => {
     usernameRef.current?.focus()
   }, [])
 
-  const registerUser = async (username, password) => {
-    const response = await fetch('/api/v1/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    })
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-
-    return await response.json()
-  }
+  const [signup, { isLoading }] = useSignupMutation()
 
   const formik = useFormik({
     initialValues: {
@@ -41,24 +30,35 @@ const RegistrationForm = ({ children }) => {
     validationSchema: createRegistrationSchema(t),
     onSubmit: async (values, { setSubmitting, setStatus }) => {
       try {
-        const data = await registerUser(values.username, values.password)
+        if (!navigator.onLine) {
+          setStatus({ error: t('common.connectionError') })
+          return
+        }
+
+        const data = await signup({
+          username: values.username,
+          password: values.password,
+        }).unwrap()
 
         authStorage.setToken(data.token)
+        authStorage.setUsername(data.username)
+
         dispatch(
           setUser({
             username: data.username,
             token: data.token,
           }),
         )
-        authStorage.setUsername(data.username)
 
         navigate(ROUTES.HOME)
       }
       catch (error) {
-        setStatus({
-          error: t('reg.userExists'),
+        if (error?.status >= 500) {
+          setStatus({ error: t('common.notResponding') })
+          return
+        }
 
-        })
+        setStatus({ error: t('reg.userExists') })
         console.error('Registration failed:', error)
       }
       finally {
@@ -77,6 +77,7 @@ const RegistrationForm = ({ children }) => {
   return (
     <form className="w-50" onSubmit={formik.handleSubmit} noValidate>
       <h1 className="text-center mb-4">{t('auth.register')}</h1>
+
       <div className="form-floating mb-3">
         <input
           ref={usernameRef}
@@ -94,6 +95,7 @@ const RegistrationForm = ({ children }) => {
           value={formik.values.username}
           required
           placeholder={t('reg.usernameCondition')}
+          disabled={isLoading}
         />
         <label htmlFor="username">{t('reg.username')}</label>
         {formik.touched.username && formik.errors.username && (
@@ -117,6 +119,7 @@ const RegistrationForm = ({ children }) => {
           value={formik.values.password}
           required
           placeholder={t('reg.passCondition')}
+          disabled={isLoading}
         />
         <label htmlFor="password">{t('reg.pass')}</label>
         <div className="invalid-feedback"></div>
@@ -141,6 +144,7 @@ const RegistrationForm = ({ children }) => {
           value={formik.values.confirmPassword}
           required
           placeholder={t('reg.confPass')}
+          disabled={isLoading}
         />
         <label htmlFor="confirmPassword">{t('reg.confPass')}</label>
         {formik.touched.confirmPassword && formik.errors.confirmPassword && (

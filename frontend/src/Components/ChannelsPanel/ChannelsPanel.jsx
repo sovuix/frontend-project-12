@@ -2,29 +2,29 @@ import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Button from '../Button/Button'
 import ChannelItem from '../ChannelItem/ChannelItem'
-import {
-  removeChannel,
-  renameChannel,
-  setCurrentChannel,
-} from '../../state/slices/channelsSlice'
-import {
-  createChannel,
-  deleteChannel,
-  renameChannel as renameChannelAPI,
-} from '../../services/channelService'
+import { setCurrentChannel } from '../../state/slices/channelsSlice'
 import ModalWindow from '../ModalWindow/ModalWindow'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import filter from '../../services/profanity'
 
-const ChannelsPanel = () => {
+import {
+  useCreateChannelMutation,
+  useDeleteChannelMutation,
+  useRenameChannelMutation,
+} from '../../state/chatApi'
+
+const ChannelsPanel = ({ channels = [] }) => {
   const notify = text => toast.success(text)
   const notifyError = text => toast.error(text)
-
   const { t } = useTranslation()
-  const channels = useSelector(state => state.channels.channels)
-  const currentChannelId = useSelector(state => state.channels.currentChannelId)
+
   const dispatch = useDispatch()
+  const currentChannelId = useSelector(state => state.channels.currentChannelId)
+
+  const [createChannel] = useCreateChannelMutation()
+  const [deleteChannel] = useDeleteChannelMutation()
+  const [renameChannel] = useRenameChannelMutation()
 
   const [showModal, setShowModal] = useState(false)
   const [modalType, setModalType] = useState('add')
@@ -38,7 +38,9 @@ const ChannelsPanel = () => {
       }
 
       const cleanedChannelName = filter.clean(channelName.trim())
-      const newChannel = await createChannel(cleanedChannelName)
+
+      const newChannel = await createChannel(cleanedChannelName).unwrap()
+
       dispatch(setCurrentChannel(newChannel.id))
       setShowModal(false)
       notify(t('channel.channelCreated'))
@@ -55,13 +57,15 @@ const ChannelsPanel = () => {
         return
       }
 
-      await deleteChannel(channelId)
-      dispatch(removeChannel(channelId))
+      await deleteChannel(channelId).unwrap()
 
       if (currentChannelId === channelId) {
         const remainingChannels = channels.filter(ch => ch.id !== channelId)
         if (remainingChannels.length > 0) {
           dispatch(setCurrentChannel(remainingChannels[0].id))
+        }
+        else {
+          dispatch(setCurrentChannel(null))
         }
       }
 
@@ -80,8 +84,10 @@ const ChannelsPanel = () => {
         return
       }
 
-      await renameChannelAPI(channelId, newName)
-      dispatch(renameChannel({ id: channelId, name: newName }))
+      const cleanedName = filter.clean(newName.trim())
+
+      await renameChannel({ id: channelId, name: cleanedName }).unwrap()
+
       setShowModal(false)
       notify(t('channel.channelRenamed'))
     }

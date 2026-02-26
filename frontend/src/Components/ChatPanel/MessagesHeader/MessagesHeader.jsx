@@ -1,16 +1,11 @@
 import { useSelector } from 'react-redux'
-import { selectMessagesCountByChannelId } from '../../../state/slices/messagesSlice'
 import { useTranslation } from 'react-i18next'
 
-const MessagesHeader = () => {
+const MessagesHeader = ({ channels = [], messages = [] }) => {
   const { t } = useTranslation()
   const currentChannelId = useSelector(state => state.channels.currentChannelId)
-  const channels = useSelector(state => state.channels.channels)
   const currentChannel = channels.find(ch => ch.id === currentChannelId)
-
-  const countMessages = useSelector(state =>
-    selectMessagesCountByChannelId(state, currentChannelId),
-  )
+  const countMessages = messages.filter(m => m.channelId === currentChannelId).length
 
   return (
     channels.length && (
@@ -18,7 +13,7 @@ const MessagesHeader = () => {
         <p className="m-0">
           <b>
             #
-            {currentChannel.name}
+            {currentChannel?.name ?? ''}
           </b>
         </p>
         <span className="text-muted">{t('msg', { count: countMessages })}</span>
