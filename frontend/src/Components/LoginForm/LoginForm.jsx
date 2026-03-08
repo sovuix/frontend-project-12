@@ -44,7 +44,6 @@ const LoginForm = ({ children }) => {
       password: '',
     },
     onSubmit: async (values, { setSubmitting, setStatus }) => {
-
       try {
         if (!navigator.onLine) {
           toast.error(t('common.connectionError'))
