@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Button from '../Button/Button'
 import ChannelItem from '../ChannelItem/ChannelItem'
 import ModalWindow from '../ModalWindow/ModalWindow'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import filter from '../../services/profanity'
+import { HTTP_STATUS } from '../../services/httpStatus'
 
 import {
   useCreateChannelMutation,
@@ -17,65 +18,104 @@ const ChannelsPanel = ({ channels = [] }) => {
   const notifyError = text => toast.error(text)
   const { t } = useTranslation()
 
-  const [createChannel] = useCreateChannelMutation()
-  const [deleteChannel] = useDeleteChannelMutation()
-  const [renameChannel] = useRenameChannelMutation()
+  const [createChannel, { error: createChannelError }] = useCreateChannelMutation()
+  const [deleteChannel, { error: deleteChannelError }] = useDeleteChannelMutation()
+  const [renameChannel, { error: renameChannelError }] = useRenameChannelMutation()
 
   const [showModal, setShowModal] = useState(false)
   const [modalType, setModalType] = useState('add')
   const [selectedChannel, setSelectedChannel] = useState(null)
 
-  const handleAddChannel = async (channelName) => {
-    try {
-      if (!navigator.onLine) {
-        notifyError(t('common.connectionError'))
-        return
-      }
+  useEffect(() => {
+    if (!createChannelError) return
 
-      const cleanedChannelName = filter.clean(channelName.trim())
-      await createChannel(cleanedChannelName).unwrap()
-      setShowModal(false)
-      notify(t('channel.channelCreated'))
+    if (createChannelError.status === 'FETCH_ERROR' || !navigator.onLine) {
+      notifyError(t('common.connectionError'))
+      return
     }
-    catch {
-      notifyError(t('channel.errorCreated'))
+
+    if (createChannelError.status >= HTTP_STATUS.INTERNAL_SERVER) {
+      notifyError(t('common.notResponding'))
+      return
     }
+
+    notifyError(t('channel.errorCreated'))
+  }, [createChannelError, t])
+
+  useEffect(() => {
+    if (!deleteChannelError) return
+
+    if (deleteChannelError.status === 'FETCH_ERROR' || !navigator.onLine) {
+      notifyError(t('common.connectionError'))
+      return
+    }
+
+    if (deleteChannelError.status >= HTTP_STATUS.INTERNAL_SERVER) {
+      notifyError(t('common.notResponding'))
+      return
+    }
+
+    notifyError(t('channel.errorDeleted'))
+  }, [deleteChannelError, t])
+
+  useEffect(() => {
+    if (!renameChannelError) return
+
+    if (renameChannelError.status === 'FETCH_ERROR' || !navigator.onLine) {
+      notifyError(t('common.connectionError'))
+      return
+    }
+
+    if (renameChannelError.status >= HTTP_STATUS.INTERNAL_SERVER) {
+      notifyError(t('common.notResponding'))
+      return
+    }
+
+    notifyError(t('channel.errorRenamed'))
+  }, [renameChannelError, t])
+
+  const handleAddChannel = async (channelName) => {
+    if (!navigator.onLine) {
+      notifyError(t('common.connectionError'))
+      return
+    }
+
+    const cleanedChannelName = filter.clean(channelName.trim())
+    const result = await createChannel(cleanedChannelName)
+
+    if ('error' in result) return
+
+    setShowModal(false)
+    notify(t('channel.channelCreated'))
   }
 
   const handleDeleteChannel = async (channelId) => {
-    try {
-      if (!navigator.onLine) {
-        notifyError(t('common.connectionError'))
-        return
-      }
-
-      await deleteChannel(channelId).unwrap()
-
-      setShowModal(false)
-      notify(t('channel.channelDeleted'))
+    if (!navigator.onLine) {
+      notifyError(t('common.connectionError'))
+      return
     }
-    catch {
-      notifyError(t('channel.errorDeleted'))
-    }
+
+    const result = await deleteChannel(channelId)
+
+    if ('error' in result) return
+
+    setShowModal(false)
+    notify(t('channel.channelDeleted'))
   }
 
   const handleRenameChannel = async (channelId, newName) => {
-    try {
-      if (!navigator.onLine) {
-        notifyError(t('common.connectionError'))
-        return
-      }
-
-      const cleanedName = filter.clean(newName.trim())
-
-      await renameChannel({ id: channelId, name: cleanedName }).unwrap()
-
-      setShowModal(false)
-      notify(t('channel.channelRenamed'))
+    if (!navigator.onLine) {
+      notifyError(t('common.connectionError'))
+      return
     }
-    catch {
-      notifyError(t('channel.errorRenamed'))
-    }
+
+    const cleanedName = filter.clean(newName.trim())
+    const result = await renameChannel({ id: channelId, name: cleanedName })
+
+    if ('error' in result) return
+
+    setShowModal(false)
+    notify(t('channel.channelRenamed'))
   }
 
   const handleOpenAddModal = () => {

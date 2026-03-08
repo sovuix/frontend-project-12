@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Button from '../../Button/Button'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import filter from '../../../services/profanity'
-
+import { HTTP_STATUS } from '../../../services/httpStatus'
 import { useSendMessageMutation } from '../../../state/chatApi'
 
 const MessageForm = () => {
@@ -15,33 +15,46 @@ const MessageForm = () => {
   const { t } = useTranslation()
   const notifyError = text => toast.error(text)
 
-  const [sendMessage] = useSendMessageMutation()
+  const [sendMessage, { error: sendMessageError }] = useSendMessageMutation()
 
   const isDisabled = !currentChannelId || !text.trim()
+
+  useEffect(() => {
+    if (!sendMessageError) return
+
+    if (sendMessageError.status === 'FETCH_ERROR' || !navigator.onLine) {
+      notifyError(t('common.connectionError'))
+      return
+    }
+
+    if (sendMessageError.status >= HTTP_STATUS.INTERNAL_SERVER) {
+      notifyError(t('common.notResponding'))
+      return
+    }
+
+    notifyError(t('chat.errorSendingMessage'))
+  }, [sendMessageError, t])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (isDisabled) return
 
-    try {
-      if (!navigator.onLine) {
-        notifyError(t('common.connectionError'))
-        return
-      }
-
-      const cleanedText = filter.clean(text.trim())
-
-      await sendMessage({
-        channelId: currentChannelId,
-        text: cleanedText,
-        username,
-      }).unwrap()
-
-      setText('')
+    if (!navigator.onLine) {
+      notifyError(t('common.connectionError'))
+      return
     }
-    catch {
-      notifyError(t('chat.errorSendingMessage'))
-    }
+
+    const cleanedText = filter.clean(text.trim())
+
+    const result = await sendMessage({
+      channelId: currentChannelId,
+      text: cleanedText,
+      username,
+    })
+
+    if ('error' in result) return
+
+    setText('')
   }
 
   return (
@@ -68,4 +81,5 @@ const MessageForm = () => {
     </div>
   )
 }
+
 export default MessageForm
