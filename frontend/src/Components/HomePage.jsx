@@ -11,6 +11,7 @@ import { authStorage } from '../services/authStorage'
 import { chatApi, useGetChannelsQuery, useGetMessagesQuery } from '../state/chatApi'
 import store from '../state/store'
 import { ROUTES } from '../services/routes'
+import { HTTP_STATUS } from '../services/httpStatus'
 
 const HomePage = () => {
   const navigate = useNavigate()
@@ -42,7 +43,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const status = channelsError?.status || messagesError?.status
-    if (status === 401) {
+    if (status === HTTP_STATUS.UNAUTHORIZED) {
       authStorage.clear()
       store.dispatch(chatApi.util.resetApiState())
       navigate(ROUTES.LOGIN)
