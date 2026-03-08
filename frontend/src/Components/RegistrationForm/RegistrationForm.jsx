@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { authStorage } from '../../services/authStorage'
 import { ROUTES } from '../../services/routes'
 import { useSignupMutation } from '../../state/chatApi'
+import { HTTP_STATUS } from '../../services/httpStatus'
 
 const RegistrationForm = ({ children }) => {
   const { t } = useTranslation()
@@ -53,7 +54,7 @@ const RegistrationForm = ({ children }) => {
         navigate(ROUTES.HOME)
       }
       catch (error) {
-        if (error?.status >= 500) {
+        if (error?.status >= HTTP_STATUS.INTERNAL_SERVER) {
           setStatus({ error: t('common.notResponding') })
           return
         }

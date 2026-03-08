@@ -1,8 +1,6 @@
 import { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import Button from '../Button/Button'
 import ChannelItem from '../ChannelItem/ChannelItem'
-import { setCurrentChannel } from '../../state/slices/channelsSlice'
 import ModalWindow from '../ModalWindow/ModalWindow'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
@@ -18,9 +16,6 @@ const ChannelsPanel = ({ channels = [] }) => {
   const notify = text => toast.success(text)
   const notifyError = text => toast.error(text)
   const { t } = useTranslation()
-
-  const dispatch = useDispatch()
-  const currentChannelId = useSelector(state => state.channels.currentChannelId)
 
   const [createChannel] = useCreateChannelMutation()
   const [deleteChannel] = useDeleteChannelMutation()
@@ -38,10 +33,7 @@ const ChannelsPanel = ({ channels = [] }) => {
       }
 
       const cleanedChannelName = filter.clean(channelName.trim())
-
-      const newChannel = await createChannel(cleanedChannelName).unwrap()
-
-      dispatch(setCurrentChannel(newChannel.id))
+      await createChannel(cleanedChannelName).unwrap()
       setShowModal(false)
       notify(t('channel.channelCreated'))
     }
@@ -58,16 +50,6 @@ const ChannelsPanel = ({ channels = [] }) => {
       }
 
       await deleteChannel(channelId).unwrap()
-
-      if (currentChannelId === channelId) {
-        const remainingChannels = channels.filter(ch => ch.id !== channelId)
-        if (remainingChannels.length > 0) {
-          dispatch(setCurrentChannel(remainingChannels[0].id))
-        }
-        else {
-          dispatch(setCurrentChannel(null))
-        }
-      }
 
       setShowModal(false)
       notify(t('channel.channelDeleted'))

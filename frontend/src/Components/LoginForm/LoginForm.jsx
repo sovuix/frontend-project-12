@@ -8,6 +8,7 @@ import { useRef, useEffect } from 'react'
 import { authStorage } from '../../services/authStorage'
 import { ROUTES } from '../../services/routes'
 import { useLoginMutation } from '../../state/chatApi'
+import { HTTP_STATUS } from '../../services/httpStatus'
 
 const LoginForm = ({ children }) => {
   const navigate = useNavigate()
@@ -21,12 +22,29 @@ const LoginForm = ({ children }) => {
 
   const [login, { isLoading }] = useLoginMutation()
 
+  const handleLoginError = (error, setStatus) => {
+    if (!navigator.onLine) {
+      toast.error(t('common.connectionError'))
+      return
+    }
+
+    switch (true) {
+      case error?.status >= HTTP_STATUS.INTERNAL_SERVER:
+        toast.error(t('common.notResponding'))
+        return
+
+      default:
+        setStatus({ error: t('auth.error') })
+    }
+  }
+
   const formik = useFormik({
     initialValues: {
       userLogin: '',
       password: '',
     },
     onSubmit: async (values, { setSubmitting, setStatus }) => {
+
       try {
         if (!navigator.onLine) {
           toast.error(t('common.connectionError'))
@@ -52,15 +70,7 @@ const LoginForm = ({ children }) => {
         navigate(ROUTES.HOME)
       }
       catch (error) {
-        if (!navigator.onLine) {
-          toast.error(t('common.connectionError'))
-        }
-        else if (error?.status >= 500) {
-          toast.error(t('common.notResponding'))
-        }
-        else {
-          setStatus({ error: t('auth.error') })
-        }
+        handleLoginError(error, setStatus)
       }
       finally {
         setSubmitting(false)

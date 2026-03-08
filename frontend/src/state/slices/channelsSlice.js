@@ -1,59 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { chatApi } from '../chatApi'
+
+const DEFAULT_CHANNEL_ID = '1'
 
 const channelsSlice = createSlice({
   name: 'channels',
   initialState: {
-    channels: [],
-    currentChannelId: '1',
-    loading: false,
-    error: null,
+    currentChannelId: DEFAULT_CHANNEL_ID,
   },
   reducers: {
-    setChannels: (state, action) => {
-      state.channels = action.payload
-      state.loading = false
-      state.error = null
-    },
-    setLoading: (state) => {
-      state.loading = true
-      state.error = null
-    },
-    setError: (state, action) => {
-      state.loading = false
-      state.error = action.payload
-    },
     setCurrentChannel: (state, action) => {
       state.currentChannelId = action.payload
     },
-    addChannel: (state, action) => {
-      state.channels.push(action.payload)
-    },
-    removeChannel: (state, action) => {
-      const channelId = action.payload
-      state.channels = state.channels.filter(
-        channel => channel.id !== channelId,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        chatApi.endpoints.createChannel.matchFulfilled,
+        (state, { payload }) => {
+          state.currentChannelId = payload.id
+        },
       )
-      if (state.currentChannelId === channelId) {
-        state.currentChannelId = state.channels[0]?.id || null
-      }
-    },
-    renameChannel: (state, action) => {
-      const { id, name } = action.payload
-      const channel = state.channels.find(ch => ch.id === id)
-      if (channel) {
-        channel.name = name
-      }
-    },
+      .addMatcher(
+        chatApi.endpoints.deleteChannel.matchFulfilled,
+        (state, { meta }) => {
+          const deletedChannelId = meta.arg.originalArgs
+
+          if (state.currentChannelId === deletedChannelId) {
+            state.currentChannelId = DEFAULT_CHANNEL_ID
+          }
+        },
+      )
   },
 })
 
-export const {
-  setChannels,
-  setLoading,
-  setError,
-  setCurrentChannel,
-  addChannel,
-  removeChannel,
-  renameChannel,
-} = channelsSlice.actions
+export const { setCurrentChannel } = channelsSlice.actions
 export default channelsSlice.reducer
