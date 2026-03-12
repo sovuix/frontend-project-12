@@ -20,7 +20,7 @@ const RegistrationForm = ({ children }) => {
     usernameRef.current?.focus()
   }, [])
 
-  const [signup, { isLoading }] = useSignupMutation()
+  const [signup, { isLoading, error: signupError }] = useSignupMutation()
 
   const formik = useFormik({
     initialValues: {
@@ -30,43 +30,57 @@ const RegistrationForm = ({ children }) => {
     },
     validationSchema: createRegistrationSchema(t),
     onSubmit: async (values, { setSubmitting, setStatus }) => {
-      try {
-        if (!navigator.onLine) {
-          setStatus({ error: t('common.connectionError') })
-          return
-        }
-
-        const data = await signup({
-          username: values.username,
-          password: values.password,
-        }).unwrap()
-
-        authStorage.setToken(data.token)
-        authStorage.setUsername(data.username)
-
-        dispatch(
-          setUser({
-            username: data.username,
-            token: data.token,
-          }),
-        )
-
-        navigate(ROUTES.HOME)
-      }
-      catch (error) {
-        if (error?.status >= HTTP_STATUS.INTERNAL_SERVER) {
-          setStatus({ error: t('common.notResponding') })
-          return
-        }
-
-        setStatus({ error: t('reg.userExists') })
-        console.error('Registration failed:', error)
-      }
-      finally {
+      if (!navigator.onLine) {
+        setStatus({ error: t('common.connectionError') })
         setSubmitting(false)
+        return
       }
+
+      const result = await signup({
+        username: values.username,
+        password: values.password,
+      })
+
+      if ('error' in result) {
+        setSubmitting(false)
+        return
+      }
+
+      const data = result.data
+
+      authStorage.setToken(data.token)
+      authStorage.setUsername(data.username)
+
+      dispatch(
+        setUser({
+          username: data.username,
+          token: data.token,
+        }),
+      )
+
+      setStatus(null)
+      navigate(ROUTES.HOME)
+      setSubmitting(false)
     },
   })
+
+  const { setStatus } = formik
+
+  useEffect(() => {
+    if (!signupError) return
+
+    if (signupError.status === 'FETCH_ERROR' || !navigator.onLine) {
+      setStatus({ error: t('common.connectionError') })
+      return
+    }
+
+    if (signupError.status >= HTTP_STATUS.INTERNAL_SERVER) {
+      setStatus({ error: t('common.notResponding') })
+      return
+    }
+
+    setStatus({ error: t('reg.userExists') })
+  }, [signupError, t, setStatus])
 
   const handleUsernameChange = (e) => {
     formik.handleChange(e)

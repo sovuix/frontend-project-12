@@ -20,23 +20,7 @@ const LoginForm = ({ children }) => {
     userloginRef.current?.focus()
   }, [])
 
-  const [login, { isLoading }] = useLoginMutation()
-
-  const handleLoginError = (error, setStatus) => {
-    if (!navigator.onLine) {
-      toast.error(t('common.connectionError'))
-      return
-    }
-
-    switch (true) {
-      case error?.status >= HTTP_STATUS.INTERNAL_SERVER:
-        toast.error(t('common.notResponding'))
-        return
-
-      default:
-        setStatus({ error: t('auth.error') })
-    }
-  }
+  const [login, { isLoading, error: loginError }] = useLoginMutation()
 
   const formik = useFormik({
     initialValues: {
@@ -44,38 +28,57 @@ const LoginForm = ({ children }) => {
       password: '',
     },
     onSubmit: async (values, { setSubmitting, setStatus }) => {
-      try {
-        if (!navigator.onLine) {
-          toast.error(t('common.connectionError'))
-          return
-        }
-
-        const data = await login({
-          username: values.userLogin,
-          password: values.password,
-        }).unwrap()
-
-        authStorage.setToken(data.token)
-        authStorage.setUsername(data.username)
-
-        dispatch(
-          setUser({
-            username: data.username,
-            token: data.token,
-          }),
-        )
-
-        setStatus(null)
-        navigate(ROUTES.HOME)
-      }
-      catch (error) {
-        handleLoginError(error, setStatus)
-      }
-      finally {
+      if (!navigator.onLine) {
+        toast.error(t('common.connectionError'))
         setSubmitting(false)
+        return
       }
+
+      const result = await login({
+        username: values.userLogin,
+        password: values.password,
+      })
+
+      if ('error' in result) {
+        setSubmitting(false)
+        return
+      }
+
+      const data = result.data
+
+      authStorage.setToken(data.token)
+      authStorage.setUsername(data.username)
+
+      dispatch(
+        setUser({
+          username: data.username,
+          token: data.token,
+        }),
+      )
+
+      setStatus(null)
+      navigate(ROUTES.HOME)
+      setSubmitting(false)
     },
   })
+
+  const { setStatus } = formik
+
+  useEffect(() => {
+    if (!loginError) return
+
+    if (loginError.status === 'FETCH_ERROR' || !navigator.onLine) {
+      toast.error(t('common.connectionError'))
+      return
+    }
+
+    if (loginError.status >= HTTP_STATUS.INTERNAL_SERVER) {
+      toast.error(t('common.notResponding'))
+      return
+    }
+
+    setStatus({ error: t('auth.error') })
+  }, [loginError, t, setStatus])
 
   return (
     <>
