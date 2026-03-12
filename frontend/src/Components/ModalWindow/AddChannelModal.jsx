@@ -1,4 +1,3 @@
-// AddChannelModalBody.jsx
 import { useFormik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { createModalSchema } from '../../validationSchemas/authSchemas'
