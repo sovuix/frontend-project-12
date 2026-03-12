@@ -12,23 +12,13 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
     rename: t('channel.renameChannel'),
   }
 
-  const renderBody = () => {
-    if (type === 'remove') {
-      return <RemoveChannelModal onClose={onClose} onSubmit={onSubmit} />
-    }
-
-    if (type === 'rename') {
-      return (
-        <RenameChannelModal
-          onClose={onClose}
-          onSubmit={onSubmit}
-          currentName={currentName}
-        />
-      )
-    }
-
-    return <AddChannelModal onClose={onClose} onSubmit={onSubmit} />
+  const modalComponents = {
+    add: AddChannelModal,
+    remove: RemoveChannelModal,
+    rename: RenameChannelModal,
   }
+
+  const SelectedModal = modalComponents[type]
 
   return (
     <>
@@ -52,7 +42,13 @@ const ModalWindow = ({ onClose, onSubmit, type = 'add', currentName = '' }) => {
               />
             </div>
 
-            <div className="modal-body">{renderBody()}</div>
+            <div className="modal-body">
+              <SelectedModal
+                onClose={onClose}
+                onSubmit={onSubmit}
+                currentName={currentName}
+              />
+            </div>
           </div>
         </div>
       </div>
