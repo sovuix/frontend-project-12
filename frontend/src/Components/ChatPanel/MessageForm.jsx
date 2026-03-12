@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import Button from '../../Button'
+import Button from '../Button'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import filter from '../../../services/profanity'
-import { HTTP_STATUS } from '../../../services/httpStatus'
-import { useSendMessageMutation } from '../../../state/chatApi'
+import filter from '../../services/profanity'
+import { HTTP_STATUS } from '../../services/httpStatus'
+import { useSendMessageMutation } from '../../state/chatApi'
 
 const MessageForm = () => {
   const [text, setText] = useState('')

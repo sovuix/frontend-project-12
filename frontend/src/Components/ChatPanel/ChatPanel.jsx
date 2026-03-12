@@ -1,6 +1,6 @@
-import MessagesHeader from './MessagesHeader/MessagesHeader'
-import MessagesList from './MessagesList/MessagesList'
-import MessageForm from './MessageForm/MessageForm'
+import MessagesHeader from './MessagesHeader'
+import MessagesList from './MessagesList'
+import MessageForm from './MessageForm'
 
 const ChatPanel = ({ channels = [], messages = [] }) => {
   return (
