@@ -11,9 +11,8 @@ import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'
 import initSocketListeners from './services/socketListeners'
 import initAuth from './state/slices/initSlice.js'
 
-initAuth()
-
 const initApp = async () => {
+  initAuth()
   initSocketListeners()
   const i18nInstance = await createI18nInstance()
   const root = createRoot(document.getElementById('root'))
