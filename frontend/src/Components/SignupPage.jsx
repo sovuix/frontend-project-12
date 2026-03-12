@@ -1,10 +1,10 @@
-import CardBody from './CardBody/CardBody'
-import Button from './Button/Button'
-import Container from './Container/Container'
-import Card from './Card/Card'
-import Logo from './CardLogo/CardLogo'
-import Header from './Header/Header'
-import RegistrationForm from './RegistrationForm/RegistrationForm'
+import CardBody from './CardBody'
+import Button from './Button'
+import Container from './Container'
+import Card from './Card'
+import Logo from './CardLogo'
+import Header from './Header'
+import RegistrationForm from './RegistrationForm'
 import { useTranslation } from 'react-i18next'
 
 const LoginPage = () => {

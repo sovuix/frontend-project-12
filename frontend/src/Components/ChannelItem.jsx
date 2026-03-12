@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentChannel } from '../../state/slices/channelsSlice'
-import Button from '../Button/Button'
+import { setCurrentChannel } from '../state/slices/channelsSlice'
+import Button from './Button'
 import { useTranslation } from 'react-i18next'
 
 const ChannelItem = ({ channel, onDelete, onRename }) => {

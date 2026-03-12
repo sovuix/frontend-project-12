@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ROUTES } from '../../services/routes'
+import { ROUTES } from '../services/routes'
 
 const Header = ({ children }) => {
   const { t } = useTranslation()

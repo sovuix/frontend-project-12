@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import Button from '../../Button/Button'
+import Button from '../../Button'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import filter from '../../../services/profanity'

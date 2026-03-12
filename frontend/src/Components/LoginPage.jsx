@@ -1,13 +1,13 @@
-import CardBody from './CardBody/CardBody'
-import LoginForm from './LoginForm/LoginForm'
-import Button from './Button/Button'
-import Container from './Container/Container'
-import Card from './Card/Card'
-import Logo from './CardLogo/CardLogo'
-import CardForm from './CardForm/CardForm'
-import Header from './Header/Header'
-import CardFooter from './CardFooter/CardFooter'
+import CardBody from './CardBody'
+import LoginForm from './LoginForm'
+import Button from './Button'
+import Container from './Container'
+import Card from './Card'
+import Logo from './CardLogo'
+import CardForm from './CardForm'
+import Header from './Header'
 import { useTranslation } from 'react-i18next'
+import { ROUTES } from '../services/routes'
 
 const LoginPage = () => {
   const { t } = useTranslation()
@@ -20,7 +20,8 @@ const LoginPage = () => {
             <Card>
               <CardBody variant="login">
                 <Logo />
-                <CardForm>
+                <div className="col-12 col-md-6 mt-3 mt-md-0">
+                  <h1 className="text-center mb4">{t('auth.login')}</h1>
                   <LoginForm>
                     <Button
                       text={t('auth.login')}
@@ -28,9 +29,18 @@ const LoginPage = () => {
                       type="submit"
                     />
                   </LoginForm>
-                </CardForm>
+                </div>
               </CardBody>
-              <CardFooter />
+
+              <div className="card-footer p-4">
+                <div className="text-center">
+                  <span>{t('auth.noAccount')}</span>
+                  <a href={ROUTES.SIGNUP}>
+                    {t('auth.register')}
+                  </a>
+                </div>
+              </div>
+
             </Card>
           </Container>
         </div>

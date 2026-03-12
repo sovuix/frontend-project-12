@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react'
-import Button from '../Button/Button'
-import ChannelItem from '../ChannelItem/ChannelItem'
-import ModalWindow from '../ModalWindow/ModalWindow'
+import Button from './Button'
+import ChannelItem from './ChannelItem'
+import ModalWindow from './ModalWindow/ModalWindow'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import filter from '../../services/profanity'
-import { HTTP_STATUS } from '../../services/httpStatus'
+import filter from '../services/profanity'
+import { HTTP_STATUS } from '../services/httpStatus'
 
 import {
   useCreateChannelMutation,
   useDeleteChannelMutation,
   useRenameChannelMutation,
-} from '../../state/chatApi'
+} from '../state/chatApi'
 
 const ChannelsPanel = ({ channels = [] }) => {
   const notify = text => toast.success(text)

@@ -1,14 +1,14 @@
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setUser } from '../../state/slices/authSlice'
-import { createRegistrationSchema } from '../../validationSchemas/authSchemas'
+import { setUser } from '../state/slices/authSlice'
+import { createRegistrationSchema } from '../validationSchemas/authSchemas'
 import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { authStorage } from '../../services/authStorage'
-import { ROUTES } from '../../services/routes'
-import { useSignupMutation } from '../../state/chatApi'
-import { HTTP_STATUS } from '../../services/httpStatus'
+import { authStorage } from '../services/authStorage'
+import { ROUTES } from '../services/routes'
+import { useSignupMutation } from '../state/chatApi'
+import { HTTP_STATUS } from '../services/httpStatus'
 
 const RegistrationForm = ({ children }) => {
   const { t } = useTranslation()

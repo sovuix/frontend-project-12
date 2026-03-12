@@ -1,14 +1,14 @@
 import { useDispatch } from 'react-redux'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
-import { setUser } from '../../state/slices/authSlice'
+import { setUser } from '../state/slices/authSlice'
 import { useTranslation } from 'react-i18next'
 import { ToastContainer, toast } from 'react-toastify'
 import { useRef, useEffect } from 'react'
-import { authStorage } from '../../services/authStorage'
-import { ROUTES } from '../../services/routes'
-import { useLoginMutation } from '../../state/chatApi'
-import { HTTP_STATUS } from '../../services/httpStatus'
+import { authStorage } from '../services/authStorage'
+import { ROUTES } from '../services/routes'
+import { useLoginMutation } from '../state/chatApi'
+import { HTTP_STATUS } from '../services/httpStatus'
 
 const LoginForm = ({ children }) => {
   const navigate = useNavigate()
