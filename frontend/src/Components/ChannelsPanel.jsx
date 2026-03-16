@@ -13,133 +13,163 @@ import {
   useRenameChannelMutation,
 } from '../state/chatApi'
 
+const modalMessages = {
+  add: {
+    success: 'channel.channelCreated',
+    error: 'channel.errorCreated',
+  },
+  remove: {
+    success: 'channel.channelDeleted',
+    error: 'channel.errorDeleted',
+  },
+  rename: {
+    success: 'channel.channelRenamed',
+    error: 'channel.errorRenamed',
+  },
+}
+
 const ChannelsPanel = ({ channels = [] }) => {
-  const notify = text => toast.success(text)
-  const notifyError = text => toast.error(text)
   const { t } = useTranslation()
 
-  const [createChannel, { error: createChannelError }] = useCreateChannelMutation()
-  const [deleteChannel, { error: deleteChannelError }] = useDeleteChannelMutation()
-  const [renameChannel, { error: renameChannelError }] = useRenameChannelMutation()
+  const [
+    createChannel,
+    {
+      data: createData,
+      error: createChannelError,
+      reset: resetCreateChannel,
+    },
+  ] = useCreateChannelMutation()
 
-  const [showModal, setShowModal] = useState(false)
-  const [modalType, setModalType] = useState('add')
+  const [
+    deleteChannel,
+    {
+      data: deleteData,
+      error: deleteChannelError,
+      reset: resetDeleteChannel,
+    },
+  ] = useDeleteChannelMutation()
+
+  const [
+    renameChannel,
+    {
+      data: renameData,
+      error: renameChannelError,
+      reset: resetRenameChannel,
+    },
+  ] = useRenameChannelMutation()
+
+  const [modalType, setModalType] = useState(null)
   const [selectedChannel, setSelectedChannel] = useState(null)
 
-  useEffect(() => {
-    if (!createChannelError) return
+  const mutationDataByType = {
+    add: createData,
+    remove: deleteData,
+    rename: renameData,
+  }
 
-    if (createChannelError.status === 'FETCH_ERROR' || !navigator.onLine) {
-      notifyError(t('common.connectionError'))
-      return
-    }
+  const mutationErrorByType = {
+    add: createChannelError,
+    remove: deleteChannelError,
+    rename: renameChannelError,
+  }
 
-    if (createChannelError.status >= HTTP_STATUS.INTERNAL_SERVER) {
-      notifyError(t('common.notResponding'))
-      return
-    }
+  const mutationResetByType = {
+    add: resetCreateChannel,
+    remove: resetDeleteChannel,
+    rename: resetRenameChannel,
+  }
 
-    notifyError(t('channel.errorCreated'))
-  }, [createChannelError, t])
-
-  useEffect(() => {
-    if (!deleteChannelError) return
-
-    if (deleteChannelError.status === 'FETCH_ERROR' || !navigator.onLine) {
-      notifyError(t('common.connectionError'))
-      return
-    }
-
-    if (deleteChannelError.status >= HTTP_STATUS.INTERNAL_SERVER) {
-      notifyError(t('common.notResponding'))
-      return
-    }
-
-    notifyError(t('channel.errorDeleted'))
-  }, [deleteChannelError, t])
+  const currentData = modalType ? mutationDataByType[modalType] : null
+  const currentError = modalType ? mutationErrorByType[modalType] : null
+  const currentReset = modalType ? mutationResetByType[modalType] : null
 
   useEffect(() => {
-    if (!renameChannelError) return
+    if (!modalType) return
 
-    if (renameChannelError.status === 'FETCH_ERROR' || !navigator.onLine) {
-      notifyError(t('common.connectionError'))
+    if (currentError) {
+      let errorMessage = t(modalMessages[modalType].error)
+
+      if (currentError.status === 'FETCH_ERROR' || !navigator.onLine) {
+        errorMessage = t('common.connectionError')
+      }
+
+      if (currentError.status >= HTTP_STATUS.INTERNAL_SERVER) {
+        errorMessage = t('common.notResponding')
+      }
+
+      toast.error(errorMessage)
+      currentReset()
       return
     }
 
-    if (renameChannelError.status >= HTTP_STATUS.INTERNAL_SERVER) {
-      notifyError(t('common.notResponding'))
-      return
+    if (currentData) {
+      toast.success(t(modalMessages[modalType].success))
+      currentReset()
     }
+  }, [currentData, currentError, currentReset, modalType, t])
 
-    notifyError(t('channel.errorRenamed'))
-  }, [renameChannelError, t])
+  const resetMutations = () => {
+    resetCreateChannel()
+    resetDeleteChannel()
+    resetRenameChannel()
+  }
 
-  const handleAddChannel = async (channelName) => {
+  const openModal = (type, channel = null) => {
+    resetMutations()
+    setSelectedChannel(channel)
+    setModalType(type)
+  }
+
+  const closeModal = () => {
+    resetMutations()
+    setSelectedChannel(null)
+    setModalType(null)
+  }
+
+  const handleAddChannel = (channelName) => {
     if (!navigator.onLine) {
-      notifyError(t('common.connectionError'))
+      toast.error(t('common.connectionError'))
       return
     }
 
     const cleanedChannelName = filter.clean(channelName.trim())
-    const result = await createChannel(cleanedChannelName)
-
-    if ('error' in result) return
-
-    setShowModal(false)
-    notify(t('channel.channelCreated'))
+    createChannel(cleanedChannelName)
   }
 
-  const handleDeleteChannel = async (channelId) => {
+  const handleDeleteChannel = (channelId) => {
     if (!navigator.onLine) {
-      notifyError(t('common.connectionError'))
+      toast.error(t('common.connectionError'))
       return
     }
 
-    const result = await deleteChannel(channelId)
-
-    if ('error' in result) return
-
-    setShowModal(false)
-    notify(t('channel.channelDeleted'))
+    deleteChannel(channelId)
   }
 
-  const handleRenameChannel = async (channelId, newName) => {
+  const handleRenameChannel = (channelId, newName) => {
     if (!navigator.onLine) {
-      notifyError(t('common.connectionError'))
+      toast.error(t('common.connectionError'))
       return
     }
 
     const cleanedName = filter.clean(newName.trim())
-    const result = await renameChannel({ id: channelId, name: cleanedName })
-
-    if ('error' in result) return
-
-    setShowModal(false)
-    notify(t('channel.channelRenamed'))
+    renameChannel({ id: channelId, name: cleanedName })
   }
 
-  const handleOpenAddModal = () => {
-    setModalType('add')
-    setSelectedChannel(null)
-    setShowModal(true)
-  }
+  const handleOpenAddModal = () => openModal('add')
 
   const handleOpenRenameModal = (channelId, channelName) => {
-    setModalType('rename')
-    setSelectedChannel({ id: channelId, name: channelName })
-    setShowModal(true)
+    openModal('rename', { id: channelId, name: channelName })
   }
 
   const handleOpenDeleteModal = (channelId, channelName) => {
-    setModalType('remove')
-    setSelectedChannel({ id: channelId, name: channelName })
-    setShowModal(true)
+    openModal('remove', { id: channelId, name: channelName })
   }
 
   const handleCloseModal = () => {
-    setShowModal(false)
-    setSelectedChannel(null)
+    closeModal()
   }
+
+  const activeModalType = currentData ? null : modalType
 
   return (
     <>
@@ -182,17 +212,17 @@ const ChannelsPanel = ({ channels = [] }) => {
         </ul>
       </div>
 
-      {showModal && (
+      {activeModalType && (
         <ModalWindow
-          type={modalType}
+          type={activeModalType}
           currentName={selectedChannel?.name || ''}
           onClose={handleCloseModal}
           onSubmit={
-            modalType === 'add'
-              ? handleAddChannel
-              : modalType === 'rename'
-                ? newName => handleRenameChannel(selectedChannel.id, newName)
-                : () => handleDeleteChannel(selectedChannel.id)
+            {
+              add: handleAddChannel,
+              rename: newName => handleRenameChannel(selectedChannel.id, newName),
+              remove: () => handleDeleteChannel(selectedChannel.id),
+            }[activeModalType]
           }
         />
       )}
