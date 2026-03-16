@@ -87,12 +87,15 @@ const ChannelsPanel = ({ channels = [] }) => {
     if (!modalType) return
 
     if (currentError) {
-      const errorMessage
-        = currentError.status === 'FETCH_ERROR' || !navigator.onLine
-          ? t('common.connectionError')
-          : currentError.status >= HTTP_STATUS.INTERNAL_SERVER
-            ? t('common.notResponding')
-            : t(modalMessages[modalType].error)
+      let errorMessage = t(modalMessages[modalType].error)
+
+      if (currentError.status === 'FETCH_ERROR' || !navigator.onLine) {
+        errorMessage = t('common.connectionError')
+      }
+
+      if (currentError.status >= HTTP_STATUS.INTERNAL_SERVER) {
+        errorMessage = t('common.notResponding')
+      }
 
       toast.error(errorMessage)
       currentReset()
