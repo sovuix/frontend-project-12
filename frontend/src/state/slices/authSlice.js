@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
+import {authStorage} from '../../services/authStorage'
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     id: null,
-    username: '',
-    token: null,
+    username: authStorage.getUsername() || '',
+    token: authStorage.getToken() || null,
   },
   reducers: {
     setUser: (state, action) => {
