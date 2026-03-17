@@ -67,18 +67,18 @@ const ChannelsPanel = ({ channels = [] }) => {
   useEffect(() => {
     if (!modalType) return
 
+    if (currentError?.status === 'FETCH_ERROR' || !navigator.onLine) {
+      toast.error(t('common.connectionError'))
+      return
+    }
+
+    if (currentError?.status >= HTTP_STATUS.INTERNAL_SERVER) {
+      toast.error(t('common.notResponding'))
+      return
+    }
+
     if (currentError) {
-      let errorMessage = t(modalMessages[modalType].error)
-
-      if (currentError.status === 'FETCH_ERROR' || !navigator.onLine) {
-        errorMessage = t('common.connectionError')
-      }
-
-      if (currentError.status >= HTTP_STATUS.INTERNAL_SERVER) {
-        errorMessage = t('common.notResponding')
-      }
-
-      toast.error(errorMessage)
+      toast.error(t(modalMessages[modalType].error))
       return
     }
 
@@ -134,14 +134,8 @@ const ChannelsPanel = ({ channels = [] }) => {
     renameChannel({ id: channelId, name: cleanedName })
   }
 
-  const handleOpenAddModal = () => openModal('add')
-
-  const handleOpenRenameModal = (channelId, channelName) => {
-    openModal('rename', { id: channelId, name: channelName })
-  }
-
-  const handleOpenDeleteModal = (channelId, channelName) => {
-    openModal('remove', { id: channelId, name: channelName })
+  const handleOpenModal = (type, channel = null) => {
+    openModal(type, channel)
   }
 
   const activeModalType = currentData ? null : modalType
@@ -153,7 +147,7 @@ const ChannelsPanel = ({ channels = [] }) => {
           <b>{t('common.channels')}</b>
 
           <Button
-            onClick={handleOpenAddModal}
+            onClick={() => handleOpenModal('add')}
             className="p-0 text-primary btn btn-group-vertical"
           >
             <svg
@@ -179,8 +173,10 @@ const ChannelsPanel = ({ channels = [] }) => {
             <li key={channel.id} className="nav-item w-100">
               <ChannelItem
                 channel={channel}
-                onDelete={handleOpenDeleteModal}
-                onRename={handleOpenRenameModal}
+                onDelete={(channelId, channelName) =>
+                  handleOpenModal('remove', { id: channelId, name: channelName })}
+                onRename={(channelId, channelName) =>
+                  handleOpenModal('rename', { id: channelId, name: channelName })}
               />
             </li>
           ))}
